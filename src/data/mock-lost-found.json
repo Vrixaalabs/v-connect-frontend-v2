@@ -1,0 +1,49 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "type": "lost",
+      "title": "Lost MacBook Pro",
+      "description": "Lost my Space Gray MacBook Pro in the library on Monday afternoon. It has a black case with stickers.",
+      "location": "Main Library, 2nd Floor",
+      "date": "2024-03-10T14:30:00Z",
+      "category": "Electronics",
+      "status": "open",
+      "contact": {
+        "name": "John Doe",
+        "email": "john.doe@university.edu",
+        "phone": "+1234567890"
+      },
+      "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca4?w=500"
+    },
+    {
+      "id": "2",
+      "type": "found",
+      "title": "Found Student ID Card",
+      "description": "Found a student ID card near the cafeteria entrance.",
+      "location": "Student Center Cafeteria",
+      "date": "2024-03-11T12:00:00Z",
+      "category": "Documents",
+      "status": "open",
+      "contact": {
+        "name": "Jane Smith",
+        "email": "jane.smith@university.edu"
+      }
+    },
+    {
+      "id": "3",
+      "type": "lost",
+      "title": "Lost Blue Hydroflask",
+      "description": "Lost my 32oz blue Hydroflask water bottle in the gym. Has some stickers on it.",
+      "location": "University Gym",
+      "date": "2024-03-09T17:15:00Z",
+      "category": "Personal Items",
+      "status": "closed",
+      "contact": {
+        "name": "Mike Johnson",
+        "email": "mike.j@university.edu"
+      },
+      "image": "https://images.unsplash.com/photo-1576363090160-0a74a2c8ad01?w=500"
+    }
+  ]
+} 

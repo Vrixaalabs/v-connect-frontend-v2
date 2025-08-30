@@ -1,0 +1,64 @@
+{
+  "events": [
+    {
+      "id": "1",
+      "title": "Tech Fest 2024",
+      "description": "Annual technology festival featuring workshops, hackathons, and guest speakers from leading tech companies.",
+      "club": {
+        "id": "tech-club",
+        "name": "Tech Club",
+        "logo": "https://api.dicebear.com/7.x/shapes/svg?seed=TechClub"
+      },
+      "date": "2024-03-15T09:00:00Z",
+      "endDate": "2024-03-17T18:00:00Z",
+      "location": "University Convention Center",
+      "image": "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800",
+      "registrationLink": "https://example.com/register",
+      "registrationDeadline": "2024-03-14T23:59:59Z",
+      "category": "Technical",
+      "tags": ["technology", "workshop", "hackathon"],
+      "status": "upcoming",
+      "attendees": 250
+    },
+    {
+      "id": "2",
+      "title": "Cultural Night 2024",
+      "description": "A night of music, dance, and cultural performances showcasing diverse talents from our university community.",
+      "club": {
+        "id": "cultural-club",
+        "name": "Cultural Club",
+        "logo": "https://api.dicebear.com/7.x/shapes/svg?seed=CulturalClub"
+      },
+      "date": "2024-03-20T18:00:00Z",
+      "endDate": "2024-03-20T22:00:00Z",
+      "location": "University Auditorium",
+      "image": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800",
+      "registrationLink": "https://example.com/register",
+      "registrationDeadline": "2024-03-18T23:59:59Z",
+      "category": "Cultural",
+      "tags": ["culture", "performance", "music"],
+      "status": "upcoming",
+      "attendees": 500
+    },
+    {
+      "id": "3",
+      "title": "Entrepreneurship Workshop",
+      "description": "Learn from successful entrepreneurs about starting and scaling your business.",
+      "club": {
+        "id": "e-cell",
+        "name": "E-Cell",
+        "logo": "https://api.dicebear.com/7.x/shapes/svg?seed=ECell"
+      },
+      "date": "2024-03-25T10:00:00Z",
+      "endDate": "2024-03-25T16:00:00Z",
+      "location": "Business School Auditorium",
+      "image": "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800",
+      "registrationLink": "https://example.com/register",
+      "registrationDeadline": "2024-03-24T23:59:59Z",
+      "category": "Workshop",
+      "tags": ["business", "entrepreneurship", "startup"],
+      "status": "upcoming",
+      "attendees": 150
+    }
+  ]
+} 

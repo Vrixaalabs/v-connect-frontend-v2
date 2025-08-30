@@ -1,0 +1,42 @@
+{
+  "updates": [
+    {
+      "id": "1",
+      "title": "New Library Hours Announcement",
+      "description": "The university library will now be open 24/7 during exam weeks. Regular hours remain unchanged for non-exam periods.",
+      "department": "Library Services",
+      "date": "2024-03-12T09:00:00Z",
+      "category": "Facility",
+      "priority": "high",
+      "image": "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800",
+      "tags": ["library", "facility", "academic"]
+    },
+    {
+      "id": "2",
+      "title": "Campus Wi-Fi Upgrade",
+      "description": "IT Services will be upgrading the campus-wide Wi-Fi infrastructure. Expect brief interruptions during the upgrade process.",
+      "department": "IT Services",
+      "date": "2024-03-13T10:30:00Z",
+      "category": "Infrastructure",
+      "priority": "medium",
+      "schedule": {
+        "startDate": "2024-03-20T22:00:00Z",
+        "endDate": "2024-03-21T05:00:00Z"
+      },
+      "affectedAreas": ["Main Building", "Library", "Student Center"],
+      "tags": ["wifi", "infrastructure", "technology"]
+    },
+    {
+      "id": "3",
+      "title": "New Food Court Opening",
+      "description": "Exciting news! A new food court featuring diverse cuisine options will be opening next week in the Student Center.",
+      "department": "Campus Services",
+      "date": "2024-03-14T08:00:00Z",
+      "category": "Facility",
+      "priority": "normal",
+      "image": "https://images.unsplash.com/photo-1567521464027-f127ff144326?w=800",
+      "openingDate": "2024-03-25T09:00:00Z",
+      "tags": ["food", "facility", "student-life"]
+    }
+  ]
+} 

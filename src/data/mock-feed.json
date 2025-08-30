@@ -1,0 +1,118 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "author": {
+        "id": "user1",
+        "name": "Sarah Johnson",
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+        "role": "Computer Science Student",
+        "university": "Tech University"
+      },
+      "content": "Just finished my final project for Advanced Algorithms! 🎉 Who else is taking this course this semester? #ComputerScience #StudentLife",
+      "images": ["https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&auto=format"],
+      "likes": 42,
+      "comments": [
+        {
+          "id": "c1",
+          "author": {
+            "id": "user2",
+            "name": "Mike Chen",
+            "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike"
+          },
+          "content": "Congrats! The algorithms course was tough but worth it!",
+          "timestamp": "2024-03-20T14:30:00Z"
+        }
+      ],
+      "timestamp": "2024-03-20T14:00:00Z",
+      "isLiked": false
+    },
+    {
+      "id": "2",
+      "author": {
+        "id": "user3",
+        "name": "Tech University Chess Club",
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Chess",
+        "role": "University Club",
+        "university": "Tech University"
+      },
+      "content": "🎉 Chess Tournament this Weekend! 🏆\nJoin us for our annual chess championship. All skill levels welcome!\n\nDate: March 25th\nTime: 2 PM\nVenue: Student Center\n\nRegister now through the link in our bio! #ChessClub #Tournament",
+      "likes": 28,
+      "comments": [],
+      "timestamp": "2024-03-19T10:15:00Z",
+      "isLiked": true,
+      "isAnnouncement": true
+    },
+    {
+      "id": "3",
+      "author": {
+        "id": "user4",
+        "name": "Emily Zhang",
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Emily",
+        "role": "Biology Student",
+        "university": "Tech University"
+      },
+      "content": "Found this amazing study spot in the new library wing! Perfect lighting and so quiet 📚✨",
+      "images": [
+        "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800&auto=format"
+      ],
+      "likes": 156,
+      "comments": [
+        {
+          "id": "c2",
+          "author": {
+            "id": "user5",
+            "name": "Alex Thompson",
+            "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex"
+          },
+          "content": "Thanks for sharing! Been looking for a good study spot!",
+          "timestamp": "2024-03-18T16:45:00Z"
+        },
+        {
+          "id": "c3",
+          "author": {
+            "id": "user6",
+            "name": "Lisa Park",
+            "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Lisa"
+          },
+          "content": "The new wing is amazing! Have you checked out the group study rooms?",
+          "timestamp": "2024-03-18T17:00:00Z"
+        }
+      ],
+      "timestamp": "2024-03-18T15:30:00Z",
+      "isLiked": true
+    },
+    {
+      "id": "4",
+      "author": {
+        "id": "user7",
+        "name": "David Wilson",
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=David",
+        "role": "Computer Engineering Student",
+        "university": "Tech University"
+      },
+      "content": "Lost my blue notebook with Circuit Design notes near the Engineering building. If anyone finds it, please DM me! 🙏",
+      "likes": 15,
+      "comments": [],
+      "timestamp": "2024-03-18T09:20:00Z",
+      "isLiked": false,
+      "isLostFound": true
+    },
+    {
+      "id": "5",
+      "author": {
+        "id": "user8",
+        "name": "Student Council",
+        "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Council",
+        "role": "Official Organization",
+        "university": "Tech University"
+      },
+      "content": "🎓 Graduation ceremony details have been finalized!\n\nDate: May 15th, 2024\nTime: 10 AM\nVenue: Main Auditorium\n\nMore details to follow. Congratulations class of 2024! #Graduation2024",
+      "likes": 324,
+      "comments": [],
+      "timestamp": "2024-03-17T11:00:00Z",
+      "isLiked": false,
+      "isAnnouncement": true
+    }
+  ]
+} 
