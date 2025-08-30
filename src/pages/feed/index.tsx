@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PostCard } from '@/components/feed/post-card';
+import { PostCard } from '@/components/feed/PostCard';
 import mockData from '@/data/mock-feed.json';
 import { type Post } from '@/types/feed';
 

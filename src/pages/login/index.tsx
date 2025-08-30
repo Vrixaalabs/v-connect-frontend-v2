@@ -1,13 +1,11 @@
-'use client';
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AuthCard } from '@/components/auth/auth-card';
-import { UserTypeSelector } from '@/components/auth/user-type-selector';
+import { AuthCard } from '@/components/auth/AuthCard';
+import { UserTypeSelector } from '@/components/auth/UserTypeSelector';
 
 export default function LoginPage() {
   const [userType, setUserType] = useState<'student' | 'institute' | null>(null);
@@ -66,7 +64,7 @@ export default function LoginPage() {
               className="px-0 text-sm"
               asChild
             >
-              <Link href="/forgot-password">
+              <Link to="/forgot-password">
                 Forgot password?
               </Link>
             </Button>
@@ -86,7 +84,7 @@ export default function LoginPage() {
           <p className="text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{' '}
             <Button variant="link" className="px-0" asChild>
-              <Link href={`/signup?type=${userType}`}>
+              <Link to={`/signup?type=${userType}`}>
                 Sign up
               </Link>
             </Button>

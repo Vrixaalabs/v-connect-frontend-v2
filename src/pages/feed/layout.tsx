@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   TrendingUp,
@@ -84,7 +84,7 @@ export default function FeedLayout({
   children: React.ReactNode;
 }) {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const pathname = usePathname();
+  const pathname = useLocation().pathname;
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSort, setSelectedSort] = useState('latest');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -199,7 +199,7 @@ export default function FeedLayout({
                   const Icon = tab.icon;
                   const isActive = pathname === tab.href;
                   return (
-                    <Link key={tab.href} href={tab.href}>
+                    <Link key={tab.href} to={tab.href}>
                       <Button
                         variant="ghost"
                         className={cn(

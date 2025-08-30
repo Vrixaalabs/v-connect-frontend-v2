@@ -1,13 +1,12 @@
-import { Metadata } from "next"
-import { AdminSidebar } from "@/components/admin/sidebar"
+import { AdminSidebar } from "@/components/admin/Sidebar"
 
-export const metadata: Metadata = {
-  title: {
-    default: "Club Administration",
-    template: "%s | Club Admin",
-  },
-  description: "Manage clubs, members, events, and more",
-}
+// export const metadata: Metadata = {
+//   title: {
+//     default: "Club Administration",
+//     template: "%s | Club Admin",
+//   },
+//   description: "Manage clubs, members, events, and more",
+// }
 
 export default function AdminClubsLayout({
   children,

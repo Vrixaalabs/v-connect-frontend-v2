@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AuthCard } from '@/components/auth/auth-card';
-import { UserTypeSelector } from '@/components/auth/user-type-selector';
+import { AuthCard } from '@/components/auth/AuthCard';
+import { UserTypeSelector } from '@/components/auth/UserTypeSelector';
 
 export default function ForgotPasswordPage() {
   const [userType, setUserType] = useState<'student' | 'institute' | null>(null);
@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
               We&apos;e sent password reset instructions to your email address.
             </p>
             <Button variant="outline" className="w-full" asChild>
-              <Link href="/login">
+              <Link to="/login">
                 Return to Login
               </Link>
             </Button>
@@ -112,7 +112,7 @@ export default function ForgotPasswordPage() {
           <p className="text-center text-sm text-muted-foreground">
             Remember your password?{' '}
             <Button variant="link" className="px-0" asChild>
-              <Link href="/login">
+              <Link to="/login">
                 Sign in
               </Link>
             </Button>

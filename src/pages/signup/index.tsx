@@ -1,9 +1,7 @@
-'use client';
-
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -16,8 +14,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { AuthCard } from '@/components/auth/auth-card';
-import { UserTypeSelector } from '@/components/auth/user-type-selector';
+import { AuthCard } from '@/components/auth/AuthCard';
+import { UserTypeSelector } from '@/components/auth/UserTypeSelector';
 import {
   studentSignupSchema,
   instituteSignupSchema,
@@ -29,7 +27,7 @@ import { toast } from 'sonner';
 export default function SignupPage() {
   const searchParams = useSearchParams();
   const [userType, setUserType] = useState<'student' | 'institute' | null>(
-    (searchParams.get('type') as 'student' | 'institute' | null) || null
+    (searchParams[0].get('type') as 'student' | 'institute' | null) || null
   );
   const [isLoading, setIsLoading] = useState(false);
 
@@ -122,7 +120,7 @@ export default function SignupPage() {
                 <FormField
                   control={studentForm.control}
                   name="firstName"
-                  render={({ field }) => (
+                  render={({ field }: { field: any }) => (
                     <FormItem>
                       <FormLabel>First Name</FormLabel>
                       <FormControl>
@@ -135,7 +133,7 @@ export default function SignupPage() {
                 <FormField
                   control={studentForm.control}
                   name="lastName"
-                  render={({ field }) => (
+                  render={({ field }: { field: any }) => (
                     <FormItem>
                       <FormLabel>Last Name</FormLabel>
                       <FormControl>
@@ -150,7 +148,7 @@ export default function SignupPage() {
               <FormField
                 control={studentForm.control}
                 name="studentId"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Student ID</FormLabel>
                     <FormControl>
@@ -164,7 +162,7 @@ export default function SignupPage() {
               <FormField
                 control={studentForm.control}
                 name="email"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
@@ -178,7 +176,7 @@ export default function SignupPage() {
               <FormField
                 control={studentForm.control}
                 name="password"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
@@ -192,7 +190,7 @@ export default function SignupPage() {
               <FormField
                 control={studentForm.control}
                 name="confirmPassword"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
@@ -225,7 +223,7 @@ export default function SignupPage() {
               <FormField
                 control={instituteForm.control}
                 name="instituteName"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Institute Name</FormLabel>
                     <FormControl>
@@ -239,7 +237,7 @@ export default function SignupPage() {
               <FormField
                 control={instituteForm.control}
                 name="instituteCode"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Institute Code (Optional)</FormLabel>
                     <FormControl>
@@ -253,7 +251,7 @@ export default function SignupPage() {
               <FormField
                 control={instituteForm.control}
                 name="email"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
@@ -267,7 +265,7 @@ export default function SignupPage() {
               <FormField
                 control={instituteForm.control}
                 name="password"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
@@ -281,7 +279,7 @@ export default function SignupPage() {
               <FormField
                 control={instituteForm.control}
                 name="confirmPassword"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
@@ -313,7 +311,7 @@ export default function SignupPage() {
         <p className="text-center text-sm text-muted-foreground mt-4">
           Already have an account?{' '}
           <Button variant="link" className="px-0" asChild>
-            <Link href="/login">
+            <Link to="/login">
               Sign in
             </Link>
           </Button>

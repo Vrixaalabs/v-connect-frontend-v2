@@ -1,12 +1,10 @@
-'use client';
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AuthCard } from '@/components/auth/auth-card';
+import { AuthCard } from '@/components/auth/AuthCard';
 
 export default function ResetPasswordPage() {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -40,7 +38,7 @@ export default function ResetPasswordPage() {
               Your password has been successfully reset. You can now sign in with your new password.
             </p>
             <Button className="w-full" asChild>
-              <Link href="/login">
+              <Link to="/login">
                 Sign In
               </Link>
             </Button>
@@ -92,7 +90,7 @@ export default function ResetPasswordPage() {
           <p className="text-center text-sm text-muted-foreground">
             Remember your password?{' '}
             <Button variant="link" className="px-0" asChild>
-              <Link href="/login">
+              <Link to="/login">
                 Sign in
               </Link>
             </Button>

@@ -16,7 +16,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import mockData from '@/data/mock-campus.json';
-import Image from 'next/image';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -119,7 +118,7 @@ export default function CampusUpdatesPage() {
                     transition={{ duration: 0.3 }}
                     className="px-6"
                   >
-                    <Image
+                    <img
                       src={update.image}
                       alt={update.title}
                       className="w-full h-48 object-cover rounded-lg"
