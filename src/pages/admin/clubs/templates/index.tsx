@@ -1,13 +1,13 @@
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
+import { Button } from "../../../../components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader } from "../../../../components/ui/card"
+import { Label } from "../../../../components/ui/label"
+import { RadioGroup, RadioGroupItem } from "../../../../components/ui/radio-group"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../components/ui/tabs"
+import { Input } from "../../../../components/ui/input"
 // import { Textarea } from "@/components/ui/textarea"
-import { ColorPicker } from "@/components/admin/ColorPicker"
-import { Switch } from "@/components/ui/switch"
+import { ColorPicker } from "../../../../components/admin/ColorPicker"
+import { Switch } from "../../../../components/ui/switch"
 
 const templates = [
   {

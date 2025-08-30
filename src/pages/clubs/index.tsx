@@ -1,8 +1,8 @@
-import { mockClubs } from "@/data/mock-clubs"
-import { ClubCard } from "@/components/clubs/ClubCard"
-import { ClubsHeader } from "@/components/clubs/ClubsHeader"
+import { mockClubs } from "../../data/mock-clubs"
+import { ClubCard } from "../../components/clubs/ClubCard"
+import { ClubsHeader } from "../../components/clubs/ClubsHeader"
 import { Suspense } from "react"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "../../components/ui/skeleton"
 
 function ClubCardSkeleton() {
   return (

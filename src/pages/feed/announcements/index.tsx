@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PostCard } from '@/components/feed/PostCard';
-import mockData from '@/data/mock-feed.json';
-import { type Post } from '@/types/feed';
+import { PostCard } from '../../../components/feed/PostCard';
+import mockData from '../../../data/mock-feed.json';
+import { type Post } from '../../../types/feed';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },

@@ -1,4 +1,4 @@
-import { AdminSidebar } from "@/components/admin/Sidebar"
+import { AdminSidebar } from "../../../components/admin/Sidebar"
 
 // export const metadata: Metadata = {
 //   title: {

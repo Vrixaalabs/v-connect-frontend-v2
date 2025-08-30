@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { AuthCard } from '@/components/auth/AuthCard';
-import { UserTypeSelector } from '@/components/auth/UserTypeSelector';
+import { Button } from '../../components/ui/button';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
+import { AuthCard } from '../../components/auth/AuthCard';
+import { UserTypeSelector } from '../../components/auth/UserTypeSelector';
 
 export default function ForgotPasswordPage() {
   const [userType, setUserType] = useState<'student' | 'institute' | null>(null);

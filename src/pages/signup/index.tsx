@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '../../components/ui/button';
+import { Input } from '../../components/ui/input';
 import {
   Form,
   FormControl,
@@ -13,15 +13,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { AuthCard } from '@/components/auth/AuthCard';
-import { UserTypeSelector } from '@/components/auth/UserTypeSelector';
+} from '../../components/ui/form';
+import { AuthCard } from '../../components/auth/AuthCard';
+import { UserTypeSelector } from '../../components/auth/UserTypeSelector';
 import {
   studentSignupSchema,
   instituteSignupSchema,
   type StudentSignupValues,
   type InstituteSignupValues,
-} from '@/lib/validations/auth';
+} from '../../lib/validations/auth';
 import { toast } from 'sonner';
 
 export default function SignupPage() {

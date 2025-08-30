@@ -1,8 +1,8 @@
 import { format } from "date-fns"
-import type { Club } from "@/types/club"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
+import type { Club } from "../../types/club"
+import { Card, CardContent, CardHeader } from "../../components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
+import { Badge } from "../../components/ui/badge"
 
 interface ClubAnnouncementsProps {
   announcements: Club["announcements"]

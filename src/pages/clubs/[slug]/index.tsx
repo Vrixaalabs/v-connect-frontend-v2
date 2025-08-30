@@ -1,8 +1,8 @@
-import { mockClubs } from "@/data/mock-clubs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { mockClubs } from "../../../data/mock-clubs"
+import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar"
+import { Badge } from "../../../components/ui/badge"
+import { Button } from "../../../components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs"
 import { 
   CalendarDays, 
   Globe, 
@@ -14,19 +14,19 @@ import {
   Trophy,
   Users 
 } from "lucide-react"
-import { ClubEvents } from "@/components/clubs/ClubEvents"
-import { ClubMembers } from "@/components/clubs/ClubMembers"
-import { ClubGallery } from "@/components/clubs/ClubGallery"
-import { ClubAnnouncements } from "@/components/clubs/ClubAnnouncements"
-import { ClubAchievements } from "@/components/clubs/ClubAchievements"
+import { ClubEvents } from "../../../components/clubs/ClubEvents"
+import { ClubMembers } from "../../../components/clubs/ClubMembers"
+import { ClubGallery } from "../../../components/clubs/ClubGallery"
+import { ClubAnnouncements } from "../../../components/clubs/ClubAnnouncements"
+import { ClubAchievements } from "../../../components/clubs/ClubAchievements"
 import { format } from "date-fns"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { ScrollArea } from "@/components/ui/scroll-area"
+} from "../../../components/ui/dropdown-menu"
+import { ScrollArea } from "../../../components/ui/scroll-area"
 
 
 export default async function Page({ params }: { params: { slug: string } }) {

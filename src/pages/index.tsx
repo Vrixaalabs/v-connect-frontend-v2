@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Navbar } from '@/components/navigation/Navbar';
+import { Button } from '../components/ui/button';
+import { Navbar } from '../components/navigation/Navbar';
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },

@@ -1,8 +1,8 @@
 import { format } from "date-fns"
-import type { Club } from "@/types/club"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import type { Club } from "../../types/club"
+import { Card, CardContent, CardFooter, CardHeader } from "../../components/ui/card"
+import { Button } from "../../components/ui/button"
+import { Badge } from "../../components/ui/badge"
 import { CalendarDays, Clock, MapPin } from "lucide-react"
 
 interface ClubEventsProps {

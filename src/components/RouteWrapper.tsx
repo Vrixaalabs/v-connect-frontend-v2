@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { getRouteConfig } from '../lib/routeConfig';
-import ProtectedRoute from './ProtectedRoute';
+import { ProtectedRoute } from './ProtectedRoute';
 
 interface RouteWrapperProps {
   children: React.ReactNode;
