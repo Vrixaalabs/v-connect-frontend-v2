@@ -5,7 +5,16 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import HttpClient from '../lib/httpClient';
 import TokenService from '../lib/tokenService';
 import BranchService from '../lib/branchService';
-import { clearError, clearTokens, clearUser, setTokens, setUser, updateLastActivity, setCurrentBranchId, clearCurrentBranchId } from '../store/slices/authSlice';
+import { 
+  clearError, 
+  clearTokens, 
+  clearUser, 
+  setTokens, 
+  setUser, 
+  updateLastActivity, 
+  setCurrentBranchId, 
+  clearCurrentBranchId 
+} from '../store/slices/authSlice';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -14,6 +23,10 @@ interface AuthProviderProps {
 interface LoginResponse {
   accessToken: string;
   branchId: string;
+}
+
+interface RegisterResponse {
+  accessToken: string;
 }
 
 interface UserResponse {
@@ -62,7 +75,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       sessionStorage.removeItem('intendedDestination'); // Clean up
       return stored;
     }
-    return '/dashboard'; // Default fallback
+    return '/'; // Default fallback
   }, [intendedDestination]);
 
   // Clear intended destination after successful navigation
@@ -340,6 +353,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     ]
   );
 
+  const register = useCallback(
+    async (email: string, password: string, username: string, firstName: string, lastName: string) => {
+      const response = await httpClient.post<RegisterResponse>('/api/auth/register', { email, password, username, firstName, lastName });
+      if (response.accessToken) {
+        tokenService.setTokens(response.accessToken);
+        dispatch(setTokens({ accessToken: response.accessToken, refreshToken: '' }));
+
+        // Get user info
+        await checkAuthStatusDebounced();
+
+        // Start monitoring
+        startTokenRefresh();
+        startActivityMonitoring();
+
+        // Navigate to intended destination
+        const destination = getIntendedDestination();
+        await navigate(destination);
+        clearIntendedDestination(); // Clear intended destination after successful navigation
+      }
+    },
+    [httpClient, tokenService, checkAuthStatusDebounced, startTokenRefresh, startActivityMonitoring]
+  );
+
   // Logout function
   const logout = useCallback(async () => {
     await handleLogout();
@@ -371,6 +407,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Context value
   const contextValue: AuthContextType = {
+    register,
     login,
     logout,
     isAuthenticated,

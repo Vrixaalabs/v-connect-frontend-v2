@@ -23,6 +23,7 @@ import {
   type InstituteSignupValues,
 } from '../../lib/validations/auth';
 import { toast } from 'sonner';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function SignupPage() {
   const searchParams = useSearchParams();
@@ -30,12 +31,13 @@ export default function SignupPage() {
     (searchParams[0].get('type') as 'student' | 'institute' | null) || null
   );
   const [isLoading, setIsLoading] = useState(false);
-
+  const { register } = useAuth();
   const studentForm = useForm<StudentSignupValues>({
     resolver: zodResolver(studentSignupSchema),
     defaultValues: {
       firstName: '',
       lastName: '',
+      username: '',
       studentId: '',
       email: '',
       password: '',
@@ -58,6 +60,7 @@ export default function SignupPage() {
     try {
       setIsLoading(true);
       // TODO: Implement student signup
+      await register(data.email, data.password, data.username, data.firstName, data.lastName);
       console.log(data);
       toast.success('Account created successfully!');
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -147,6 +150,20 @@ export default function SignupPage() {
 
               <FormField
                 control={studentForm.control}
+                name="username"
+                render={({ field }: { field: any }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="john_doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* <FormField
+                control={studentForm.control}
                 name="studentId"
                 render={({ field }: { field: any }) => (
                   <FormItem>
@@ -157,7 +174,7 @@ export default function SignupPage() {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
 
               <FormField
                 control={studentForm.control}
