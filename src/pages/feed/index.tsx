@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { PostCard } from '../../components/feed/PostCard';
 import mockData from '../../data/mock-feed.json';
 import { type Post } from '../../types/feed';
+import FeedLayout from './layout';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -89,33 +90,35 @@ export default function FeedPage() {
   }
 
   return (
-    <motion.div
-      variants={stagger}
-      initial="initial"
-      animate="animate"
-      className="space-y-6"
-    >
-      <AnimatePresence mode="popLayout">
-        {posts.map((post) => (
-          <motion.div
-            key={post.id}
-            variants={fadeInUp}
-            layout
-            layoutId={post.id}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          >
-            <PostCard
-              post={post}
-              onLike={handleLike}
-              onComment={handleComment}
-              onShare={handleShare}
-              onReport={handleReport}
-            />
-          </motion.div>
-        ))}
-      </AnimatePresence>
-    </motion.div>
+    <FeedLayout>
+      <motion.div
+        variants={stagger}
+        initial="initial"
+        animate="animate"
+        className="space-y-6"
+      >
+        <AnimatePresence mode="popLayout">
+          {posts.map((post) => (
+            <motion.div
+              key={post.id}
+              variants={fadeInUp}
+              layout
+              layoutId={post.id}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <PostCard
+                post={post}
+                onLike={handleLike}
+                onComment={handleComment}
+                onShare={handleShare}
+                onReport={handleReport}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
+    </FeedLayout>
   );
 } 
