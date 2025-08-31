@@ -139,7 +139,7 @@ class TokenService {
       const decoded = this.decodeToken(token);
       const now = Math.floor(Date.now() / 1000);
 
-      return decoded.exp > now && decoded.type === 'access';
+      return decoded.exp > now;
     } catch {
       return false;
     }
@@ -211,8 +211,8 @@ class TokenService {
 
   // Clear all stored tokens
   clearTokens(): void {
-    // localStorage.removeItem('auth_tokens');
-    // localStorage.removeItem('access_token');
+    localStorage.removeItem('auth_tokens');
+    localStorage.removeItem('access_token');
   }
 
   // Get user ID from token
@@ -233,6 +233,8 @@ class TokenService {
   // Check if user is authenticated
   isAuthenticated(): boolean {
     const tokens = this.getTokens();
+    console.log("tokens from token service");
+    console.log(tokens);
     if (!tokens) {
       return false;
     }

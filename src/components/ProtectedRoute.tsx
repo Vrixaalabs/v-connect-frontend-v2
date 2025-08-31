@@ -33,16 +33,23 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   useEffect(() => {
     // Check token validity on mount and when location changes
     const checkTokenValidity = () => {
-      const valid = tokenService.isAuthenticated();
-      setIsTokenValid(valid);
-
-      if (valid) {
-        const token = tokenService.getAccessToken();
-        if (token) {
+      const token = tokenService.getAccessToken();
+      console.log("Current token:", token);
+      
+      if (token) {
+        try {
           const decoded = tokenService.decodeToken(token);
+          const valid = tokenService.isAuthenticated();
+          setIsTokenValid(valid);
           setUserRole(decoded.role);
+        } catch (error) {
+          console.error("Token decode error:", error);
+          setIsTokenValid(false);
+          setUserRole(null);
         }
       } else {
+        console.log("No token found");
+        setIsTokenValid(false);
         setUserRole(null);
       }
     };
@@ -123,14 +130,19 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       return <Navigate to={redirectTo} state={{ from: location }} replace />;
     }
   }
-
+  console.log(isAuthenticated);
+  console.log(isTokenValid);
   // For routes that should redirect if already authenticated (like login page)
-  if (!requireAuth && isAuthenticated && isTokenValid && location.pathname !== '/') {
-    // For super admin login page, redirect to super admin dashboard
-    if (location.pathname === '/super-admin/login') {
+  if (isAuthenticated && isTokenValid) {
+    // Check user role for appropriate redirection
+    console.log(userRole);
+    console.log(location.pathname);
+    if (userRole === 'super_admin' && location.pathname === '/super-admin/login') {
       return <Navigate to="/super-admin/dashboard" replace />;
+    } else if (!requireAuth && location.pathname !== '/') {
+      // For other authenticated users on non-protected routes
+      return <Navigate to="/" replace />;
     }
-    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;

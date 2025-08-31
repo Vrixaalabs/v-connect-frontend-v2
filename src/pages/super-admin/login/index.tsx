@@ -32,10 +32,12 @@ const SuperAdminLogin = () => {
           toast.info('Verification Required', 'Please enter the verification code sent to your email.');
         } else {
           tokenService.setTokens(data.superAdminLogin.token);
-          navigate('/super-admin/dashboard');
+          console.log(data.superAdminLogin.token);
+          console.log("navigating to super admin dashboard");
+          navigate('/super-admin/dashboard', { replace: true });
         }
       } else {
-                  toast.error('Login Failed', data.superAdminLogin.message);
+        toast.error('Login Failed', data.superAdminLogin.message);
       }
       setLoading(false);
     },
@@ -49,7 +51,7 @@ const SuperAdminLogin = () => {
     onCompleted: (data) => {
       if (data.verifySuperAdmin2FA.success) {
         tokenService.setTokens(data.verifySuperAdmin2FA.token);
-        navigate('/super-admin/dashboard');
+        navigate('/super-admin/dashboard', { replace: true });
         toast.success('Login Successful', 'Welcome back, Super Admin!');
       } else {
         toast.error('Verification Failed', data.verifySuperAdmin2FA.message);
