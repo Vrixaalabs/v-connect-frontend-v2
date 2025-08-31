@@ -7,6 +7,8 @@ const SIDEBAR_WIDTH_MOBILE = '18rem';
 const SIDEBAR_WIDTH_ICON = '3rem';
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
 
+export type AdminType = 'club' | 'institute' | 'super';
+
 type SidebarContextProps = {
   state: 'expanded' | 'collapsed';
   open: boolean;
@@ -15,6 +17,8 @@ type SidebarContextProps = {
   setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
+  adminType: AdminType;
+  setAdminType: (type: AdminType) => void;
 };
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);

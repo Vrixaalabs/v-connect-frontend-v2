@@ -6,6 +6,71 @@ export interface RouteConfig {
 }
 
 export const routeConfig: Record<string, RouteConfig> = {
+  // Institute routes
+  '/institutes': {
+    path: '/institutes',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+  '/institute/[slug]': {
+    path: '/institute/[slug]',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+  
+  // Institute admin routes
+  '/admin/institute/dashboard': {
+    path: '/admin/institute/dashboard',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+  '/admin/institute/students': {
+    path: '/admin/institute/students',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+  '/admin/institute/roles': {
+    path: '/admin/institute/roles',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+  '/admin/institute/requests': {
+    path: '/admin/institute/requests',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+  '/admin/institute/settings': {
+    path: '/admin/institute/settings',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+
+  // Super admin routes
+  '/super-admin/login': {
+    path: '/super-admin/login',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+  '/super-admin/dashboard': {
+    path: '/super-admin/dashboard',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+  '/super-admin/institutes': {
+    path: '/super-admin/institutes',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+  '/super-admin/admins': {
+    path: '/super-admin/admins',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
+  '/super-admin/settings': {
+    path: '/super-admin/settings',
+    requireAuth: true,
+    redirectTo: '/login',
+  },
   '/': {
     path: '/',
     requireAuth: false,
