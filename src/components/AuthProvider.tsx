@@ -308,11 +308,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           { skipAuth: true }
         );
 
-        if (response.accessToken && response.branchId) {
+        console.log(response);
+
+        if (response.accessToken) {
           // Store tokens and branch ID
           tokenService.setTokens(response.accessToken);
-          const branchService = BranchService.getInstance();
-          branchService.setCurrentBranchId(response.branchId);
+          // const branchService = BranchService.getInstance();
+          // branchService.setCurrentBranchId(response.branchId);
+
+          console.log(response);
 
           // Update Redux state
           dispatch(
@@ -321,7 +325,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               refreshToken: '',
             })
           );
-          dispatch(setCurrentBranchId(response.branchId));
+          // dispatch(setCurrentBranchId(response.branchId));
 
           // Get user info
           await checkAuthStatusDebounced();
@@ -332,10 +336,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
           // Navigate to intended destination
           const destination = getIntendedDestination();
+          console.log(destination);
           await navigate(destination);
           clearIntendedDestination(); // Clear intended destination after successful navigation
         }
       } catch (error) {
+        console.error(error);
         // Re-throw error for handling in UI
         throw error instanceof Error ? error : new Error('Login failed');
       }

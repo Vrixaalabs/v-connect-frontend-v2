@@ -94,9 +94,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // For routes that should redirect if already authenticated (like login page)
-  if (!requireAuth && isAuthenticated && isTokenValid) {
-    const storedBranchId = branchService.getCurrentBranchId();
-    return <Navigate to={`/${storedBranchId}/dashboard`} replace />;
+  if (!requireAuth && isAuthenticated && isTokenValid && location.pathname !== '/') {
+    return <Navigate to={`/`} replace />;
   }
 
   return <>{children}</>;
