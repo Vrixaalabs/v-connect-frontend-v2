@@ -1,29 +1,85 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Shield, Lock } from 'lucide-react';
+import { useToast } from '@/hooks/useToast';
+import { SUPER_ADMIN_LOGIN, VERIFY_SUPER_ADMIN_2FA } from '@/graphql/mutations';
+import TokenService from '@/lib/tokenService';
 
 const SuperAdminLogin = () => {
   const navigate = useNavigate();
+  const toast = useToast();
+  const tokenService = TokenService.getInstance();
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     code: '',
   });
   const [step, setStep] = useState<'credentials' | 'twoFactor'>('credentials');
+  const [loading, setLoading] = useState(false);
+
+  const [superAdminLogin] = useMutation(SUPER_ADMIN_LOGIN, {
+    onCompleted: (data) => {
+      if (data.superAdminLogin.success) {
+        if (data.superAdminLogin.requiresTwoFactor) {
+          setStep('twoFactor');
+          toast.info('Verification Required', 'Please enter the verification code sent to your email.');
+        } else {
+          tokenService.setTokens(data.superAdminLogin.token);
+          navigate('/super-admin/dashboard');
+        }
+      } else {
+                  toast.error('Login Failed', data.superAdminLogin.message);
+      }
+      setLoading(false);
+    },
+    onError: (error) => {
+      toast.error('Login Failed', error.message);
+      setLoading(false);
+    },
+  });
+
+  const [verifySuperAdmin2FA] = useMutation(VERIFY_SUPER_ADMIN_2FA, {
+    onCompleted: (data) => {
+      if (data.verifySuperAdmin2FA.success) {
+        tokenService.setTokens(data.verifySuperAdmin2FA.token);
+        navigate('/super-admin/dashboard');
+        toast.success('Login Successful', 'Welcome back, Super Admin!');
+      } else {
+        toast.error('Verification Failed', data.verifySuperAdmin2FA.message);
+      }
+      setLoading(false);
+    },
+    onError: (error) => {
+      toast.error('Verification Failed', error.message);
+      setLoading(false);
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+
     if (step === 'credentials') {
-      // TODO: Validate credentials and send 2FA code
-      setStep('twoFactor');
+      await superAdminLogin({
+        variables: {
+          email: formData.email,
+          password: formData.password,
+        },
+      });
     } else {
-      // TODO: Verify 2FA code and complete login
-      navigate('/super-admin/dashboard');
+      await verifySuperAdmin2FA({
+        variables: {
+          email: formData.email,
+          code: formData.code,
+        },
+      });
     }
   };
 
@@ -76,8 +132,12 @@ const SuperAdminLogin = () => {
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full">
-                  Continue
+                <Button 
+                  type="submit" 
+                  className="w-full"
+                  disabled={loading}
+                >
+                  {loading ? 'Logging in...' : 'Continue'}
                 </Button>
               </>
             ) : (
@@ -90,6 +150,9 @@ const SuperAdminLogin = () => {
                   <p className="text-muted-foreground">
                     Enter the verification code sent to your email
                   </p>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    A 6-digit code has been sent to {formData.email}
+                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -98,22 +161,37 @@ const SuperAdminLogin = () => {
                     type="text"
                     placeholder="Enter 6-digit code"
                     value={formData.code}
-                    onChange={(e) => setFormData({ ...formData, code: e.target.value })}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^0-9]/g, '');
+                      if (value.length <= 6) {
+                        setFormData({ ...formData, code: value });
+                      }
+                    }}
                     required
                     className="text-center text-2xl tracking-wider"
                     maxLength={6}
+                    pattern="[0-9]*"
+                    inputMode="numeric"
                   />
                 </div>
 
                 <div className="space-y-4">
-                  <Button type="submit" className="w-full">
-                    Verify & Login
+                  <Button 
+                    type="submit" 
+                    className="w-full"
+                    disabled={loading || formData.code.length !== 6}
+                  >
+                    {loading ? 'Verifying...' : 'Verify & Login'}
                   </Button>
                   <Button
                     type="button"
                     variant="ghost"
                     className="w-full"
-                    onClick={() => setStep('credentials')}
+                    onClick={() => {
+                      setStep('credentials');
+                      setFormData({ ...formData, code: '' });
+                    }}
+                    disabled={loading}
                   >
                     Back to Login
                   </Button>

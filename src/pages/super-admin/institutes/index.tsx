@@ -1,16 +1,21 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import { useQuery, useMutation } from '@apollo/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { MotionCard } from '@/components/ui/motion-card';
-import { Building2, Users, School, MapPin } from 'lucide-react';
+import { Building2, Users, School, MapPin, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Institute } from '@/types/institute';
+import { SEARCH_INSTITUTES } from '@/graphql/queries';
+import { CREATE_INSTITUTE } from '@/graphql/mutations';
+import { useToast } from '@/hooks/useToast';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const SuperAdminInstitutesPage = () => {
+  const toast = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null);
@@ -21,18 +26,96 @@ const SuperAdminInstitutesPage = () => {
     website: '',
   });
 
-  // TODO: Replace with actual API call
-  const institutes: Institute[] = [];
+  const { data, loading, error } = useQuery(SEARCH_INSTITUTES, {
+    variables: {
+      filter: {
+        search: searchQuery,
+      },
+      page: 1,
+      limit: 10,
+    },
+    onError: (error) => {
+      toast.error('Failed to load institutes', error.message);
+    },
+  });
+
+  const [createInstitute, { loading: creating }] = useMutation(CREATE_INSTITUTE, {
+    onCompleted: (data) => {
+      if (data.createInstitute.success) {
+        toast.success('Institute created successfully');
+        setIsCreateModalOpen(false);
+        setNewInstitute({
+          name: '',
+          description: '',
+          location: '',
+          website: '',
+        });
+      } else {
+        toast.error('Failed to create institute', data.createInstitute.message);
+      }
+    },
+    onError: (error) => {
+      toast.error('Failed to create institute', error.message);
+    },
+    refetchQueries: ['SearchInstitutes'],
+  });
+
+  const [deleteInstitute, { loading: deleting }] = useMutation(CREATE_INSTITUTE, {
+    onCompleted: (data) => {
+      if (data.createInstitute.success) {
+        toast.success('Institute deleted successfully');
+      } else {
+        toast.error('Failed to delete institute', data.createInstitute.message);
+      }
+    },
+    onError: (error) => {
+      toast.error('Failed to delete institute', error.message);
+    },
+    refetchQueries: ['SearchInstitutes'],
+  });
 
   const handleCreateInstitute = async () => {
-    // TODO: Implement institute creation
-    setIsCreateModalOpen(false);
+    await createInstitute({
+      variables: {
+        input: {
+          name: newInstitute.name,
+          description: newInstitute.description,
+          location: newInstitute.location,
+          website: newInstitute.website,
+        },
+      },
+    });
   };
 
   const handleDeleteInstitute = async (instituteToDelete: Institute) => {
-    // TODO: Implement institute deletion
-    console.log('Deleting institute:', instituteToDelete.id);
+    if (window.confirm(`Are you sure you want to delete ${instituteToDelete.name}?`)) {
+      await deleteInstitute({
+        variables: {
+          instituteId: instituteToDelete.id,
+        },
+      });
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-center p-6">
+        <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+        <h2 className="text-2xl font-bold mb-2">Failed to Load Institutes</h2>
+        <p className="text-muted-foreground">Please try refreshing the page</p>
+      </div>
+    );
+  }
+
+  const institutes = data?.searchInstitutes.institutes || [];
 
   const stats = [
     {
@@ -43,19 +126,19 @@ const SuperAdminInstitutesPage = () => {
     },
     {
       title: 'Total Students',
-      value: institutes.reduce((acc, inst) => acc + inst.studentsCount, 0),
+      value: institutes.reduce((acc: number, inst: Institute) => acc + inst.studentsCount, 0),
       icon: Users,
       color: 'text-green-500',
     },
     {
       title: 'Total Departments',
-      value: institutes.reduce((acc, inst) => acc + inst.departments.length, 0),
+      value: institutes.reduce((acc: number, inst: Institute) => acc + inst.departments.length, 0),
       icon: School,
       color: 'text-purple-500',
     },
     {
       title: 'Locations',
-      value: new Set(institutes.map(inst => inst.location)).size,
+      value: new Set(institutes.map((inst: Institute) => inst.location)).size,
       icon: MapPin,
       color: 'text-orange-500',
     },
@@ -111,7 +194,7 @@ const SuperAdminInstitutesPage = () => {
           transition={{ duration: 0.3 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {institutes.map((institute, index) => (
+          {institutes.map((institute: Institute, index: number) => (
             <MotionCard
               key={institute.id}
               delay={index * 0.1}
@@ -149,8 +232,9 @@ const SuperAdminInstitutesPage = () => {
                       variant="destructive"
                       size="sm"
                       onClick={() => handleDeleteInstitute(institute)}
+                      disabled={deleting}
                     >
-                      Delete
+                      {deleting ? 'Deleting...' : 'Delete'}
                     </Button>
                   </div>
                 </div>
@@ -222,8 +306,11 @@ const SuperAdminInstitutesPage = () => {
               >
                 Cancel
               </Button>
-              <Button onClick={handleCreateInstitute}>
-                Create Institute
+              <Button 
+                onClick={handleCreateInstitute}
+                disabled={creating || !newInstitute.name || !newInstitute.description || !newInstitute.location}
+              >
+                {creating ? 'Creating...' : 'Create Institute'}
               </Button>
             </div>
           </div>

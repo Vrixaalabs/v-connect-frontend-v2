@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useQuery, useMutation } from '@apollo/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog } from '@/components/ui/dialog';
@@ -8,10 +9,15 @@ import { Select } from '@/components/ui/select';
 import { MotionCard } from '@/components/ui/motion-card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { Shield, Calendar, Building2 } from 'lucide-react';
+import { Shield, Calendar, Building2, AlertCircle } from 'lucide-react';
 import type { InstituteAdmin, Institute } from '@/types/institute';
+import { GET_INSTITUTE_ADMINS, SEARCH_INSTITUTES } from '@/graphql/queries';
+import { ASSIGN_INSTITUTE_ADMIN, REMOVE_INSTITUTE_ADMIN } from '@/graphql/mutations';
+import { useToast } from '@/hooks/useToast';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const SuperAdminAdminsPage = () => {
+  const toast = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState<InstituteAdmin | null>(null);
@@ -20,19 +26,102 @@ const SuperAdminAdminsPage = () => {
     instituteId: '',
   });
 
-  // TODO: Replace with actual API calls
-  const admins: InstituteAdmin[] = [];
-  const institutes: Institute[] = [];
+  const { data: adminsData, loading: adminsLoading, error: adminsError } = useQuery(GET_INSTITUTE_ADMINS, {
+    variables: {
+      page: 1,
+      limit: 10,
+      search: searchQuery,
+    },
+    onError: (error) => {
+      toast.error('Failed to load admins', error.message);
+    },
+  });
+
+  const { data: institutesData, loading: institutesLoading, error: institutesError } = useQuery(SEARCH_INSTITUTES, {
+    variables: {
+      filter: {},
+      page: 1,
+      limit: 100,
+    },
+    onError: (error) => {
+      toast.error('Failed to load institutes', error.message);
+    },
+  });
+
+  const [assignAdmin, { loading: assigning }] = useMutation(ASSIGN_INSTITUTE_ADMIN, {
+    onCompleted: (data) => {
+      if (data.assignAdmin.success) {
+        toast.success('Admin assigned successfully');
+        setIsAssignModalOpen(false);
+        setNewAdmin({
+          email: '',
+          instituteId: '',
+        });
+      } else {
+        toast.error('Failed to assign admin', data.assignAdmin.message);
+      }
+    },
+    onError: (error) => {
+      toast.error('Failed to assign admin', error.message);
+    },
+    refetchQueries: ['GetInstituteAdmins'],
+  });
+
+  const [removeAdmin, { loading: removing }] = useMutation(REMOVE_INSTITUTE_ADMIN, {
+    onCompleted: (data) => {
+      if (data.removeAdmin.success) {
+        toast.success('Admin removed successfully');
+      } else {
+        toast.error('Failed to remove admin', data.removeAdmin.message);
+      }
+    },
+    onError: (error) => {
+      toast.error('Failed to remove admin', error.message);
+    },
+    refetchQueries: ['GetInstituteAdmins'],
+  });
 
   const handleAssignAdmin = async () => {
-    // TODO: Implement admin assignment
-    setIsAssignModalOpen(false);
+    await assignAdmin({
+      variables: {
+        input: {
+          email: newAdmin.email,
+          instituteId: newAdmin.instituteId,
+        },
+      },
+    });
   };
 
   const handleRemoveAdmin = async (adminToRemove: InstituteAdmin) => {
-    // TODO: Implement admin removal
-    console.log('Removing admin:', adminToRemove.id);
+    if (window.confirm(`Are you sure you want to remove ${adminToRemove.userId} as admin?`)) {
+      await removeAdmin({
+        variables: {
+          adminId: adminToRemove.id,
+        },
+      });
+    }
   };
+
+  if (adminsLoading || institutesLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (adminsError || institutesError) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-center p-6">
+        <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+        <h2 className="text-2xl font-bold mb-2">Failed to Load Data</h2>
+        <p className="text-muted-foreground">Please try refreshing the page</p>
+      </div>
+    );
+  }
+
+  const admins = adminsData?.getInstituteAdmins.admins || [];
+  const institutes = institutesData?.searchInstitutes.institutes || [];
 
   const stats = [
     {
@@ -43,7 +132,7 @@ const SuperAdminAdminsPage = () => {
     },
     {
       title: 'Institutes Managed',
-      value: new Set(admins.map(admin => admin.instituteId)).size,
+      value: new Set(admins.map((admin: InstituteAdmin) => admin.instituteId)).size,
       icon: Building2,
       color: 'text-green-500',
     },
@@ -105,7 +194,7 @@ const SuperAdminAdminsPage = () => {
           transition={{ duration: 0.3 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {admins.map((admin, index) => (
+          {admins.map((admin: InstituteAdmin, index: number) => (
             <MotionCard
               key={admin.id}
               delay={index * 0.1}
@@ -140,8 +229,9 @@ const SuperAdminAdminsPage = () => {
                       variant="destructive"
                       size="sm"
                       onClick={() => handleRemoveAdmin(admin)}
+                      disabled={removing}
                     >
-                      Remove
+                      {removing ? 'Removing...' : 'Remove'}
                     </Button>
                   </div>
                 </div>
@@ -151,7 +241,7 @@ const SuperAdminAdminsPage = () => {
                 <div className="text-sm">
                   <span className="font-medium">Permissions:</span>
                   <div className="flex flex-wrap gap-1 mt-1">
-                    {admin.role.permissions.map((permission) => (
+                    {admin.role.permissions.map((permission: string) => (
                       <Badge
                         key={permission}
                         variant="outline"
@@ -199,7 +289,7 @@ const SuperAdminAdminsPage = () => {
                 value={newAdmin.instituteId}
                 onValueChange={(value) => setNewAdmin({ ...newAdmin, instituteId: value })}
               >
-                {institutes.map((institute) => (
+                {institutes.map((institute: Institute) => (
                   <option key={institute.id} value={institute.id}>
                     {institute.name}
                   </option>
@@ -214,8 +304,11 @@ const SuperAdminAdminsPage = () => {
               >
                 Cancel
               </Button>
-              <Button onClick={handleAssignAdmin}>
-                Assign Admin
+              <Button 
+                onClick={handleAssignAdmin}
+                disabled={assigning || !newAdmin.email || !newAdmin.instituteId}
+              >
+                {assigning ? 'Assigning...' : 'Assign Admin'}
               </Button>
             </div>
           </div>

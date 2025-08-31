@@ -1,6 +1,119 @@
 import { gql } from '@apollo/client';
 
-// ... (existing mutations)
+export const SUPER_ADMIN_LOGIN = gql`
+  mutation SuperAdminLogin($email: String!, $password: String!) {
+    superAdminLogin(email: $email, password: $password) {
+      success
+      message
+      token
+      requiresTwoFactor
+    }
+  }
+`;
+
+export const VERIFY_SUPER_ADMIN_2FA = gql`
+  mutation VerifySuperAdmin2FA($email: String!, $code: String!) {
+    verifySuperAdmin2FA(email: $email, code: $code) {
+      success
+      message
+      token
+      user {
+        id
+        email
+        role
+      }
+    }
+  }
+`;
+
+export const SUPER_ADMIN_LOGOUT = gql`
+  mutation SuperAdminLogout {
+    superAdminLogout {
+      success
+      message
+    }
+  }
+`;
+
+export const UPDATE_SUPER_ADMIN_PROFILE = gql`
+  mutation UpdateSuperAdminProfile($input: UpdateSuperAdminProfileInput!) {
+    updateSuperAdminProfile(input: $input) {
+      success
+      message
+      user {
+        id
+        email
+        fullName
+      }
+    }
+  }
+`;
+
+export const UPDATE_SUPER_ADMIN_PASSWORD = gql`
+  mutation UpdateSuperAdminPassword($input: UpdatePasswordInput!) {
+    updateSuperAdminPassword(input: $input) {
+      success
+      message
+    }
+  }
+`;
+
+export const UPDATE_SUPER_ADMIN_SETTINGS = gql`
+  mutation UpdateSuperAdminSettings($input: UpdateSuperAdminSettingsInput!) {
+    updateSuperAdminSettings(input: $input) {
+      success
+      message
+      settings {
+        emailNotifications
+        twoFactorAuth
+        maintenanceMode
+        notifyOnNewInstitute
+        notifyOnSystemAlerts
+        notifyOnSecurityAlerts
+      }
+    }
+  }
+`;
+
+export const ASSIGN_INSTITUTE_ADMIN = gql`
+  mutation AssignInstituteAdmin($input: AssignAdminInput!) {
+    assignAdmin(input: $input) {
+      success
+      message
+      admin {
+        assignmentId
+        userId
+        instituteId
+        roleId {
+          name
+          permissions
+        }
+        isActive
+        createdAt
+      }
+    }
+  }
+`;
+
+export const REMOVE_INSTITUTE_ADMIN = gql`
+  mutation RemoveInstituteAdmin($adminId: ID!) {
+    removeAdmin(adminId: $adminId) {
+      success
+      message
+      admin {
+        assignmentId
+        userId
+        instituteId
+        roleId {
+          name
+          permissions
+        }
+        isActive
+        createdAt
+      }
+    }
+  }
+`;
 
 export const CREATE_INSTITUTE = gql`
   mutation CreateInstitute($input: CreateInstituteInput!) {

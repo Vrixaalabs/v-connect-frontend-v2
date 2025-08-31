@@ -4,10 +4,13 @@ import { useAppSelector } from '../hooks/redux';
 import TokenService from '../lib/tokenService';
 import BranchService from '../lib/branchService';
 
+import type { UserRole } from '@/lib/tokenService';
+
 interface ProtectedRouteProps {
   children: React.ReactNode;
   requireAuth?: boolean;
   requireBranch?: boolean;
+  allowedRoles?: UserRole[];
   redirectTo?: string;
 }
 
@@ -15,6 +18,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   requireAuth = true,
   requireBranch = false,
+  allowedRoles = [],
   redirectTo = '/login',
 }) => {
   const location = useLocation();
@@ -22,6 +26,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { isAuthenticated, isLoading } = useAppSelector(state => state.auth);
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
   const [isBranchValid, setIsBranchValid] = useState<boolean>(true);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
   const tokenService = TokenService.getInstance();
   const branchService = BranchService.getInstance();
 
@@ -30,6 +35,16 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     const checkTokenValidity = () => {
       const valid = tokenService.isAuthenticated();
       setIsTokenValid(valid);
+
+      if (valid) {
+        const token = tokenService.getAccessToken();
+        if (token) {
+          const decoded = tokenService.decodeToken(token);
+          setUserRole(decoded.role);
+        }
+      } else {
+        setUserRole(null);
+      }
     };
 
     // Check branch validity
@@ -67,8 +82,24 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // For routes that require authentication
   if (requireAuth) {
-    // If token is valid, check branch requirements
+    // If token is valid, check super admin and branch requirements
     if (isTokenValid) {
+      // Check role requirements
+      if (allowedRoles.length > 0 && userRole && !allowedRoles.includes(userRole)) {
+        // Redirect based on user role
+        switch (userRole) {
+          case 'super_admin':
+            return <Navigate to="/super-admin/dashboard" state={{ from: location }} replace />;
+          case 'admin':
+            return <Navigate to="/admin/institute/dashboard" state={{ from: location }} replace />;
+          case 'user':
+            return <Navigate to="/feed" state={{ from: location }} replace />;
+          default:
+            return <Navigate to="/login" state={{ from: location }} replace />;
+        }
+      }
+
+      // Check branch requirement
       if (requireBranch && !isBranchValid) {
         // If branch validation fails, redirect to the correct branch
         const storedBranchId = branchService.getCurrentBranchId();
@@ -95,7 +126,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // For routes that should redirect if already authenticated (like login page)
   if (!requireAuth && isAuthenticated && isTokenValid && location.pathname !== '/') {
-    return <Navigate to={`/`} replace />;
+    // For super admin login page, redirect to super admin dashboard
+    if (location.pathname === '/super-admin/login') {
+      return <Navigate to="/super-admin/dashboard" replace />;
+    }
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;

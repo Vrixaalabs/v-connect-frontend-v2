@@ -1,8 +1,11 @@
+import type { UserRole } from './tokenService';
+
 export interface RouteConfig {
   path: string;
   requireAuth: boolean;
   redirectTo?: string;
   requireBranch?: boolean;
+  allowedRoles?: UserRole[];
 }
 
 export const routeConfig: Record<string, RouteConfig> = {
@@ -22,54 +25,68 @@ export const routeConfig: Record<string, RouteConfig> = {
   '/admin/institute/dashboard': {
     path: '/admin/institute/dashboard',
     requireAuth: true,
+    allowedRoles: ['admin'],
+    requireBranch: true,
     redirectTo: '/login',
   },
   '/admin/institute/students': {
     path: '/admin/institute/students',
     requireAuth: true,
+    allowedRoles: ['admin'],
+    requireBranch: true,
     redirectTo: '/login',
   },
   '/admin/institute/roles': {
     path: '/admin/institute/roles',
     requireAuth: true,
+    allowedRoles: ['admin'],
+    requireBranch: true,
     redirectTo: '/login',
   },
   '/admin/institute/requests': {
     path: '/admin/institute/requests',
     requireAuth: true,
+    allowedRoles: ['admin'],
+    requireBranch: true,
     redirectTo: '/login',
   },
   '/admin/institute/settings': {
     path: '/admin/institute/settings',
     requireAuth: true,
+    allowedRoles: ['admin'],
+    requireBranch: true,
     redirectTo: '/login',
   },
 
   // Super admin routes
   '/super-admin/login': {
     path: '/super-admin/login',
-    requireAuth: true,
-    redirectTo: '/login',
+    requireAuth: false,
+    redirectTo: '/super-admin/dashboard',
   },
   '/super-admin/dashboard': {
     path: '/super-admin/dashboard',
     requireAuth: true,
-    redirectTo: '/login',
+    allowedRoles: ['super_admin'],
+    redirectTo: '/super-admin/login',
   },
   '/super-admin/institutes': {
     path: '/super-admin/institutes',
     requireAuth: true,
-    redirectTo: '/login',
+    allowedRoles: ['super_admin'],
+    redirectTo: '/super-admin/login',
   },
   '/super-admin/admins': {
     path: '/super-admin/admins',
     requireAuth: true,
-    redirectTo: '/login',
+    allowedRoles: ['super_admin'],
+    redirectTo: '/super-admin/login',
   },
   '/super-admin/settings': {
     path: '/super-admin/settings',
     requireAuth: true,
-    redirectTo: '/login',
+    allowedRoles: ['super_admin'],
+    redirectTo: '/super-admin/login',
   },
   '/': {
     path: '/',
@@ -119,26 +136,31 @@ export const routeConfig: Record<string, RouteConfig> = {
   '/feed': {
     path: '/feed',
     requireAuth: true,
+    allowedRoles: ['user', 'admin'],
     redirectTo: '/',
   },
   '/feed/announcements': {
     path: '/feed/announcements',
     requireAuth: true,
+    allowedRoles: ['user', 'admin'],
     redirectTo: '/',
   },
   '/feed/lost-found': {
     path: '/feed/lost-found',
     requireAuth: true,
+    allowedRoles: ['user', 'admin'],
     redirectTo: '/',
   },
   '/feed/events': {
     path: '/feed/events',
     requireAuth: true,
+    allowedRoles: ['user', 'admin'],
     redirectTo: '/',
   },
   '/feed/campus': {
     path: '/feed/campus',
     requireAuth: true,
+    allowedRoles: ['user', 'admin'],
     redirectTo: '/',
   },
 };

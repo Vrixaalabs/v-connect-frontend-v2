@@ -6,9 +6,13 @@ export interface TokenData {
   expiresAt: number;
 }
 
+export type UserRole = 'super_admin' | 'admin' | 'user';
+
 export interface DecodedToken {
   userId: string;
   type: string;
+  role: UserRole;
+  instituteId?: string;
   iat: number;
   exp: number;
 }

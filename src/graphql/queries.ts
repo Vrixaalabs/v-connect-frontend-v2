@@ -1,6 +1,103 @@
 import { gql } from '@apollo/client';
 
-// ... (existing queries)
+export const GET_SUPER_ADMIN_SETTINGS = gql`
+  query GetSuperAdminSettings {
+    getSuperAdminSettings {
+      success
+      message
+      settings {
+        emailNotifications
+        twoFactorAuth
+        maintenanceMode
+        notifyOnNewInstitute
+        notifyOnSystemAlerts
+        notifyOnSecurityAlerts
+      }
+      user {
+        id
+        email
+        fullName
+      }
+    }
+  }
+`;
+
+export const GET_SUPER_ADMIN_DASHBOARD_STATS = gql`
+  query GetSuperAdminDashboardStats {
+    getSuperAdminDashboardStats {
+      totalInstitutes
+      totalStudents
+      totalDepartments
+      activeAdmins
+    }
+  }
+`;
+
+export const GET_RECENT_ACTIVITIES = gql`
+  query GetRecentActivities($limit: Int) {
+    getRecentActivities(limit: $limit) {
+      id
+      type
+      message
+      time
+      instituteId
+      userId
+    }
+  }
+`;
+
+export const GET_SYSTEM_STATUS = gql`
+  query GetSystemStatus {
+    getSystemStatus {
+      status
+      load
+      lastUpdated
+    }
+  }
+`;
+
+export const GET_INSTITUTE_ADMINS = gql`
+  query GetInstituteAdmins($page: Int, $limit: Int, $search: String) {
+    getInstituteAdmins(page: $page, limit: $limit, search: $search) {
+      success
+      message
+      admins {
+        assignmentId
+        userId
+        instituteId
+        roleId {
+          name
+          permissions
+        }
+        isActive
+        createdAt
+      }
+      total
+      page
+      limit
+    }
+  }
+`;
+
+export const GET_INSTITUTE_ADMIN = gql`
+  query GetInstituteAdmin($adminId: ID!) {
+    getInstituteAdmin(adminId: $adminId) {
+      success
+      message
+      admin {
+        assignmentId
+        userId
+        instituteId
+        roleId {
+          name
+          permissions
+        }
+        isActive
+        createdAt
+      }
+    }
+  }
+`;
 
 export const SEARCH_INSTITUTES = gql`
   query SearchInstitutes($filter: InstituteFilterInput, $page: Int!, $limit: Int!) {
