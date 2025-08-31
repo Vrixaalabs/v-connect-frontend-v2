@@ -4,10 +4,13 @@ import { useAppSelector } from '../hooks/redux';
 import TokenService from '../lib/tokenService';
 import BranchService from '../lib/branchService';
 
+import type { UserRole } from '@/lib/tokenService';
+
 interface ProtectedRouteProps {
   children: React.ReactNode;
   requireAuth?: boolean;
   requireBranch?: boolean;
+  allowedRoles?: UserRole[];
   redirectTo?: string;
 }
 
@@ -15,6 +18,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   requireAuth = true,
   requireBranch = false,
+  allowedRoles = [],
   redirectTo = '/login',
 }) => {
   const location = useLocation();
@@ -22,14 +26,32 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { isAuthenticated, isLoading } = useAppSelector(state => state.auth);
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
   const [isBranchValid, setIsBranchValid] = useState<boolean>(true);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
   const tokenService = TokenService.getInstance();
   const branchService = BranchService.getInstance();
 
   useEffect(() => {
     // Check token validity on mount and when location changes
     const checkTokenValidity = () => {
-      const valid = tokenService.isAuthenticated();
-      setIsTokenValid(valid);
+      const token = tokenService.getAccessToken();
+      console.log("Current token:", token);
+      
+      if (token) {
+        try {
+          const decoded = tokenService.decodeToken(token);
+          const valid = tokenService.isAuthenticated();
+          setIsTokenValid(valid);
+          setUserRole(decoded.role);
+        } catch (error) {
+          console.error("Token decode error:", error);
+          setIsTokenValid(false);
+          setUserRole(null);
+        }
+      } else {
+        console.log("No token found");
+        setIsTokenValid(false);
+        setUserRole(null);
+      }
     };
 
     // Check branch validity
@@ -67,8 +89,24 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // For routes that require authentication
   if (requireAuth) {
-    // If token is valid, check branch requirements
+    // If token is valid, check super admin and branch requirements
     if (isTokenValid) {
+      // Check role requirements
+      if (allowedRoles.length > 0 && userRole && !allowedRoles.includes(userRole)) {
+        // Redirect based on user role
+        switch (userRole) {
+          case 'super_admin':
+            return <Navigate to="/super-admin/dashboard" state={{ from: location }} replace />;
+          case 'admin':
+            return <Navigate to="/admin/institute/dashboard" state={{ from: location }} replace />;
+          case 'user':
+            return <Navigate to="/feed" state={{ from: location }} replace />;
+          default:
+            return <Navigate to="/login" state={{ from: location }} replace />;
+        }
+      }
+
+      // Check branch requirement
       if (requireBranch && !isBranchValid) {
         // If branch validation fails, redirect to the correct branch
         const storedBranchId = branchService.getCurrentBranchId();
@@ -92,10 +130,19 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       return <Navigate to={redirectTo} state={{ from: location }} replace />;
     }
   }
-
+  console.log(isAuthenticated);
+  console.log(isTokenValid);
   // For routes that should redirect if already authenticated (like login page)
-  if (!requireAuth && isAuthenticated && isTokenValid && location.pathname !== '/') {
-    return <Navigate to={`/`} replace />;
+  if (isAuthenticated && isTokenValid) {
+    // Check user role for appropriate redirection
+    console.log(userRole);
+    console.log(location.pathname);
+    if (userRole === 'super_admin' && location.pathname === '/super-admin/login') {
+      return <Navigate to="/super-admin/dashboard" replace />;
+    } else if (!requireAuth && location.pathname !== '/') {
+      // For other authenticated users on non-protected routes
+      return <Navigate to="/" replace />;
+    }
   }
 
   return <>{children}</>;
