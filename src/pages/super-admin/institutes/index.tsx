@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery, useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog } from '@/components/ui/dialog';
@@ -15,6 +16,7 @@ import { useToast } from '@/hooks/useToast';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
 const SuperAdminInstitutesPage = () => {
+  const navigate = useNavigate();
   const toast = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -282,7 +284,7 @@ const SuperAdminInstitutesPage = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setSelectedInstitute(institute)}
+                      onClick={() => navigate(`/super-admin/institutes/${institute.instituteId}`)}
                       className="w-24"
                     >
                       View

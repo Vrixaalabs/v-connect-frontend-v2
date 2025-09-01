@@ -88,6 +88,12 @@ export const routeConfig: Record<string, RouteConfig> = {
     allowedRoles: ['super_admin'],
     redirectTo: '/super-admin/login',
   },
+  '/super-admin/institutes/[instituteId]': {
+    path: '/super-admin/institutes/[instituteId]',
+    requireAuth: true,
+    allowedRoles: ['super_admin'],
+    redirectTo: '/super-admin/login',
+  },
   '/': {
     path: '/',
     requireAuth: false,
