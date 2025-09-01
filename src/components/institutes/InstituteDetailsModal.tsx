@@ -44,7 +44,7 @@ interface InstituteDetailsModalProps {
 
 export function InstituteDetailsModal({ institute, onClose }: InstituteDetailsModalProps) {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const toast = useToast();
   const { user } = useAuth();
   const [isFollowing, setIsFollowing] = useState(
     institute.followers.includes(user?.userId || '')
@@ -53,34 +53,28 @@ export function InstituteDetailsModal({ institute, onClose }: InstituteDetailsMo
   const [followInstitute] = useMutation(FOLLOW_INSTITUTE, {
     onCompleted: () => {
       setIsFollowing(true);
-      toast({
-        title: 'Success',
-        description: 'You are now following this institute',
-      });
+      // toast({
+      //   title: 'Success',
+      //   description: 'You are now following this institute',
+      // });
+      toast.success('Success', 'You are now following this institute');
     },
     onError: () => {
-      toast({
-        title: 'Error',
-        description: 'Failed to follow institute. Please try again.',
-        variant: 'destructive',
-      });
+      toast.error('Error', 'Failed to follow institute. Please try again.');
     },
   });
 
   const [unfollowInstitute] = useMutation(UNFOLLOW_INSTITUTE, {
     onCompleted: () => {
       setIsFollowing(false);
-      toast({
-        title: 'Success',
-        description: 'You have unfollowed this institute',
-      });
+      // toast({
+      //   title: 'Success',
+      //   description: 'You have unfollowed this institute',
+      // });
+      toast.success('Success', 'You have unfollowed this institute');
     },
     onError: () => {
-      toast({
-        title: 'Error',
-        description: 'Failed to unfollow institute. Please try again.',
-        variant: 'destructive',
-      });
+      toast.error('Error', 'Failed to unfollow institute. Please try again.');
     },
   });
 

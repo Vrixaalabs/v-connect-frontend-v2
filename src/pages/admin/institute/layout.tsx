@@ -22,6 +22,7 @@ const InstituteAdminLayout = () => {
           <TabsTrigger value="roles">Roles</TabsTrigger>
           <TabsTrigger value="requests">Join Requests</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
         </TabsList>
       </Tabs>
 

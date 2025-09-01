@@ -84,10 +84,7 @@ export const ASSIGN_INSTITUTE_ADMIN = gql`
         assignmentId
         userId
         instituteId
-        roleId {
-          name
-          permissions
-        }
+        roleId
         isActive
         createdAt
       }
