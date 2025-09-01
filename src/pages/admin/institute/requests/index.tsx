@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog } from '@/components/ui/dialog';
 import type { InstituteJoinRequest } from '@/types/institute';
-import InstituteAdminLayout from '../layout';
+import InstituteAdminLayout from '@/components/admin/institute/InstituteAdminLayout';
 
 const InstituteJoinRequestsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,7 +22,10 @@ const InstituteJoinRequestsPage = () => {
   };
 
   return (
-    <InstituteAdminLayout>
+    <InstituteAdminLayout
+      title="Join Requests"
+      description="Manage join requests from students"
+    >
       <div>
         <div className="flex justify-between items-center mb-6">
           <Input

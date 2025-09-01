@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -21,6 +20,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToastHelpers } from '@/components/ui/toast';
+import { Card } from '@/components/ui/card';
+import InstituteAdminLayout from '@/components/admin/institute/InstituteAdminLayout';
 import type { InviteStudentInput } from '@/types/entity';
 
 const inviteStudentSchema = z.object({
@@ -85,59 +86,23 @@ export default function InviteStudent() {
   };
 
   return (
-    <div className="container py-8">
+    <InstituteAdminLayout
+      title="Invite Student"
+      description="Send an invitation to a new student"
+    >
       <div className="max-w-2xl mx-auto">
         <Card className="p-6">
-          <div className="space-y-6">
-            <div>
-              <h1 className="text-2xl font-bold">Invite Student</h1>
-              <p className="text-gray-500">Send an invitation to a new student</p>
-            </div>
-
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="firstName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>First Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter first name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="lastName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Last Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter last name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="Enter student email"
-                          {...field}
-                        />
+                        <Input placeholder="Enter first name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -146,108 +111,140 @@ export default function InviteStudent() {
 
                 <FormField
                   control={form.control}
-                  name="entityId"
+                  name="lastName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Department/School</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select department/school" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {mockEntities.map((entity) => (
-                            <SelectItem key={entity.id} value={entity.id}>
-                              {entity.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter last name" {...field} />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+              </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="rollNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Roll Number</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter roll number" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter student email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                  <FormField
-                    control={form.control}
-                    name="batch"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Batch</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            min={2000}
-                            max={2100}
-                            placeholder="Enter batch year"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+              <FormField
+                control={form.control}
+                name="entityId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Department/School</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select department/school" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {mockEntities.map((entity) => (
+                          <SelectItem key={entity.id} value={entity.id}>
+                            {entity.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="rollNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Roll Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter roll number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <FormField
                   control={form.control}
-                  name="program"
+                  name="batch"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Program</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select program" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {programs.map((program) => (
-                            <SelectItem key={program} value={program}>
-                              {program}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormLabel>Batch</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min={2000}
+                          max={2100}
+                          placeholder="Enter batch year"
+                          {...field}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+              </div>
 
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Sending Invitation...' : 'Send Invitation'}
-                </Button>
-              </form>
-            </Form>
-          </div>
+              <FormField
+                control={form.control}
+                name="program"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Program</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select program" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {programs.map((program) => (
+                          <SelectItem key={program} value={program}>
+                            {program}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Sending Invitation...' : 'Send Invitation'}
+              </Button>
+            </form>
+          </Form>
         </Card>
       </div>
-    </div>
+    </InstituteAdminLayout>
   );
 }

@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState } from 'react';
+import InstituteAdminLayout from '@/components/admin/institute/InstituteAdminLayout';
 
 interface StatsCardProps {
   title: string;
@@ -104,7 +105,10 @@ export default function InstituteDashboard() {
   ];
 
   return (
-    <div className="container py-8">
+    <InstituteAdminLayout
+      title="Dashboard"
+      description="Manage your institute dashboard"
+    >
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Institute Dashboard</h1>
       </div>
@@ -153,6 +157,6 @@ export default function InstituteDashboard() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </InstituteAdminLayout>
   );
 }

@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useToastHelpers } from '@/components/ui/toast';
 import EntityForm from '@/components/admin/EntityForm';
+import InstituteAdminLayout from '@/components/admin/institute/InstituteAdminLayout';
 import type { Entity, CreateEntityInput } from '@/types/entity';
 
 export default function EntityManagement() {
@@ -92,37 +93,36 @@ export default function EntityManagement() {
     }
   };
 
+  const AddEntityButton = (
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogTrigger asChild>
+        <Button onClick={() => setSelectedEntity(null)}>
+          <Plus className="w-4 h-4 mr-2" />
+          Add Entity
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[500px]">
+        <DialogHeader>
+          <DialogTitle>
+            {selectedEntity ? 'Edit Entity' : 'Add New Entity'}
+          </DialogTitle>
+        </DialogHeader>
+        <EntityForm
+          onSubmit={selectedEntity ? handleUpdate : handleCreate}
+          initialData={selectedEntity || undefined}
+          existingEntities={mockEntities}
+          isLoading={isLoading}
+        />
+      </DialogContent>
+    </Dialog>
+  );
+
   return (
-    <div className="container py-8">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">Entity Management</h1>
-          <p className="text-gray-500">Manage departments, schools, and other entities</p>
-        </div>
-
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={() => setSelectedEntity(null)}>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Entity
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px]">
-            <DialogHeader>
-              <DialogTitle>
-                {selectedEntity ? 'Edit Entity' : 'Add New Entity'}
-              </DialogTitle>
-            </DialogHeader>
-            <EntityForm
-              onSubmit={selectedEntity ? handleUpdate : handleCreate}
-              initialData={selectedEntity || undefined}
-              existingEntities={mockEntities}
-              isLoading={isLoading}
-            />
-          </DialogContent>
-        </Dialog>
-      </div>
-
+    <InstituteAdminLayout
+      title="Entity Management"
+      description="Manage departments, schools, and other entities"
+      action={AddEntityButton}
+    >
       <div className="grid gap-4">
         {mockEntities.map((entity) => (
           <Card key={entity.id} className="p-4">
@@ -167,6 +167,6 @@ export default function EntityManagement() {
           </Card>
         ))}
       </div>
-    </div>
+    </InstituteAdminLayout>
   );
 }
