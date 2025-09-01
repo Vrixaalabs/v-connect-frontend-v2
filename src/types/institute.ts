@@ -1,5 +1,6 @@
 export interface Institute {
   id: string;
+  instituteId: string;
   name: string;
   slug: string;
   description: string;

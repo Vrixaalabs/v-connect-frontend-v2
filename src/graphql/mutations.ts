@@ -114,7 +114,6 @@ export const REMOVE_INSTITUTE_ADMIN = gql`
     }
   }
 `;
-
 export const CREATE_INSTITUTE = gql`
   mutation CreateInstitute($input: CreateInstituteInput!) {
     createInstitute(input: $input) {

@@ -207,3 +207,40 @@ export const GET_JOIN_REQUESTS = gql`
     }
   }
 `;
+
+export const GET_INSTITUTE_BY_ID = gql`
+  query GetInstituteById($instituteId: ID!) {
+    getInstituteById(instituteId: $instituteId) {
+      success
+      message
+      institute {
+        instituteId
+        name
+        slug
+        description
+        logo
+        banner
+        website
+        email
+        phone
+        address {
+          line1
+          line2
+          city
+          state
+          country
+          pinCode
+        }
+        departments {
+          id
+          name
+          code
+          description
+        }
+        followers
+        isVerified
+        isActive
+      }
+    }
+  }
+`;
