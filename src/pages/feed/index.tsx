@@ -1,124 +1,42 @@
-'use client';
+import { MemberLayout } from '@/components/layouts/MemberLayout';
 
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { motion, AnimatePresence } from 'framer-motion';
-import { PostCard } from '../../components/feed/PostCard';
-import mockData from '../../data/mock-feed.json';
-import { type Post } from '../../types/feed';
-import FeedLayout from './layout';
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
-};
-
-const stagger = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-export default function FeedPage() {
-  const [posts, setPosts] = useState<Post[]>(mockData.posts);
-
-  const handleLike = (postId: string) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              isLiked: !post.isLiked,
-              likes: post.isLiked ? post.likes - 1 : post.likes + 1,
-            }
-          : post
-      )
-    );
-    toast.success('Post liked!');
-  };
-
-  const handleComment = (postId: string, comment: string) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              comments: [
-                ...post.comments,
-                {
-                  id: `c${post.comments.length + 1}`,
-                  author: {
-                    id: 'current-user',
-                    name: 'Current User',
-                    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=CurrentUser',
-                  },
-                  content: comment,
-                  timestamp: new Date().toISOString(),
-                },
-              ],
-            }
-          : post
-      )
-    );
-    toast.success('Comment added!');
-  };
-
-  const handleShare = () => {
-    toast.success('Share dialog opened!');
-  };
-
-  const handleReport = () => {
-    toast.success('Report submitted!');
-  };
-
-  if (posts.length === 0) {
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="text-center py-12"
-      >
-        <h2 className="text-2xl font-semibold mb-2">No Posts Yet</h2>
-        <p className="text-muted-foreground">
-          Be the first one to create a post!
-        </p>
-      </motion.div>
-    );
-  }
-
+const FeedPage = () => {
   return (
-    <FeedLayout>
-      <motion.div
-        variants={stagger}
-        initial="initial"
-        animate="animate"
-        className="space-y-6"
-      >
-        <AnimatePresence mode="popLayout">
-          {posts.map((post) => (
-            <motion.div
-              key={post.id}
-              variants={fadeInUp}
-              layout
-              layoutId={post.id}
-              initial="initial"
-              animate="animate"
-              exit="exit"
+    <MemberLayout>
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Feed</h1>
+          <p className="text-muted-foreground">
+            Stay updated with the latest posts and activities from your network.
+          </p>
+        </div>
+
+        {/* Feed Content Placeholder */}
+        <div className="grid gap-4">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="rounded-lg border bg-card text-card-foreground shadow-sm p-6"
             >
-              <PostCard
-                post={post}
-                onLike={handleLike}
-                onComment={handleComment}
-                onShare={handleShare}
-                onReport={handleReport}
-              />
-            </motion.div>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="h-10 w-10 rounded-full bg-muted" />
+                  <div>
+                    <div className="font-medium">User Name</div>
+                    <div className="text-sm text-muted-foreground">2 hours ago</div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="h-4 w-3/4 bg-muted rounded" />
+                  <div className="h-4 w-1/2 bg-muted rounded" />
+                </div>
+              </div>
+            </div>
           ))}
-        </AnimatePresence>
-      </motion.div>
-    </FeedLayout>
+        </div>
+      </div>
+    </MemberLayout>
   );
-} 
+};
+
+export default FeedPage;
