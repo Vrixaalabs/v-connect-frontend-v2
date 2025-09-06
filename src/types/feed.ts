@@ -26,6 +26,7 @@ export interface Post {
     role?: string;
     university?: string;
   };
+  tags?: string[];
   content: string;
   images?: string[];
   likes: number;

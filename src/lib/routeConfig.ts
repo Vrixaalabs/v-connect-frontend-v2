@@ -27,7 +27,7 @@ export const routeConfig: Record<string, RouteConfig> = {
     requireAuth: true,
     allowedRoles: ['admin'],
     requireBranch: true,
-    redirectTo: '/login',
+    redirectTo: '/admin/institute/login',
   },
   '/admin/institute/students': {
     path: '/admin/institute/students',
@@ -55,7 +55,21 @@ export const routeConfig: Record<string, RouteConfig> = {
     requireAuth: true,
     allowedRoles: ['admin'],
     requireBranch: true,
-    redirectTo: '/login',
+    redirectTo: '/admin/institute/login',
+  },
+  '/admin/institute/students/invite': {
+    path: '/admin/institute/students/invite',
+    requireAuth: true,
+    allowedRoles: ['admin'],
+    requireBranch: true,
+    redirectTo: '/admin/institute/login',
+  },
+  '/admin/institute/entities': {
+    path: '/admin/institute/entities',
+    requireAuth: true,
+    allowedRoles: ['admin'],
+    requireBranch: true,
+    redirectTo: '/admin/institute/login',
   },
 
   // Super admin routes
@@ -93,6 +107,16 @@ export const routeConfig: Record<string, RouteConfig> = {
     requireAuth: true,
     allowedRoles: ['super_admin'],
     redirectTo: '/super-admin/login',
+  },
+  '/admin/institute/create-password': {
+    path: '/admin/institute/create-password',
+    requireAuth: false,
+    redirectTo: '/admin/institute/login',
+  },
+  '/admin/institute/login': {
+    path: '/admin/institute/login',
+    requireAuth: false,
+    redirectTo: '/admin/institute/dashboard',
   },
   '/': {
     path: '/',
@@ -142,31 +166,31 @@ export const routeConfig: Record<string, RouteConfig> = {
   '/feed': {
     path: '/feed',
     requireAuth: true,
-    allowedRoles: ['user', 'admin'],
+    allowedRoles: ['member', 'admin'],
     redirectTo: '/',
   },
   '/feed/announcements': {
     path: '/feed/announcements',
     requireAuth: true,
-    allowedRoles: ['user', 'admin'],
+    allowedRoles: ['member', 'admin'],
     redirectTo: '/',
   },
   '/feed/lost-found': {
     path: '/feed/lost-found',
     requireAuth: true,
-    allowedRoles: ['user', 'admin'],
+    allowedRoles: ['member', 'admin'],
     redirectTo: '/',
   },
   '/feed/events': {
     path: '/feed/events',
     requireAuth: true,
-    allowedRoles: ['user', 'admin'],
+    allowedRoles: ['member', 'admin'],
     redirectTo: '/',
   },
   '/feed/campus': {
     path: '/feed/campus',
     requireAuth: true,
-    allowedRoles: ['user', 'admin'],
+    allowedRoles: ['member', 'admin'],
     redirectTo: '/',
   },
 };

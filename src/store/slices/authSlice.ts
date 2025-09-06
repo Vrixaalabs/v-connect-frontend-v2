@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { config } from '../../lib/config';
+import type { Organization } from '@/types/organization';
 
 // Types
 export interface User {
@@ -40,6 +41,8 @@ export interface AuthState {
   isRefreshing: boolean;
   lastActivity: number | null;
   currentBranchId: string | null;
+  organizations: Organization[] | null;
+  currentOrganization: Organization | null;
 }
 
 // API Response types
@@ -69,6 +72,8 @@ const initialState: AuthState = {
   isRefreshing: false,
   lastActivity: null,
   currentBranchId: null,
+  organizations: null,
+  currentOrganization: null,
 };
 
 // Async thunks
@@ -197,6 +202,12 @@ const authSlice = createSlice({
     clearCurrentBranchId: state => {
       state.currentBranchId = null;
     },
+    setCurrentOrganization: (state, action: PayloadAction<Organization>) => {
+      state.currentOrganization = action.payload;
+    },
+    clearCurrentOrganization: state => {
+      state.currentOrganization = null;
+    },
   },
   extraReducers: builder => {
     // Login
@@ -290,7 +301,19 @@ const authSlice = createSlice({
   },
 });
 
-export const { setLoading, setError, clearError, updateLastActivity, setTokens, clearTokens, setUser, clearUser, setCurrentBranchId, clearCurrentBranchId } =
-  authSlice.actions;
+export const { 
+  setLoading, 
+  setError, 
+  clearError, 
+  updateLastActivity, 
+  setTokens, 
+  clearTokens, 
+  setUser, 
+  clearUser, 
+  setCurrentBranchId, 
+  clearCurrentBranchId, 
+  setCurrentOrganization, 
+  clearCurrentOrganization 
+} = authSlice.actions;
 
 export default authSlice.reducer;

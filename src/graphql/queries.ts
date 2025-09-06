@@ -56,15 +56,15 @@ export const GET_SYSTEM_STATUS = gql`
   }
 `;
 
-export const GET_INSTITUTE_ADMINS = gql`
-  query GetInstituteAdmins($page: Int, $limit: Int, $search: String) {
-    getInstituteAdmins(page: $page, limit: $limit, search: $search) {
+export const GET_ORGANIZATION_ADMINS = gql`
+  query GetOrganizationAdmins($page: Int, $limit: Int, $search: String) {
+    getOrganizationAdmins(page: $page, limit: $limit, search: $search) {
       success
       message
       admins {
         assignmentId
         userId
-        instituteId
+        organizationId
         roleId {
           name
           permissions
@@ -79,15 +79,15 @@ export const GET_INSTITUTE_ADMINS = gql`
   }
 `;
 
-export const GET_INSTITUTE_ADMIN = gql`
-  query GetInstituteAdmin($adminId: ID!) {
-    getInstituteAdmin(adminId: $adminId) {
+export const GET_ORGANIZATION_ADMIN = gql`
+  query GetOrganizationAdmin($adminId: ID!) {
+    getOrganizationAdmin(adminId: $adminId) {
       success
       message
       admin {
         assignmentId
         userId
-        instituteId
+        organizationId
         roleId {
           name
           permissions
@@ -99,13 +99,13 @@ export const GET_INSTITUTE_ADMIN = gql`
   }
 `;
 
-export const SEARCH_INSTITUTES = gql`
-  query SearchInstitutes($filter: InstituteFilterInput, $page: Int!, $limit: Int!) {
-    searchInstitutes(filter: $filter, page: $page, limit: $limit) {
+export const SEARCH_ORGANIZATIONS = gql`
+  query SearchOrganizations($filter: OrganizationFilterInput, $page: Int!, $limit: Int!) {
+    searchOrganizations(filter: $filter, page: $page, limit: $limit) {
       success
       message
       institutes {
-        instituteId
+        organizationId
         name
         slug
         description
@@ -133,13 +133,13 @@ export const SEARCH_INSTITUTES = gql`
   }
 `;
 
-export const GET_INSTITUTE_BY_SLUG = gql`
-  query GetInstituteBySlug($slug: String!) {
-    getInstituteBySlug(slug: $slug) {
+export const GET_ORGANIZATION_BY_SLUG = gql`
+  query GetOrganizationBySlug($slug: String!) {
+    getOrganizationBySlug(slug: $slug) {
       success
       message
-      institute {
-        instituteId
+      organization {
+        organizationId
         name
         slug
         description
@@ -170,9 +170,9 @@ export const GET_INSTITUTE_BY_SLUG = gql`
   }
 `;
 
-export const GET_INSTITUTE_ROLES = gql`
-  query GetInstituteRoles($instituteId: ID!) {
-    getInstituteRoles(instituteId: $instituteId) {
+export const GET_ORGANIZATION_ROLES = gql`
+  query GetOrganizationRoles($organizationId: ID!) {
+    getOrganizationRoles(organizationId: $organizationId) {
       success
       message
       roles {
@@ -187,8 +187,8 @@ export const GET_INSTITUTE_ROLES = gql`
 `;
 
 export const GET_JOIN_REQUESTS = gql`
-  query GetJoinRequests($instituteId: ID!, $status: String, $page: Int!, $limit: Int!) {
-    getJoinRequests(instituteId: $instituteId, status: $status, page: $page, limit: $limit) {
+  query GetJoinRequests($organizationId: ID!, $status: String, $page: Int!, $limit: Int!) {
+    getJoinRequests(organizationId: $organizationId, status: $status, page: $page, limit: $limit) {
       success
       message
       requests {
@@ -208,13 +208,13 @@ export const GET_JOIN_REQUESTS = gql`
   }
 `;
 
-export const GET_INSTITUTE_BY_ID = gql`
-  query GetInstituteById($instituteId: ID!) {
-    getInstituteById(instituteId: $instituteId) {
+export const GET_ORGANIZATION_BY_ID = gql`
+  query GetOrganizationById($organizationId: ID!) {
+    getOrganizationById(organizationId: $organizationId) {
       success
       message
-      institute {
-        instituteId
+      organization {
+        organizationId
         name
         slug
         description

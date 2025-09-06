@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
-  Building2,
   Users,
+  GraduationCap,
+  ClipboardList,
   Settings,
+  Building2,
+  Club,
 } from 'lucide-react';
 import {
   CollapsibleSidebar,
@@ -12,7 +15,7 @@ import {
   SidebarSection,
 } from '@/components/ui/collapsible-sidebar';
 
-export default function SuperAdminSidebar() {
+export default function OrganizationAdminSidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
 
@@ -25,17 +28,37 @@ export default function SuperAdminSidebar() {
         {
           icon: <LayoutDashboard className="h-4 w-4" />,
           label: 'Dashboard',
-          href: '/super-admin/dashboard',
-        },
-        {
-          icon: <Building2 className="h-4 w-4" />,
-          label: 'Institutes',
-          href: '/super-admin/institutes',
+          href: '/admin/organization/dashboard',
         },
         {
           icon: <Users className="h-4 w-4" />,
-          label: 'Admins',
-          href: '/super-admin/admins',
+          label: 'Students',
+          href: '/admin/organization/students',
+        },
+        {
+          icon: <GraduationCap className="h-4 w-4" />,
+          label: 'Invite Student',
+          href: '/admin/organization/students/invite',
+        },
+      ],
+    },
+    {
+      title: 'Management',
+      items: [
+        {
+          icon: <Building2 className="h-4 w-4" />,
+          label: 'Entities',
+          href: '/admin/organization/entities',
+        },
+        {
+          icon: <Club className="h-4 w-4" />,
+          label: 'Clubs',
+          href: '/admin/organization/clubs',
+        },
+        {
+          icon: <ClipboardList className="h-4 w-4" />,
+          label: 'Requests',
+          href: '/admin/organization/requests',
         },
       ],
     },
@@ -45,7 +68,7 @@ export default function SuperAdminSidebar() {
         {
           icon: <Settings className="h-4 w-4" />,
           label: 'Settings',
-          href: '/super-admin/settings',
+          href: '/admin/organization/settings',
         },
       ],
     },
@@ -55,12 +78,12 @@ export default function SuperAdminSidebar() {
     <CollapsibleSidebar>
       <div className="flex h-14 items-center border-b px-3">
         <Link
-          to="/super-admin/dashboard"
+          to="/admin/organization/dashboard"
           className={`flex items-center space-x-2 ${
             isCollapsed ? 'justify-center' : ''
           }`}
         >
-          {!isCollapsed && <span className="font-bold">Super Admin</span>}
+          {!isCollapsed && <span className="font-bold">Organization Admin</span>}
         </Link>
       </div>
 

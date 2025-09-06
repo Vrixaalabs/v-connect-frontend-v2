@@ -87,36 +87,18 @@ export default function SignupPage() {
     }
   }
 
-  if (!userType) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="w-full max-w-2xl">
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl font-bold text-center mb-8"
-          >
-            Create Your Account
-          </motion.h1>
-          <UserTypeSelector onSelect={setUserType} />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <AuthCard className="max-w-lg">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold mb-2">
-            {userType === 'student' ? 'Student Registration' : 'Institute Registration'}
+            Registration
           </h1>
           <p className="text-muted-foreground">
             Create your account to get started
           </p>
         </div>
 
-        {userType === 'student' ? (
           <Form {...studentForm}>
             <form onSubmit={studentForm.handleSubmit(onStudentSubmit)} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -217,113 +199,11 @@ export default function SignupPage() {
                   </FormItem>
                 )}
               />
-
-              <div className="flex items-center justify-between">
-                <Button
-                  type="button"
-                  variant="link"
-                  className="px-0 text-sm"
-                  onClick={() => setUserType(null)}
-                >
-                  Change account type
-                </Button>
-              </div>
-
               <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
                 {isLoading ? 'Creating Account...' : 'Create Account'}
               </Button>
             </form>
           </Form>
-        ) : (
-          <Form {...instituteForm}>
-            <form onSubmit={instituteForm.handleSubmit(onInstituteSubmit)} className="space-y-4">
-              <FormField
-                control={instituteForm.control}
-                name="instituteName"
-                render={({ field }: { field: any }) => (
-                  <FormItem>
-                    <FormLabel>Institute Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., University of Technology" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={instituteForm.control}
-                name="instituteCode"
-                render={({ field }: { field: any }) => (
-                  <FormItem>
-                    <FormLabel>Institute Code (Optional)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., UTECH2024" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={instituteForm.control}
-                name="email"
-                render={({ field }: { field: any }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="institute@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={instituteForm.control}
-                name="password"
-                render={({ field }: { field: any }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={instituteForm.control}
-                name="confirmPassword"
-                render={({ field }: { field: any }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="flex items-center justify-between">
-                <Button
-                  type="button"
-                  variant="link"
-                  className="px-0 text-sm"
-                  onClick={() => setUserType(null)}
-                >
-                  Change account type
-                </Button>
-              </div>
-
-              <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
-                {isLoading ? 'Creating Account...' : 'Create Account'}
-              </Button>
-            </form>
-          </Form>
-        )}
 
         <p className="text-center text-sm text-muted-foreground mt-4">
           Already have an account?{' '}

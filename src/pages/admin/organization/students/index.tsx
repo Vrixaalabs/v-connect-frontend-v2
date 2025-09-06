@@ -3,7 +3,8 @@ import { Table } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog } from '@/components/ui/dialog';
-import type { InstituteStudent } from '@/types/institute';
+import type { InstituteStudent } from '@/types/organization';
+import InstituteAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
 
 const InstituteStudentsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,7 +18,10 @@ const InstituteStudentsPage = () => {
   };
 
   return (
-    <div>
+    <InstituteAdminLayout
+      title="Students"
+      description="Manage students in your institute"
+    >
       <div className="flex justify-between items-center mb-6">
         <Input
           type="text"
@@ -104,7 +108,7 @@ const InstituteStudentsPage = () => {
           </div>
         )}
       </Dialog>
-    </div>
+    </InstituteAdminLayout>
   );
 };
 

@@ -75,19 +75,16 @@ export const UPDATE_SUPER_ADMIN_SETTINGS = gql`
   }
 `;
 
-export const ASSIGN_INSTITUTE_ADMIN = gql`
-  mutation AssignInstituteAdmin($input: AssignAdminInput!) {
+export const ASSIGN_ORGANIZATION_ADMIN = gql`
+  mutation AssignOrganizationAdmin($input: AssignAdminInput!) {
     assignAdmin(input: $input) {
       success
       message
       admin {
         assignmentId
         userId
-        instituteId
-        roleId {
-          name
-          permissions
-        }
+        organizationId
+        roleId
         isActive
         createdAt
       }
@@ -95,15 +92,15 @@ export const ASSIGN_INSTITUTE_ADMIN = gql`
   }
 `;
 
-export const REMOVE_INSTITUTE_ADMIN = gql`
-  mutation RemoveInstituteAdmin($adminId: ID!) {
+export const REMOVE_ORGANIZATION_ADMIN = gql`
+  mutation RemoveOrganizationAdmin($adminId: ID!) {
     removeAdmin(adminId: $adminId) {
       success
       message
       admin {
         assignmentId
         userId
-        instituteId
+        organizationId
         roleId {
           name
           permissions
@@ -114,13 +111,13 @@ export const REMOVE_INSTITUTE_ADMIN = gql`
     }
   }
 `;
-export const CREATE_INSTITUTE = gql`
-  mutation CreateInstitute($input: CreateInstituteInput!) {
-    createInstitute(input: $input) {
+export const CREATE_ORGANIZATION = gql`
+  mutation CreateOrganization($input: CreateOrganizationInput!) {
+    createOrganization(input: $input) {
       success
       message
-      institute {
-        instituteId
+      organization {
+        organizationId
         name
         slug
       }
@@ -128,13 +125,13 @@ export const CREATE_INSTITUTE = gql`
   }
 `;
 
-export const UPDATE_INSTITUTE = gql`
-  mutation UpdateInstitute($instituteId: ID!, $input: UpdateInstituteInput!) {
-    updateInstitute(instituteId: $instituteId, input: $input) {
+export const UPDATE_ORGANIZATION = gql`
+  mutation UpdateOrganization($organizationId: ID!, $input: UpdateOrganizationInput!) {
+    updateOrganization(organizationId: $organizationId, input: $input) {
       success
       message
-      institute {
-        instituteId
+      organization {
+        organizationId
         name
         slug
       }
@@ -142,34 +139,34 @@ export const UPDATE_INSTITUTE = gql`
   }
 `;
 
-export const FOLLOW_INSTITUTE = gql`
-  mutation FollowInstitute($instituteId: ID!) {
-    followInstitute(instituteId: $instituteId) {
+export const FOLLOW_ORGANIZATION = gql`
+  mutation FollowOrganization($organizationId: ID!) {
+    followOrganization(organizationId: $organizationId) {
       success
       message
-      institute {
-        instituteId
+      organization {
+        organizationId
         followers
       }
     }
   }
 `;
 
-export const UNFOLLOW_INSTITUTE = gql`
-  mutation UnfollowInstitute($instituteId: ID!) {
-    unfollowInstitute(instituteId: $instituteId) {
+export const UNFOLLOW_ORGANIZATION = gql`
+  mutation UnfollowOrganization($organizationId: ID!) {
+    unfollowOrganization(organizationId: $organizationId) {
       success
       message
-      institute {
-        instituteId
+      organization {
+        organizationId
         followers
       }
     }
   }
 `;
 
-export const CREATE_JOIN_REQUEST = gql`
-  mutation CreateJoinRequest($input: CreateJoinRequestInput!) {
+export const CREATE_ORGANIZATION_JOIN_REQUEST = gql`
+  mutation CreateOrganizationJoinRequest($input: CreateJoinRequestInput!) {
     createJoinRequest(input: $input) {
       success
       message
@@ -182,7 +179,7 @@ export const CREATE_JOIN_REQUEST = gql`
 `;
 
 export const APPROVE_JOIN_REQUEST = gql`
-  mutation ApproveJoinRequest($requestId: ID!) {
+  mutation ApproveOrganizationJoinRequest($requestId: ID!) {
     approveJoinRequest(requestId: $requestId) {
       success
       message
@@ -195,7 +192,7 @@ export const APPROVE_JOIN_REQUEST = gql`
 `;
 
 export const REJECT_JOIN_REQUEST = gql`
-  mutation RejectJoinRequest($requestId: ID!, $reason: String!) {
+  mutation RejectOrganizationJoinRequest($requestId: ID!, $reason: String!) {
     rejectJoinRequest(requestId: $requestId, reason: $reason) {
       success
       message
@@ -207,45 +204,47 @@ export const REJECT_JOIN_REQUEST = gql`
   }
 `;
 
-export const CREATE_INSTITUTE_ROLE = gql`
-  mutation CreateInstituteRole($instituteId: ID!, $input: CreateInstituteRoleInput!) {
-    createInstituteRole(instituteId: $instituteId, input: $input) {
+export const CREATE_ORGANIZATION_ROLE = gql`
+  mutation CreateOrganizationRole($organizationId: ID!, $input: CreateOrganizationRoleInput!) {
+    createOrganizationRole(organizationId: $organizationId, input: $input) {
       success
       message
       role {
         roleId
+        organizationId
         name
       }
     }
   }
 `;
 
-export const UPDATE_INSTITUTE_ROLE = gql`
-  mutation UpdateInstituteRole($roleId: ID!, $input: UpdateInstituteRoleInput!) {
-    updateInstituteRole(roleId: $roleId, input: $input) {
+export const UPDATE_ORGANIZATION_ROLE = gql`
+  mutation UpdateOrganizationRole($roleId: ID!, $input: UpdateOrganizationRoleInput!) {
+    updateOrganizationRole(roleId: $roleId, input: $input) {
       success
       message
       role {
         roleId
+        organizationId
         name
       }
     }
   }
 `;
 
-export const DELETE_INSTITUTE_ROLE = gql`
-  mutation DeleteInstituteRole($roleId: ID!) {
-    deleteInstituteRole(roleId: $roleId) {
+export const DELETE_ORGANIZATION_ROLE = gql`
+  mutation DeleteOrganizationRole($roleId: ID!) {
+    deleteOrganizationRole(roleId: $roleId) {
       success
       message
     }
   }
 `;
 
-export const ASSIGN_INSTITUTE_ROLE = gql`
-  mutation AssignInstituteRole($instituteId: ID!, $userId: ID!, $roleId: ID!, $departmentId: ID) {
-    assignInstituteRole(
-      instituteId: $instituteId
+export const ASSIGN_ORGANIZATION_ROLE = gql`
+  mutation AssignOrganizationRole($organizationId: ID!, $userId: ID!, $roleId: ID!, $departmentId: ID) {
+    assignOrganizationRole(
+      organizationId: $organizationId
       userId: $userId
       roleId: $roleId
       departmentId: $departmentId
@@ -254,15 +253,16 @@ export const ASSIGN_INSTITUTE_ROLE = gql`
       message
       role {
         roleId
+        organizationId
         name
       }
     }
   }
 `;
 
-export const REMOVE_INSTITUTE_ROLE = gql`
-  mutation RemoveInstituteRole($instituteId: ID!, $userId: ID!) {
-    removeInstituteRole(instituteId: $instituteId, userId: $userId) {
+export const REMOVE_ORGANIZATION_ROLE = gql`
+  mutation RemoveOrganizationRole($organizationId: ID!, $userId: ID!) {
+    removeOrganizationRole(organizationId: $organizationId, userId: $userId) {
       success
       message
     }

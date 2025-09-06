@@ -1,6 +1,6 @@
-export interface Institute {
+export interface Organization {
   id: string;
-  instituteId: string;
+  organizationId: string;
   name: string;
   slug: string;
   description: string;
@@ -20,7 +20,7 @@ export interface Department {
   description?: string;
 }
 
-export interface InstituteRole {
+export interface OrganizationRole {
   id: string;
   name: string;
   description?: string;
@@ -28,10 +28,10 @@ export interface InstituteRole {
   isCustom: boolean;
 }
 
-export interface InstituteJoinRequest {
+export interface OrganizationJoinRequest {
   id: string;
   userId: string;
-  instituteId: string;
+  organizationId: string;
   name: string;
   rollNumber: string;
   department: string;
@@ -40,18 +40,18 @@ export interface InstituteJoinRequest {
   createdAt: string;
 }
 
-export interface InstituteAdmin {
+export interface OrganizationAdmin {
   id: string;
   userId: string;
-  instituteId: string;
-  role: InstituteRole;
+  organizationId: string;
+  role: OrganizationRole;
   createdAt: string;
 }
 
-export interface InstituteStudent {
+export interface OrganizationStudent {
   id: string;
   userId: string;
-  instituteId: string;
+  organizationId: string;
   name: string;
   rollNumber: string;
   department: string;

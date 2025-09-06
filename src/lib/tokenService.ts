@@ -6,7 +6,7 @@ export interface TokenData {
   expiresAt: number;
 }
 
-export type UserRole = 'super_admin' | 'admin' | 'user';
+export type UserRole = 'super_admin' | 'admin' | 'member';
 
 export interface DecodedToken {
   userId: string;

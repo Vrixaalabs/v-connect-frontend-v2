@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Dialog } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
-import type { InstituteRole } from '@/types/institute';
+import type { InstituteRole } from '@/types/organization';
 
 const AVAILABLE_PERMISSIONS = [
   'manage_students',

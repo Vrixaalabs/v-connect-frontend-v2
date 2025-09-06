@@ -3,26 +3,29 @@ import { Table } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog } from '@/components/ui/dialog';
-import type { InstituteJoinRequest } from '@/types/institute';
-import InstituteAdminLayout from '../layout';
+import type { OrganizationJoinRequest } from '@/types/organization';
+import OrganizationAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
 
 const InstituteJoinRequestsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedRequest, setSelectedRequest] = useState<InstituteJoinRequest | null>(null);
+  const [selectedRequest, setSelectedRequest] = useState<OrganizationJoinRequest | null>(null);
 
   // TODO: Replace with actual API call
-  const requests: InstituteJoinRequest[] = [];
+  const requests: OrganizationJoinRequest[] = [];
 
-  const handleApprove = async (request: InstituteJoinRequest) => {
+  const handleApprove = async (request: OrganizationJoinRequest) => {
     // TODO: Implement request approval
   };
 
-  const handleReject = async (request: InstituteJoinRequest) => {
+  const handleReject = async (request: OrganizationJoinRequest) => {
     // TODO: Implement request rejection
   };
 
   return (
-    <InstituteAdminLayout>
+    <OrganizationAdminLayout
+      title="Join Requests"
+      description="Manage join requests from students"
+    >
       <div>
         <div className="flex justify-between items-center mb-6">
           <Input
@@ -156,7 +159,7 @@ const InstituteJoinRequestsPage = () => {
           )}
         </Dialog>
       </div>
-    </InstituteAdminLayout>
+    </OrganizationAdminLayout>
   );
 };
 

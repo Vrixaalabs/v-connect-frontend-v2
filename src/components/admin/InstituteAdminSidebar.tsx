@@ -6,6 +6,8 @@ import {
   Settings,
   UserPlus,
   ShieldCheck,
+  Building2,
+  LayoutTemplate,
 } from "lucide-react"
 
 const sidebarItems = [
@@ -23,6 +25,22 @@ const sidebarItems = [
     title: "Roles",
     href: "/admin/institute/roles",
     icon: ShieldCheck,
+  },
+  {
+    title: "Entities",
+    href: "/admin/institute/entities",
+    icon: Building2,
+  },
+  {
+    title: "Templates",
+    href: "/admin/institute/templates",
+    icon: LayoutTemplate,
+  },
+  // Invite students
+  {
+    title: "Invite Students",
+    href: "/admin/institute/students/invite",
+    icon: UserPlus,
   },
   {
     title: "Join Requests",

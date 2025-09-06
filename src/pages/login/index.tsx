@@ -24,7 +24,7 @@ import {
 } from '../../components/ui/form';
 
 export default function LoginPage() {
-  const [userType, setUserType] = useState<'student' | 'institute' | null>(null);
+  const [userType, setUserType] = useState<'student' | null>(null);
   const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false)
 
@@ -48,29 +48,12 @@ export default function LoginPage() {
     }
   }
 
-  if (!userType) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="w-full max-w-2xl">
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl font-bold text-center mb-8"
-          >
-            Choose Account Type
-          </motion.h1>
-          <UserTypeSelector onSelect={setUserType} />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <AuthCard>
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold mb-2">
-            {userType === 'student' ? 'Student Login' : 'Institute Login'}
+            Login
           </h1>
           <p className="text-muted-foreground">
             Welcome back! Please enter your details.
@@ -107,7 +90,7 @@ export default function LoginPage() {
                 )}
               />
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-end">
               <Button
                 variant="link"
                 className="px-0 text-sm"
@@ -116,13 +99,6 @@ export default function LoginPage() {
                 <Link to="/forgot-password">
                   Forgot password?
                 </Link>
-              </Button>
-              <Button
-                variant="link"
-                className="px-0 text-sm"
-                onClick={() => setUserType(null)}
-              >
-                Change account type
               </Button>
             </div>
 
