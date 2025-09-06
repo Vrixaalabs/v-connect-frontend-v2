@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState } from 'react';
-import InstituteAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
+import OrganizationAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
 
 interface StatsCardProps {
   title: string;
@@ -105,7 +105,7 @@ export default function InstituteDashboard() {
   ];
 
   return (
-    <InstituteAdminLayout
+    <OrganizationAdminLayout
       title="Dashboard"
       description="Manage your institute dashboard"
     >
@@ -157,6 +157,6 @@ export default function InstituteDashboard() {
           </Card>
         </TabsContent>
       </Tabs>
-    </InstituteAdminLayout>
+    </OrganizationAdminLayout>
   );
 }
