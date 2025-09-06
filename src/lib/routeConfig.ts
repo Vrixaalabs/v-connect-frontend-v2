@@ -166,31 +166,31 @@ export const routeConfig: Record<string, RouteConfig> = {
   '/feed': {
     path: '/feed',
     requireAuth: true,
-    allowedRoles: ['user', 'admin'],
+    allowedRoles: ['member', 'admin'],
     redirectTo: '/',
   },
   '/feed/announcements': {
     path: '/feed/announcements',
     requireAuth: true,
-    allowedRoles: ['user', 'admin'],
+    allowedRoles: ['member', 'admin'],
     redirectTo: '/',
   },
   '/feed/lost-found': {
     path: '/feed/lost-found',
     requireAuth: true,
-    allowedRoles: ['user', 'admin'],
+    allowedRoles: ['member', 'admin'],
     redirectTo: '/',
   },
   '/feed/events': {
     path: '/feed/events',
     requireAuth: true,
-    allowedRoles: ['user', 'admin'],
+    allowedRoles: ['member', 'admin'],
     redirectTo: '/',
   },
   '/feed/campus': {
     path: '/feed/campus',
     requireAuth: true,
-    allowedRoles: ['user', 'admin'],
+    allowedRoles: ['member', 'admin'],
     redirectTo: '/',
   },
 };

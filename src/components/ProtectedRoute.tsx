@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from '../hooks/redux';
 import TokenService from '../lib/tokenService';
 import BranchService from '../lib/branchService';
+
+// Initialize services once outside component
+const tokenService = TokenService.getInstance();
+const branchService = BranchService.getInstance();
 
 import type { UserRole } from '@/lib/tokenService';
 
@@ -24,128 +28,144 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const location = useLocation();
   const { slug } = useParams<{ slug: string }>();
   const { isAuthenticated, isLoading } = useAppSelector(state => state.auth);
-  const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
-  const [isBranchValid, setIsBranchValid] = useState<boolean>(true);
-  const [userRole, setUserRole] = useState<UserRole | null>(null);
-  const tokenService = TokenService.getInstance();
-  const branchService = BranchService.getInstance();
+  const [authState, setAuthState] = useState<{
+    isTokenValid: boolean | null;
+    userRole: UserRole | null;
+  }>({
+    isTokenValid: null,
+    userRole: null,
+  });
+
+  // Derive branch validity from props and params
+  const isBranchValid = useMemo(() => {
+    if (!requireBranch || !slug) return true;
+    const storedBranchId = branchService.getCurrentBranchId();
+    return storedBranchId === slug;
+  }, [requireBranch, slug]);
+
+  const checkTokenValidity = useCallback(() => {
+    const token = tokenService.getAccessToken();
+    
+    if (token) {
+      try {
+        const decoded = tokenService.decodeToken(token);
+        const valid = tokenService.isAuthenticated();
+        setAuthState({
+          isTokenValid: valid,
+          userRole: decoded.role,
+        });
+      } catch (error) {
+        setAuthState({
+          isTokenValid: false,
+          userRole: null,
+        });
+      }
+    } else {
+      setAuthState({
+        isTokenValid: false,
+        userRole: null,
+      });
+    }
+  }, []);
+
+  const handleAuthFailure = useCallback(() => {
+    setAuthState(prev => ({
+      ...prev,
+      isTokenValid: false,
+    }));
+  }, []);
 
   useEffect(() => {
-    // Check token validity on mount and when location changes
-    const checkTokenValidity = () => {
-      const token = tokenService.getAccessToken();
-      console.log("Current token:", token);
-      
-      if (token) {
-        try {
-          const decoded = tokenService.decodeToken(token);
-          const valid = tokenService.isAuthenticated();
-          setIsTokenValid(valid);
-          setUserRole(decoded.role);
-        } catch (error) {
-          console.error("Token decode error:", error);
-          setIsTokenValid(false);
-          setUserRole(null);
-        }
-      } else {
-        console.log("No token found");
-        setIsTokenValid(false);
-        setUserRole(null);
-      }
-    };
-
-    // Check branch validity
-    const checkBranchValidity = () => {
-      if (requireBranch && slug) {
-        const storedBranchId = branchService.getCurrentBranchId();
-        setIsBranchValid(storedBranchId === slug);
-      }
-    };
-
     checkTokenValidity();
-    checkBranchValidity();
+  }, [checkTokenValidity, location.pathname]);
 
-    // Listen for auth failure events
-    const handleAuthFailure = () => {
-      setIsTokenValid(false);
-    };
-
+  useEffect(() => {
     window.addEventListener('auth:failed', handleAuthFailure);
-
     return () => {
       window.removeEventListener('auth:failed', handleAuthFailure);
     };
-  }, [location.pathname, tokenService, branchService, requireBranch, slug]);
+  }, [handleAuthFailure]);
 
-  // Show loading state while checking authentication
-  // Only show loading if we're actually checking auth, not if we're just waiting for Redux
-  if (isTokenValid === null || (isLoading && !isTokenValid)) {
-    return (
-      <div className='flex items-center justify-center min-h-screen'>
-        <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600'></div>
-      </div>
-    );
-  }
+  // Memoize loading state check
+  const isLoadingState = useMemo(() => {
+    return authState.isTokenValid === null || (isLoading && !authState.isTokenValid);
+  }, [authState.isTokenValid, isLoading]);
 
-  // For routes that require authentication
-  if (requireAuth) {
-    // If token is valid, check super admin and branch requirements
-    if (isTokenValid) {
-      // Check role requirements
-      if (allowedRoles.length > 0 && userRole && !allowedRoles.includes(userRole)) {
-        // Redirect based on user role
-        switch (userRole) {
-          case 'super_admin':
-            return <Navigate to="/super-admin/dashboard" state={{ from: location }} replace />;
-          case 'admin':
-            return <Navigate to="/admin/institute/dashboard" state={{ from: location }} replace />;
-          case 'user':
-            return <Navigate to="/feed" state={{ from: location }} replace />;
-          default:
-            return <Navigate to="/login" state={{ from: location }} replace />;
+  // Memoize role-based redirect path
+  const getRoleBasedRedirect = useCallback((role: UserRole | null) => {
+    switch (role) {
+      case 'super_admin':
+        return '/super-admin/dashboard';
+      case 'admin':
+        return '/admin/institute/dashboard';
+      case 'member':
+        return '/feed';
+      default:
+        return '/login';
+    }
+  }, []);
+
+  // Memoize the rendered component
+  const renderedComponent = useMemo(() => {
+    if (isLoadingState) {
+      return (
+        <div className='flex items-center justify-center min-h-screen'>
+          <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600'></div>
+        </div>
+      );
+    }
+
+    if (requireAuth) {
+      if (authState.isTokenValid) {
+        if (allowedRoles.length > 0 && authState.userRole && !allowedRoles.includes(authState.userRole)) {
+          return <Navigate to={getRoleBasedRedirect(authState.userRole)} state={{ from: location }} replace />;
         }
+
+        if (requireBranch && !isBranchValid) {
+          const storedBranchId = branchService.getCurrentBranchId();
+          if (storedBranchId) {
+            const newPath = location.pathname.replace(`/${slug}/`, `/${storedBranchId}/`);
+            return <Navigate to={newPath} replace />;
+          }
+          return <Navigate to={redirectTo} state={{ from: location }} replace />;
+        }
+        return <>{children}</>;
       }
 
-      // Check branch requirement
-      if (requireBranch && !isBranchValid) {
-        // If branch validation fails, redirect to the correct branch
-        const storedBranchId = branchService.getCurrentBranchId();
-        if (storedBranchId) {
-          const newPath = location.pathname.replace(`/${slug}/`, `/${storedBranchId}/`);
-          return <Navigate to={newPath} replace />;
+      if (!isAuthenticated && !authState.isTokenValid) {
+        if (location.pathname !== '/login' && location.pathname !== '/') {
+          sessionStorage.setItem('intendedDestination', location.pathname);
         }
-        // If no stored branch, redirect to login
         return <Navigate to={redirectTo} state={{ from: location }} replace />;
       }
-      return <>{children}</>;
     }
 
-    // Only redirect if both token is invalid and user is not authenticated
-    if (!isAuthenticated && !isTokenValid) {
-      // Store the current location as intended destination for redirect after login
-      if (location.pathname !== '/login' && location.pathname !== '/') {
-        sessionStorage.setItem('intendedDestination', location.pathname);
+    if (isAuthenticated && authState.isTokenValid) {
+      if (authState.userRole === 'super_admin' && location.pathname === '/super-admin/login') {
+        return <Navigate to="/super-admin/dashboard" replace />;
+      } else if (!requireAuth && location.pathname !== '/') {
+        return <Navigate to="/" replace />;
       }
-      // Redirect to login with return URL
-      return <Navigate to={redirectTo} state={{ from: location }} replace />;
     }
-  }
-  console.log(isAuthenticated);
-  console.log(isTokenValid);
-  // For routes that should redirect if already authenticated (like login page)
-  if (isAuthenticated && isTokenValid) {
-    // Check user role for appropriate redirection
-    console.log(userRole);
-    console.log(location.pathname);
-    if (userRole === 'super_admin' && location.pathname === '/super-admin/login') {
-      return <Navigate to="/super-admin/dashboard" replace />;
-    } else if (!requireAuth && location.pathname !== '/') {
-      // For other authenticated users on non-protected routes
-      return <Navigate to="/" replace />;
-    }
-  }
 
-  return <>{children}</>;
+    return <>{children}</>;
+  }, [
+    isLoadingState,
+    requireAuth,
+    authState.isTokenValid,
+    authState.userRole,
+    allowedRoles,
+    requireBranch,
+    isBranchValid,
+    isAuthenticated,
+    location,
+    redirectTo,
+    children,
+    getRoleBasedRedirect,
+    slug
+  ]);
+
+  return renderedComponent;
 };
 
 export default ProtectedRoute;

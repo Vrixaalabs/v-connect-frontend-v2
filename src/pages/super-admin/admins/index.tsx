@@ -37,14 +37,14 @@ const SuperAdminAdminsPage = () => {
     },
   });
 
-  const { data: institutesData, loading: institutesLoading, error: institutesError } = useQuery(SEARCH_ORGANIZATIONS, {
+  const { data: organizationsData, loading: organizationsLoading, error: organizationsError } = useQuery(SEARCH_ORGANIZATIONS, {
     variables: {
       filter: {},
       page: 1,
-      limit: 100,
+      limit: 1000,
     },
     onError: (error) => {
-      toast.error('Failed to load institutes', error.message);
+      toast.error('Failed to load organizations', error.message);
     },
   });
 
@@ -102,7 +102,7 @@ const SuperAdminAdminsPage = () => {
     }
   };
 
-  if (adminsLoading || institutesLoading) {
+  if (adminsLoading || organizationsLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <LoadingSpinner />
@@ -110,7 +110,7 @@ const SuperAdminAdminsPage = () => {
     );
   }
 
-  if (adminsError || institutesError) {
+  if (adminsError || organizationsError) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen text-center p-6">
         <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
@@ -120,8 +120,8 @@ const SuperAdminAdminsPage = () => {
     );
   }
 
-  const admins = adminsData?.getInstituteAdmins.admins || [];
-  const institutes = institutesData?.searchInstitutes.institutes || [];
+  const admins = adminsData?.getOrganizationAdmins.admins || [];
+  const organizations = organizationsData?.searchOrganizations.organizations || [];
 
   const stats = [
     {
@@ -131,7 +131,7 @@ const SuperAdminAdminsPage = () => {
       color: 'text-blue-500',
     },
     {
-      title: 'Institutes Managed',
+      title: 'Organizations Managed',
       value: new Set(admins.map((admin: OrganizationAdmin) => admin.organizationId)).size,
       icon: Building2,
       color: 'text-green-500',
@@ -289,9 +289,9 @@ const SuperAdminAdminsPage = () => {
                 value={newAdmin.organizationId}
                 onValueChange={(value) => setNewAdmin({ ...newAdmin, organizationId: value })}
               >
-                {institutes.map((institute: Organization) => (
-                  <option key={institute.id} value={institute.id}>
-                    {institute.name}
+                {organizations.map((organization: Organization) => (
+                  <option key={organization.id} value={organization.id}>
+                    {organization.name}
                   </option>
                 ))}
               </Select>
