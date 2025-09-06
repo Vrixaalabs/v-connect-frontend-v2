@@ -5,9 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
-import type { Institute, InstituteJoinRequest } from '@/types/institute';
+import type { Organization, OrganizationJoinRequest } from '@/types/organization';
 
-const InstituteJoinPage = () => {
+const OrganizationJoinPage = () => {
   const { slug } = useParams();
   const [formData, setFormData] = useState({
     name: '',
@@ -17,21 +17,21 @@ const InstituteJoinPage = () => {
   });
 
   // TODO: Replace with actual API call
-  const institute: Institute | null = null;
+  const organization: Organization | null = null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement join request submission
   };
 
-  if (!institute) {
+  if (!organization) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="container mx-auto py-8">
       <Card className="max-w-2xl mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-6">Join {institute.name}</h1>
+        <h1 className="text-2xl font-bold mb-6">Join {organization.name}</h1>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -60,7 +60,7 @@ const InstituteJoinPage = () => {
               value={formData.department}
               onValueChange={(value) => setFormData({ ...formData, department: value })}
             >
-              {institute.departments.map((dept) => (
+              {organization.departments.map((dept) => (
                 <option key={dept.id} value={dept.id}>
                   {dept.name}
                 </option>
@@ -87,4 +87,4 @@ const InstituteJoinPage = () => {
   );
 };
 
-export default InstituteJoinPage;
+export default OrganizationJoinPage;

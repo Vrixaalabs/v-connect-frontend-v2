@@ -3,8 +3,8 @@ import { Table } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog } from '@/components/ui/dialog';
-import type { InstituteStudent } from '@/types/institute';
-import InstituteAdminLayout from '@/components/admin/institute/InstituteAdminLayout';
+import type { InstituteStudent } from '@/types/organization';
+import InstituteAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
 
 const InstituteStudentsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');

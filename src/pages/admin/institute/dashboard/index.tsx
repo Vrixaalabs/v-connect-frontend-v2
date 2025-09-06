@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState } from 'react';
-import InstituteAdminLayout from '@/components/admin/institute/InstituteAdminLayout';
+import InstituteAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
 
 interface StatsCardProps {
   title: string;

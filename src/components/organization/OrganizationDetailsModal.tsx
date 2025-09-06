@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { FOLLOW_INSTITUTE, UNFOLLOW_INSTITUTE } from '@/graphql/mutations';
+import { FOLLOW_ORGANIZATION, UNFOLLOW_ORGANIZATION } from '@/graphql/mutations';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -21,8 +21,8 @@ interface Address {
   country: string;
 }
 
-interface Institute {
-  instituteId: string;
+interface Organization {
+  organizationId: string;
   name: string;
   slug: string;
   description: string;
@@ -37,61 +37,61 @@ interface Institute {
   isActive: boolean;
 }
 
-interface InstituteDetailsModalProps {
-  institute: Institute;
+interface OrganizationDetailsModalProps {
+  organization: Organization;
   onClose: () => void;
 }
 
-export function InstituteDetailsModal({ institute, onClose }: InstituteDetailsModalProps) {
+export function OrganizationDetailsModal({ organization, onClose }: OrganizationDetailsModalProps) {
   const navigate = useNavigate();
   const toast = useToast();
   const { user } = useAuth();
   const [isFollowing, setIsFollowing] = useState(
-    institute.followers.includes(user?.userId || '')
+    organization.followers.includes(user?.userId || '')
   );
 
-  const [followInstitute] = useMutation(FOLLOW_INSTITUTE, {
+  const [followOrganization] = useMutation(FOLLOW_ORGANIZATION, {
     onCompleted: () => {
       setIsFollowing(true);
       // toast({
       //   title: 'Success',
       //   description: 'You are now following this institute',
       // });
-      toast.success('Success', 'You are now following this institute');
+      toast.success('Success', 'You are now following this organization');
     },
     onError: () => {
-      toast.error('Error', 'Failed to follow institute. Please try again.');
+      toast.error('Error', 'Failed to follow organization. Please try again.');
     },
   });
 
-  const [unfollowInstitute] = useMutation(UNFOLLOW_INSTITUTE, {
+  const [unfollowOrganization] = useMutation(UNFOLLOW_ORGANIZATION, {
     onCompleted: () => {
       setIsFollowing(false);
       // toast({
       //   title: 'Success',
       //   description: 'You have unfollowed this institute',
       // });
-      toast.success('Success', 'You have unfollowed this institute');
+      toast.success('Success', 'You have unfollowed this organization');
     },
     onError: () => {
-      toast.error('Error', 'Failed to unfollow institute. Please try again.');
+      toast.error('Error', 'Failed to unfollow organization. Please try again.');
     },
   });
 
   const handleFollow = () => {
     if (isFollowing) {
-      unfollowInstitute({
-        variables: { instituteId: institute.instituteId },
+      unfollowOrganization({
+        variables: { organizationId: organization.organizationId },
       });
     } else {
-      followInstitute({
-        variables: { instituteId: institute.instituteId },
+      followOrganization({
+        variables: { organizationId: organization.organizationId },
       });
     }
   };
 
   const handleJoin = () => {
-    navigate(`/institute/${institute.slug}`);
+    navigate(`/organization/${organization.slug}`);
     onClose();
   };
 
@@ -99,35 +99,35 @@ export function InstituteDetailsModal({ institute, onClose }: InstituteDetailsMo
     <DialogContent className="sm:max-w-[600px]">
       <DialogHeader>
         <DialogTitle className="flex items-center justify-between">
-          <span>{institute.name}</span>
-          {institute.isVerified && (
+          <span>{organization.name}</span>
+          {organization.isVerified && (
             <Badge variant="secondary">Verified</Badge>
           )}
         </DialogTitle>
       </DialogHeader>
 
       <div className="mt-4">
-        {institute.banner && (
+        {organization.banner && (
           <div className="relative h-40 w-full mb-4 rounded-lg overflow-hidden">
             <img
-              src={institute.banner}
-              alt={institute.name}
+              src={organization.banner}
+              alt={organization.name}
               className="w-full h-full object-cover"
             />
           </div>
         )}
 
-        <p className="text-gray-600 mb-4">{institute.description}</p>
+        <p className="text-gray-600 mb-4">{organization.description}</p>
 
         <div className="space-y-4">
           <div>
             <h3 className="font-semibold mb-2">Contact Information</h3>
             <div className="text-sm text-gray-600">
-              <p>Email: {institute.email}</p>
-              <p>Phone: {institute.phone}</p>
+              <p>Email: {organization.email}</p>
+              <p>Phone: {organization.phone}</p>
               <p>
-                Location: {institute.address.city}, {institute.address.state},{' '}
-                {institute.address.country}
+                Location: {organization.address.city}, {organization.address.state},{' '}
+                {organization.address.country}
               </p>
             </div>
           </div>
@@ -137,7 +137,7 @@ export function InstituteDetailsModal({ institute, onClose }: InstituteDetailsMo
           <div>
             <h3 className="font-semibold mb-2">Departments</h3>
             <div className="grid grid-cols-2 gap-2">
-              {institute.departments.map((dept) => (
+              {organization.departments.map((dept) => (
                 <Badge key={dept.id} variant="outline" className="text-sm">
                   {dept.name} ({dept.code})
                 </Badge>
@@ -150,7 +150,7 @@ export function InstituteDetailsModal({ institute, onClose }: InstituteDetailsMo
           <Button variant="outline" onClick={handleFollow}>
             {isFollowing ? 'Unfollow' : 'Follow'}
           </Button>
-          <Button onClick={handleJoin}>Join Institute</Button>
+          <Button onClick={handleJoin}>Join Organization</Button>
         </div>
       </div>
     </DialogContent>

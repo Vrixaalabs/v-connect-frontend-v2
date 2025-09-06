@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useToastHelpers } from '@/components/ui/toast';
 import EntityForm from '@/components/admin/EntityForm';
-import InstituteAdminLayout from '@/components/admin/institute/InstituteAdminLayout';
+import InstituteAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
 import type { Entity, CreateEntityInput } from '@/types/entity';
 
 export default function EntityManagement() {

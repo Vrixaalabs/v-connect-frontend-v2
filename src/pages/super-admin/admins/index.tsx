@@ -10,9 +10,9 @@ import { MotionCard } from '@/components/ui/motion-card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Shield, Calendar, Building2, AlertCircle } from 'lucide-react';
-import type { InstituteAdmin, Institute } from '@/types/institute';
-import { GET_INSTITUTE_ADMINS, SEARCH_INSTITUTES } from '@/graphql/queries';
-import { ASSIGN_INSTITUTE_ADMIN, REMOVE_INSTITUTE_ADMIN } from '@/graphql/mutations';
+import type { OrganizationAdmin, Organization } from '@/types/organization';
+import { GET_ORGANIZATION_ADMINS, SEARCH_ORGANIZATIONS } from '@/graphql/queries';
+import { ASSIGN_ORGANIZATION_ADMIN, REMOVE_ORGANIZATION_ADMIN } from '@/graphql/mutations';
 import { useToast } from '@/hooks/useToast';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
@@ -20,13 +20,13 @@ const SuperAdminAdminsPage = () => {
   const toast = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
-  const [selectedAdmin, setSelectedAdmin] = useState<InstituteAdmin | null>(null);
+  const [selectedAdmin, setSelectedAdmin] = useState<OrganizationAdmin | null>(null);
   const [newAdmin, setNewAdmin] = useState({
     email: '',
-    instituteId: '',
+    organizationId: '',
   });
 
-  const { data: adminsData, loading: adminsLoading, error: adminsError } = useQuery(GET_INSTITUTE_ADMINS, {
+  const { data: adminsData, loading: adminsLoading, error: adminsError } = useQuery(GET_ORGANIZATION_ADMINS, {
     variables: {
       page: 1,
       limit: 10,
@@ -37,7 +37,7 @@ const SuperAdminAdminsPage = () => {
     },
   });
 
-  const { data: institutesData, loading: institutesLoading, error: institutesError } = useQuery(SEARCH_INSTITUTES, {
+  const { data: institutesData, loading: institutesLoading, error: institutesError } = useQuery(SEARCH_ORGANIZATIONS, {
     variables: {
       filter: {},
       page: 1,
@@ -48,14 +48,14 @@ const SuperAdminAdminsPage = () => {
     },
   });
 
-  const [assignAdmin, { loading: assigning }] = useMutation(ASSIGN_INSTITUTE_ADMIN, {
+  const [assignAdmin, { loading: assigning }] = useMutation(ASSIGN_ORGANIZATION_ADMIN, {
     onCompleted: (data) => {
       if (data.assignAdmin.success) {
         toast.success('Admin assigned successfully');
         setIsAssignModalOpen(false);
         setNewAdmin({
           email: '',
-          instituteId: '',
+          organizationId: '',
         });
       } else {
         toast.error('Failed to assign admin', data.assignAdmin.message);
@@ -64,10 +64,10 @@ const SuperAdminAdminsPage = () => {
     onError: (error) => {
       toast.error('Failed to assign admin', error.message);
     },
-    refetchQueries: ['GetInstituteAdmins'],
+    refetchQueries: ['GetOrganizationAdmins'],
   });
 
-  const [removeAdmin, { loading: removing }] = useMutation(REMOVE_INSTITUTE_ADMIN, {
+  const [removeAdmin, { loading: removing }] = useMutation(REMOVE_ORGANIZATION_ADMIN, {
     onCompleted: (data) => {
       if (data.removeAdmin.success) {
         toast.success('Admin removed successfully');
@@ -78,7 +78,7 @@ const SuperAdminAdminsPage = () => {
     onError: (error) => {
       toast.error('Failed to remove admin', error.message);
     },
-    refetchQueries: ['GetInstituteAdmins'],
+    refetchQueries: ['GetOrganizationAdmins'],
   });
 
   const handleAssignAdmin = async () => {
@@ -86,13 +86,13 @@ const SuperAdminAdminsPage = () => {
       variables: {
         input: {
           email: newAdmin.email,
-          instituteId: newAdmin.instituteId,
+          organizationId: newAdmin.organizationId,
         },
       },
     });
   };
 
-  const handleRemoveAdmin = async (adminToRemove: InstituteAdmin) => {
+  const handleRemoveAdmin = async (adminToRemove: OrganizationAdmin) => {
     if (window.confirm(`Are you sure you want to remove ${adminToRemove.userId} as admin?`)) {
       await removeAdmin({
         variables: {
@@ -132,7 +132,7 @@ const SuperAdminAdminsPage = () => {
     },
     {
       title: 'Institutes Managed',
-      value: new Set(admins.map((admin: InstituteAdmin) => admin.instituteId)).size,
+      value: new Set(admins.map((admin: OrganizationAdmin) => admin.organizationId)).size,
       icon: Building2,
       color: 'text-green-500',
     },
@@ -194,7 +194,7 @@ const SuperAdminAdminsPage = () => {
           transition={{ duration: 0.3 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {admins.map((admin: InstituteAdmin, index: number) => (
+          {admins.map((admin: OrganizationAdmin, index: number) => (
             <MotionCard
               key={admin.id}
               delay={index * 0.1}
@@ -204,7 +204,7 @@ const SuperAdminAdminsPage = () => {
                   <div>
                     <h3 className="text-lg font-semibold">{admin.userId}</h3>
                     <p className="text-sm text-muted-foreground">
-                      {admin.instituteId}
+                      {admin.organizationId}
                     </p>
                   </div>
                   <Badge variant={admin.role.isCustom ? "secondary" : "default"}>
@@ -286,10 +286,10 @@ const SuperAdminAdminsPage = () => {
             <div>
               <Label>Institute</Label>
               <Select
-                value={newAdmin.instituteId}
-                onValueChange={(value) => setNewAdmin({ ...newAdmin, instituteId: value })}
+                value={newAdmin.organizationId}
+                onValueChange={(value) => setNewAdmin({ ...newAdmin, organizationId: value })}
               >
-                {institutes.map((institute: Institute) => (
+                {institutes.map((institute: Organization) => (
                   <option key={institute.id} value={institute.id}>
                     {institute.name}
                   </option>
@@ -306,7 +306,7 @@ const SuperAdminAdminsPage = () => {
               </Button>
               <Button 
                 onClick={handleAssignAdmin}
-                disabled={assigning || !newAdmin.email || !newAdmin.instituteId}
+                disabled={assigning || !newAdmin.email || !newAdmin.organizationId}
               >
                 {assigning ? 'Assigning...' : 'Assign Admin'}
               </Button>
@@ -337,7 +337,7 @@ const SuperAdminAdminsPage = () => {
 
               <div>
                 <label className="font-semibold">Institute:</label>
-                <p className="text-muted-foreground">{selectedAdmin.instituteId}</p>
+                <p className="text-muted-foreground">{selectedAdmin.organizationId}</p>
               </div>
 
               <div>

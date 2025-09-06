@@ -9,9 +9,9 @@ import { Label } from '@/components/ui/label';
 import { MotionCard } from '@/components/ui/motion-card';
 import { Building2, Users, School, MapPin, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { Institute } from '@/types/institute';
-import { SEARCH_INSTITUTES } from '@/graphql/queries';
-import { CREATE_INSTITUTE } from '@/graphql/mutations';
+import type { Organization } from '@/types/organization';
+import { SEARCH_ORGANIZATIONS } from '@/graphql/queries';
+import { CREATE_ORGANIZATION } from '@/graphql/mutations';
 import { useToast } from '@/hooks/useToast';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
@@ -20,7 +20,7 @@ const SuperAdminInstitutesPage = () => {
   const toast = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null);
+  const [selectedInstitute, setSelectedInstitute] = useState<Organization | null>(null);
   const [newInstitute, setNewInstitute] = useState({
     name: '',
     description: '',
@@ -37,7 +37,7 @@ const SuperAdminInstitutesPage = () => {
     },
   });
 
-  const { data, loading, error } = useQuery(SEARCH_INSTITUTES, {
+  const { data, loading, error } = useQuery(SEARCH_ORGANIZATIONS, {
     variables: {
       filter: {
         search: searchQuery,
@@ -50,7 +50,7 @@ const SuperAdminInstitutesPage = () => {
     },
   });
 
-  const [createInstitute, { loading: creating }] = useMutation(CREATE_INSTITUTE, {
+  const [createInstitute, { loading: creating }] = useMutation(CREATE_ORGANIZATION, {
     onCompleted: (data) => {
       if (data.createInstitute.success) {
         toast.success('Institute created successfully');
@@ -80,7 +80,7 @@ const SuperAdminInstitutesPage = () => {
     refetchQueries: ['SearchInstitutes'],
   });
 
-  const [deleteInstitute, { loading: deleting }] = useMutation(CREATE_INSTITUTE, {
+  const [deleteInstitute, { loading: deleting }] = useMutation(CREATE_ORGANIZATION, {
     onCompleted: (data) => {
       if (data.createInstitute.success) {
         toast.success('Institute deleted successfully');
@@ -116,7 +116,7 @@ const SuperAdminInstitutesPage = () => {
     });
   };
 
-  const handleDeleteInstitute = async (instituteToDelete: Institute) => {
+  const handleDeleteInstitute = async (instituteToDelete: Organization) => {
     if (window.confirm(`Are you sure you want to delete ${instituteToDelete.name}?`)) {
       await deleteInstitute({
         variables: {
@@ -144,33 +144,33 @@ const SuperAdminInstitutesPage = () => {
     );
   }
 
-  const institutes = data?.searchInstitutes.institutes || [];
+  const organizations = data?.searchOrganizations.organizations || [];
 
 
   const stats = [
     {
       title: 'Total Institutes',
-      value: institutes.length,
+      value: organizations.length,
       icon: Building2,
       color: 'text-blue-500',
     },
     {
       title: 'Total Students',
-      // value: institutes.reduce((acc: number, inst: Institute) => acc + inst?.studentsCount, 0),
+      // value: organizations.reduce((acc: number, inst: Organization) => acc + inst?.studentsCount, 0),
       value: 0,
       icon: Users,
       color: 'text-green-500',
     },
     {
       title: 'Total Departments',
-      // value: institutes.reduce((acc: number, inst: Institute) => acc + inst?.departments?.length || 0, 0),
+      // value: organizations.reduce((acc: number, inst: Organization) => acc + inst?.departments?.length || 0, 0),
       value: 0,
       icon: School,
       color: 'text-purple-500',
     },
     {
       title: 'Locations',
-      // value: new Set(institutes.map((inst: Institute) => inst?.location)).size,
+      // value: new Set(organizations.map((inst: Organization) => inst?.location)).size,
       value: 0,
       icon: MapPin,
       color: 'text-orange-500',
@@ -239,18 +239,18 @@ const SuperAdminInstitutesPage = () => {
           transition={{ duration: 0.3 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {institutes.map((institute: Institute, index: number) => (
+          {organizations.map((organization: Organization, index: number) => (
             <MotionCard
-              key={institute.id}
+              key={organization.id}
               delay={index * 0.1}
               className="relative group hover:shadow-lg transition-all duration-300"
               header={
                 <div className="flex items-center gap-4 p-2">
                   <div className="w-14 h-14 rounded-full bg-muted/50 flex items-center justify-center">
-                    {institute.logo ? (
+                    {organization.logo ? (
                       <img
-                        src={institute.logo}
-                        alt={institute.name}
+                        src={organization.logo}
+                        alt={organization.name}
                         className="w-full h-full rounded-full object-cover"
                       />
                     ) : (
@@ -258,10 +258,10 @@ const SuperAdminInstitutesPage = () => {
                     )}
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold line-clamp-1">{institute.name}</h3>
+                    <h3 className="text-lg font-semibold line-clamp-1">{organization.name}</h3>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <MapPin className="w-4 h-4" />
-                      <span className="line-clamp-1">{institute.location}</span>
+                      <span className="line-clamp-1">{organization.location}</span>
                     </div>
                   </div>
                 </div>
@@ -284,7 +284,7 @@ const SuperAdminInstitutesPage = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => navigate(`/super-admin/institutes/${institute.instituteId}`)}
+                      onClick={() => navigate(`/super-admin/institutes/${organization.organizationId}`)}
                       className="w-24"
                     >
                       View
@@ -292,7 +292,7 @@ const SuperAdminInstitutesPage = () => {
                     <Button
                       variant="destructive"
                       size="sm"
-                      onClick={() => handleDeleteInstitute(institute)}
+                      onClick={() => handleDeleteInstitute(organization)}
                       disabled={deleting}
                       className="w-24"
                     >
@@ -304,7 +304,7 @@ const SuperAdminInstitutesPage = () => {
             >
               <div className="p-2">
                 <p className="text-sm text-muted-foreground line-clamp-2 min-h-[40px]">
-                  {institute.description}
+                  {organization.description}
                 </p>
               </div>
             </MotionCard>

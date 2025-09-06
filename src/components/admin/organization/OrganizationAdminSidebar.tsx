@@ -15,7 +15,7 @@ import {
   SidebarSection,
 } from '@/components/ui/collapsible-sidebar';
 
-export default function InstituteAdminSidebar() {
+export default function OrganizationAdminSidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
 
@@ -28,17 +28,17 @@ export default function InstituteAdminSidebar() {
         {
           icon: <LayoutDashboard className="h-4 w-4" />,
           label: 'Dashboard',
-          href: '/admin/institute/dashboard',
+          href: '/admin/organization/dashboard',
         },
         {
           icon: <Users className="h-4 w-4" />,
           label: 'Students',
-          href: '/admin/institute/students',
+          href: '/admin/organization/students',
         },
         {
           icon: <GraduationCap className="h-4 w-4" />,
           label: 'Invite Student',
-          href: '/admin/institute/students/invite',
+          href: '/admin/organization/students/invite',
         },
       ],
     },
@@ -48,17 +48,17 @@ export default function InstituteAdminSidebar() {
         {
           icon: <Building2 className="h-4 w-4" />,
           label: 'Entities',
-          href: '/admin/institute/entities',
+          href: '/admin/organization/entities',
         },
         {
           icon: <Club className="h-4 w-4" />,
           label: 'Clubs',
-          href: '/admin/institute/clubs',
+          href: '/admin/organization/clubs',
         },
         {
           icon: <ClipboardList className="h-4 w-4" />,
           label: 'Requests',
-          href: '/admin/institute/requests',
+          href: '/admin/organization/requests',
         },
       ],
     },
@@ -68,7 +68,7 @@ export default function InstituteAdminSidebar() {
         {
           icon: <Settings className="h-4 w-4" />,
           label: 'Settings',
-          href: '/admin/institute/settings',
+          href: '/admin/organization/settings',
         },
       ],
     },
@@ -78,12 +78,12 @@ export default function InstituteAdminSidebar() {
     <CollapsibleSidebar>
       <div className="flex h-14 items-center border-b px-3">
         <Link
-          to="/admin/institute/dashboard"
+          to="/admin/organization/dashboard"
           className={`flex items-center space-x-2 ${
             isCollapsed ? 'justify-center' : ''
           }`}
         >
-          {!isCollapsed && <span className="font-bold">Institute Admin</span>}
+          {!isCollapsed && <span className="font-bold">Organization Admin</span>}
         </Link>
       </div>
 

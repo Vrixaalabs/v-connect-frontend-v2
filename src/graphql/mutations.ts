@@ -204,7 +204,7 @@ export const REJECT_JOIN_REQUEST = gql`
   }
 `;
 
-export const CREATE_INSTITUTE_ROLE = gql`
+export const CREATE_ORGANIZATION_ROLE = gql`
   mutation CreateOrganizationRole($organizationId: ID!, $input: CreateOrganizationRoleInput!) {
     createOrganizationRole(organizationId: $organizationId, input: $input) {
       success
@@ -218,7 +218,7 @@ export const CREATE_INSTITUTE_ROLE = gql`
   }
 `;
 
-export const UPDATE_INSTITUTE_ROLE = gql`
+export const UPDATE_ORGANIZATION_ROLE = gql`
   mutation UpdateOrganizationRole($roleId: ID!, $input: UpdateOrganizationRoleInput!) {
     updateOrganizationRole(roleId: $roleId, input: $input) {
       success

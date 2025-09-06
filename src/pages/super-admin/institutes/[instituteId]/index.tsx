@@ -10,27 +10,27 @@ import { Dialog } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Building2, Users, Mail, Phone, MapPin, Shield } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
-import { GET_INSTITUTE_BY_ID } from '@/graphql/queries';
-import { ASSIGN_INSTITUTE_ADMIN } from '@/graphql/mutations';
+import { GET_ORGANIZATION_BY_ID } from '@/graphql/queries';
+import { ASSIGN_ORGANIZATION_ADMIN } from '@/graphql/mutations';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
-const InstituteDetailsPage = () => {
-  const { instituteId } = useParams();
+const OrganizationDetailsPage = () => {
+  const { organizationId } = useParams();
   const toast = useToast();
   const [isAssignAdminModalOpen, setIsAssignAdminModalOpen] = useState(false);
   const [adminEmail, setAdminEmail] = useState('');
   const [confirmEmail, setConfirmEmail] = useState('');
 
   // Fetch institute details
-  const { data, loading, error } = useQuery(GET_INSTITUTE_BY_ID, {
-    variables: { instituteId },
+  const { data, loading, error } = useQuery(GET_ORGANIZATION_BY_ID, {
+    variables: { organizationId },
     onError: (error) => {
       toast.error('Failed to load institute details', error.message);
     },
   });
 
   // Assign admin mutation
-  const [assignAdmin, { loading: assigning }] = useMutation(ASSIGN_INSTITUTE_ADMIN, {
+  const [assignAdmin, { loading: assigning }] = useMutation(ASSIGN_ORGANIZATION_ADMIN, {
     onCompleted: (data) => {
       if (data.assignAdmin.success) {
         toast.success('Admin assigned successfully');
@@ -44,7 +44,7 @@ const InstituteDetailsPage = () => {
     onError: (error) => {
       toast.error('Failed to assign admin', error.message);
     },
-    refetchQueries: ['GetInstituteById'],
+    refetchQueries: ['GetOrganizationById'],
   });
 
   const handleAssignAdmin = async () => {
@@ -62,7 +62,7 @@ const InstituteDetailsPage = () => {
       variables: {
         input: {
           email: adminEmail,
-          instituteId,
+          organizationId,
         },
       },
     });
@@ -76,7 +76,7 @@ const InstituteDetailsPage = () => {
     );
   }
 
-  if (error || !data?.getInstituteById?.institute) {
+  if (error || !data?.getOrganizationById?.organization) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen text-center p-6">
         <Shield className="w-12 h-12 text-red-500 mb-4" />
@@ -86,15 +86,15 @@ const InstituteDetailsPage = () => {
     );
   }
 
-  const institute = data.getInstituteById.institute;
+  const organization = data.getOrganizationById.organization;
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
       {/* Header Section */}
       <div className="flex justify-between items-start">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">{institute.name}</h1>
-          <p className="text-muted-foreground">{institute.description}</p>
+          <h1 className="text-3xl font-bold tracking-tight">{organization.name}</h1>
+          <p className="text-muted-foreground">{organization.description}</p>
         </div>
         <Button 
           onClick={() => setIsAssignAdminModalOpen(true)}
@@ -116,7 +116,7 @@ const InstituteDetailsPage = () => {
               <Building2 className="w-5 h-5 text-muted-foreground" />
               <div>
                 <p className="text-sm text-muted-foreground">Institute ID</p>
-                <p className="font-medium">{institute.instituteId}</p>
+                <p className="font-medium">{organization.organizationId}</p>
               </div>
             </div>
 
@@ -124,7 +124,7 @@ const InstituteDetailsPage = () => {
               <Mail className="w-5 h-5 text-muted-foreground" />
               <div>
                 <p className="text-sm text-muted-foreground">Email</p>
-                <p className="font-medium">{institute.email}</p>
+                <p className="font-medium">{organization.email}</p>
               </div>
             </div>
 
@@ -132,7 +132,7 @@ const InstituteDetailsPage = () => {
               <Phone className="w-5 h-5 text-muted-foreground" />
               <div>
                 <p className="text-sm text-muted-foreground">Phone</p>
-                <p className="font-medium">{institute.phone}</p>
+                <p className="font-medium">{organization.phone}</p>
               </div>
             </div>
 
@@ -141,10 +141,10 @@ const InstituteDetailsPage = () => {
               <div>
                 <p className="text-sm text-muted-foreground">Location</p>
                 <p className="font-medium">
-                  {institute.address.line1}
-                  {institute.address.line2 && `, ${institute.address.line2}`}
-                  {`, ${institute.address.city}, ${institute.address.state}`}
-                  {`, ${institute.address.country} - ${institute.address.pinCode}`}
+                  {organization.address.line1}
+                  {organization.address.line2 && `, ${organization.address.line2}`}
+                  {`, ${organization.address.city}, ${organization.address.state}`}
+                  {`, ${organization.address.country} - ${organization.address.pinCode}`}
                 </p>
               </div>
             </div>
@@ -156,19 +156,19 @@ const InstituteDetailsPage = () => {
           <h2 className="text-xl font-semibold mb-4">Statistics</h2>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-muted/30 rounded-lg p-4">
-              <p className="text-2xl font-bold">{institute.studentsCount}</p>
+              <p className="text-2xl font-bold">{organization.studentsCount}</p>
               <p className="text-sm text-muted-foreground">Students</p>
             </div>
             <div className="bg-muted/30 rounded-lg p-4">
-              <p className="text-2xl font-bold">{institute.departmentCount}</p>
+              <p className="text-2xl font-bold">{organization.departmentCount}</p>
               <p className="text-sm text-muted-foreground">Departments</p>
             </div>
             <div className="bg-muted/30 rounded-lg p-4">
-              <p className="text-2xl font-bold">{institute.followersCount}</p>
+              <p className="text-2xl font-bold">{organization.followersCount}</p>
               <p className="text-sm text-muted-foreground">Followers</p>
             </div>
             <div className="bg-muted/30 rounded-lg p-4">
-              <p className="text-2xl font-bold">{institute.isVerified ? 'Yes' : 'No'}</p>
+              <p className="text-2xl font-bold">{organization.isVerified ? 'Yes' : 'No'}</p>
               <p className="text-sm text-muted-foreground">Verified</p>
             </div>
           </div>
@@ -194,7 +194,7 @@ const InstituteDetailsPage = () => {
             <div>
               <h2 className="text-2xl font-bold">Assign Institute Admin</h2>
               <p className="text-sm text-muted-foreground">
-                Assign an administrator for {institute.name}
+                Assign an administrator for {organization.name}
               </p>
             </div>
           </div>
@@ -255,4 +255,4 @@ const InstituteDetailsPage = () => {
   );
 };
 
-export default InstituteDetailsPage;
+export default OrganizationDetailsPage;

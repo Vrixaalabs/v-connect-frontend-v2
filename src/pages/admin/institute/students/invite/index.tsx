@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/select';
 import { useToastHelpers } from '@/components/ui/toast';
 import { Card } from '@/components/ui/card';
-import InstituteAdminLayout from '@/components/admin/institute/InstituteAdminLayout';
+import InstituteAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
 import type { InviteStudentInput } from '@/types/entity';
 
 const inviteStudentSchema = z.object({

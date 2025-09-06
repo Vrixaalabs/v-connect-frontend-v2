@@ -1,25 +1,25 @@
 import { type ReactNode } from 'react';
 import TopNav from '@/components/navigation/TopNav';
-import InstituteAdminSidebar from './InstituteAdminSidebar';
+import OrganizationAdminSidebar from './OrganizationAdminSidebar';
 
-interface InstituteAdminLayoutProps {
+interface OrganizationAdminLayoutProps {
   children: ReactNode;
   title: string;
   description?: string;
   action?: ReactNode;
 }
 
-export default function InstituteAdminLayout({
+export default function OrganizationAdminLayout({
   children,
   title,
   description,
   action,
-}: InstituteAdminLayoutProps) {
+}: OrganizationAdminLayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       <TopNav />
       <div className="flex">
-        <InstituteAdminSidebar />
+        <OrganizationAdminSidebar />
         <div className="flex-1">
           <div className="container py-8">
             <div className="flex justify-between items-center mb-8">
