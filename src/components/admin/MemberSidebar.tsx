@@ -13,6 +13,10 @@ import {
   Briefcase,
   Award,
   UserCircle,
+  TrendingUp,
+  Megaphone,
+  Search,
+  MapPin,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { OrganizationSwitcher } from '@/components/organization/OrganizationSwitcher';
@@ -22,6 +26,11 @@ interface SidebarLink {
   icon: React.ElementType;
   label: string;
   href: string;
+  subItems?: Array<{
+    icon: React.ElementType;
+    label: string;
+    href: string;
+  }>;
 }
 
 interface MemberSidebarProps {
@@ -29,9 +38,19 @@ interface MemberSidebarProps {
 }
 
 const sidebarLinks: SidebarLink[] = [
-  { icon: Home, label: 'Feed', href: '/feed' },
+  {
+    icon: Home,
+    label: 'Feed',
+    href: '/feed',
+    subItems: [
+      { icon: TrendingUp, label: 'All Posts', href: '/feed' },
+      { icon: Megaphone, label: 'Announcements', href: '/feed/announcements' },
+      { icon: Search, label: 'Lost & Found', href: '/feed/lost-found' },
+      { icon: Calendar, label: 'Club Events', href: '/feed/events' },
+      { icon: MapPin, label: 'Campus Updates', href: '/feed/campus' },
+    ],
+  },
   { icon: Users, label: 'Network', href: '/network' },
-  { icon: Calendar, label: 'Events', href: '/events' },
   { icon: BookOpen, label: 'Clubs', href: '/clubs' },
   { icon: GraduationCap, label: 'Alumni', href: '/alumni' },
   { icon: Briefcase, label: 'Jobs', href: '/jobs' },
@@ -58,31 +77,69 @@ export const MemberSidebar: React.FC<MemberSidebarProps> = ({ isCollapsed = fals
         <nav className={cn("space-y-1", isCollapsed ? "px-1" : "px-2")}>
           {sidebarLinks.map((link) => {
             const Icon = link.icon;
-            const isActive = location.pathname === link.href;
+            const isActive = location.pathname === link.href || 
+              (link.subItems?.some(item => location.pathname === item.href));
+            const hasSubItems = link.subItems && link.subItems.length > 0;
 
             return (
-              <Link
-                key={link.href}
-                to={link.href}
-                className={cn(
-                  'flex items-center gap-x-3 py-2 text-sm font-medium rounded-lg transition-colors relative group',
-                  isCollapsed ? 'justify-center px-2' : 'px-3',
-                  isActive
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                )}
-              >
-                <Icon className={cn(
-                  "h-4 w-4 transition-colors",
-                  isActive ? "text-primary-foreground" : "text-muted-foreground/70"
-                )} />
-                {!isCollapsed && link.label}
-                {isCollapsed && (
-                  <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground rounded-md opacity-0 group-hover:opacity-100 transition-opacity invisible group-hover:visible">
-                    {link.label}
+              <div key={link.href} className="space-y-1">
+                <Link
+                  to={link.href}
+                  className={cn(
+                    'flex items-center gap-x-3 py-2 text-sm font-medium rounded-lg transition-colors relative group',
+                    isCollapsed ? 'justify-center px-2' : 'px-3',
+                    isActive
+                      ? 'bg-primary text-primary-foreground shadow-sm'
+                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  )}
+                >
+                  <Icon className={cn(
+                    "h-4 w-4 transition-colors",
+                    isActive ? "text-primary-foreground" : "text-muted-foreground/70"
+                  )} />
+                  {!isCollapsed && (
+                    <>
+                      <span className="flex-1">{link.label}</span>
+                      {hasSubItems && (
+                        <span className="text-muted-foreground text-xs">
+                          {link.subItems?.length}
+                        </span>
+                      )}
+                    </>
+                  )}
+                  {isCollapsed && (
+                    <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground rounded-md opacity-0 group-hover:opacity-100 transition-opacity invisible group-hover:visible z-50">
+                      {link.label}
+                    </div>
+                  )}
+                </Link>
+
+                {/* Sub Items */}
+                {!isCollapsed && hasSubItems && (
+                  <div className="ml-6 space-y-1">
+                    {link.subItems?.map((subItem) => {
+                      const SubIcon = subItem.icon;
+                      const isSubActive = location.pathname === subItem.href;
+
+                      return (
+                        <Link
+                          key={subItem.href}
+                          to={subItem.href}
+                          className={cn(
+                            'flex items-center gap-x-3 py-1.5 px-3 text-sm rounded-md transition-colors',
+                            isSubActive
+                              ? 'text-primary font-medium bg-primary/10'
+                              : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                          )}
+                        >
+                          <SubIcon className="h-3.5 w-3.5" />
+                          {subItem.label}
+                        </Link>
+                      );
+                    })}
                   </div>
                 )}
-              </Link>
+              </div>
             );
           })}
         </nav>

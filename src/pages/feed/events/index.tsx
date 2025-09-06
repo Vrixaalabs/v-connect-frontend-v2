@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
-import { Search, Calendar, MapPin, Users, Clock, Tag } from 'lucide-react';
-import { Button } from '../../../components/ui/button';
-import { Input } from '../../../components/ui/input';
-import { Badge } from '../../../components/ui/badge';
+import { Search, Calendar, MapPin, Users, Clock, Tag, Plus, SlidersHorizontal } from 'lucide-react';
+import { MemberLayout } from '@/components/layouts/MemberLayout';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import {
   Card,
   CardContent,
@@ -14,9 +16,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../../../components/ui/card';
-import mockData from '../../../data/mock-events.json';
-import FeedLayout from '../layout';
+} from '@/components/ui/card';
+import mockData from '@/data/mock-events.json';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -48,30 +49,61 @@ export default function EventsPage() {
   });
 
   return (
-    <FeedLayout>  
+    <MemberLayout>
       <div className="space-y-6">
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search events..."
-              className="pl-9"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Club Events</h1>
+            <p className="text-muted-foreground">
+              Discover and participate in exciting events organized by clubs.
+            </p>
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={selectedCategory === category ? 'default' : 'outline'}
-                onClick={() => setSelectedCategory(category)}
-                className="whitespace-nowrap"
-              >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </Button>
-            ))}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="relative flex-1 sm:flex-none sm:w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search events..."
+                className="pl-9"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <SlidersHorizontal className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Filter Events</SheetTitle>
+                  <SheetDescription>
+                    Filter events by category and type.
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="py-6 space-y-6">
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium">Categories</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {categories.map((category) => (
+                        <Badge
+                          key={category}
+                          variant={selectedCategory === category ? "default" : "outline"}
+                          className="cursor-pointer hover:bg-primary/90 transition-colors"
+                          onClick={() => setSelectedCategory(category)}
+                        >
+                          {category === 'all' ? 'All' : category}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              Create Event
+            </Button>
           </div>
         </div>
 
@@ -171,6 +203,6 @@ export default function EventsPage() {
           </motion.div>
         )}
       </div>
-    </FeedLayout>
+    </MemberLayout>
   );
 } 

@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
-import { Search, MapPin, Phone, Mail, AlertCircle } from 'lucide-react';
-import { Button } from '../../../components/ui/button';
-import { Input } from '../../../components/ui/input';
-import { Badge } from '../../../components/ui/badge';
+import { Search, MapPin, Phone, Mail, AlertCircle, Plus, SlidersHorizontal } from 'lucide-react';
+import { MemberLayout } from '@/components/layouts/MemberLayout';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import {
   Card,
   CardContent,
@@ -14,9 +16,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../../../components/ui/card';
-import mockData from '../../../data/mock-lost-found.json';
-import FeedLayout from '../layout';
+} from '@/components/ui/card';
+import mockData from '@/data/mock-lost-found.json';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -44,37 +45,71 @@ export default function LostAndFoundPage() {
   });
 
   return (
-    <FeedLayout>
+    <MemberLayout>
       <div className="space-y-6">
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search lost & found items..."
-              className="pl-9"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Lost & Found</h1>
+            <p className="text-muted-foreground">
+              Report lost items or help others find their belongings.
+            </p>
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant={filter === 'all' ? 'default' : 'outline'}
-              onClick={() => setFilter('all')}
-            >
-              All
-            </Button>
-            <Button
-              variant={filter === 'lost' ? 'default' : 'outline'}
-              onClick={() => setFilter('lost')}
-            >
-              Lost
-            </Button>
-            <Button
-              variant={filter === 'found' ? 'default' : 'outline'}
-              onClick={() => setFilter('found')}
-            >
-              Found
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="relative flex-1 sm:flex-none sm:w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search items..."
+                className="pl-9"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <SlidersHorizontal className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Filter Items</SheetTitle>
+                  <SheetDescription>
+                    Filter items by status and type.
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="py-6 space-y-6">
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium">Status</h3>
+                    <div className="flex flex-wrap gap-2">
+                      <Badge
+                        variant={filter === 'all' ? "default" : "outline"}
+                        className="cursor-pointer hover:bg-primary/90 transition-colors"
+                        onClick={() => setFilter('all')}
+                      >
+                        All
+                      </Badge>
+                      <Badge
+                        variant={filter === 'lost' ? "destructive" : "outline"}
+                        className="cursor-pointer hover:bg-destructive/90 transition-colors"
+                        onClick={() => setFilter('lost')}
+                      >
+                        Lost
+                      </Badge>
+                      <Badge
+                        variant={filter === 'found' ? "default" : "outline"}
+                        className="cursor-pointer hover:bg-primary/90 transition-colors"
+                        onClick={() => setFilter('found')}
+                      >
+                        Found
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              Report Item
             </Button>
           </div>
         </div>
@@ -164,6 +199,6 @@ export default function LostAndFoundPage() {
           </motion.div>
         )}
       </div>
-    </FeedLayout>
+    </MemberLayout>
   );
 } 

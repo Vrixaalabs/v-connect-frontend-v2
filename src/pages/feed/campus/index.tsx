@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
-import { Search, Building2, Tag, AlertCircle } from 'lucide-react';
-import { Button } from '../../../components/ui/button';
-import { Input } from '../../../components/ui/input';
-import { Badge } from '../../../components/ui/badge';
+import { Search, Building2, Tag, AlertCircle, Plus, SlidersHorizontal } from 'lucide-react';
+import { MemberLayout } from '@/components/layouts/MemberLayout';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import {
   Card,
   CardContent,
@@ -14,9 +16,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../../../components/ui/card';
-import mockData from '../../../data/mock-campus.json';
-import FeedLayout from '../layout';
+} from '@/components/ui/card';
+import mockData from '@/data/mock-campus.json';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -54,30 +55,61 @@ export default function CampusUpdatesPage() {
   });
 
   return (
-    <FeedLayout> 
+    <MemberLayout>
       <div className="space-y-6">
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search campus updates..."
-              className="pl-9"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Campus Updates</h1>
+            <p className="text-muted-foreground">
+              Stay informed about campus maintenance, facilities, and important changes.
+            </p>
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
-            {departments.map((department) => (
-              <Button
-                key={department}
-                variant={selectedDepartment === department ? 'default' : 'outline'}
-                onClick={() => setSelectedDepartment(department)}
-                className="whitespace-nowrap"
-              >
-                {department === 'all' ? 'All Departments' : department}
-              </Button>
-            ))}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="relative flex-1 sm:flex-none sm:w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search updates..."
+                className="pl-9"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <SlidersHorizontal className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Filter Updates</SheetTitle>
+                  <SheetDescription>
+                    Filter updates by department and priority.
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="py-6 space-y-6">
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium">Departments</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {departments.map((department) => (
+                        <Badge
+                          key={department}
+                          variant={selectedDepartment === department ? "default" : "outline"}
+                          className="cursor-pointer hover:bg-primary/90 transition-colors"
+                          onClick={() => setSelectedDepartment(department)}
+                        >
+                          {department === 'all' ? 'All' : department}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              New Update
+            </Button>
           </div>
         </div>
 
@@ -182,6 +214,6 @@ export default function CampusUpdatesPage() {
           </motion.div>
         )}
       </div>
-    </FeedLayout>
+    </MemberLayout>
   );
 } 
