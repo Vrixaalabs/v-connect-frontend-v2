@@ -18,7 +18,7 @@ export interface EntityMember {
 }
 
 export interface Entity {
-  id: string;
+  entityId: string;
   name: string;
   type: EntityType;
   code: string;

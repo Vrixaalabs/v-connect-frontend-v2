@@ -19,10 +19,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 export default function MemberEntitiesPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const toast = useToast();
+  const navigate = useNavigate();
 
   const { data: entitiesData, loading: entitiesLoading, refetch: refetchEntities } = useQuery(GET_USER_ENTITIES);
   const [createEntity, { loading: createLoading }] = useMutation(CREATE_ENTITY);
@@ -55,6 +57,26 @@ export default function MemberEntitiesPage() {
     } catch (error) {
       toast.error('Error', 'Failed to create entity');
     }
+  };
+
+  const handleViewEntity = (id: string) => {
+    navigate(`/member/entities/${id}`, { state: { entityId: id } });
+  };
+
+  const handleEditEntity = (id: string) => {
+    navigate(`/member/entities/${id}/edit`);
+  };
+
+  const handleManageMembers = (id: string) => {
+    navigate(`/member/entities/${id}/members`);
+  };
+
+  const handleViewEvents = (id: string) => {
+    navigate(`/member/entities/${id}/events`);
+  };
+
+  const handleEntitySettings = (id: string) => {
+    navigate(`/member/entities/${id}/settings`);
   };
 
   const handleDeleteEntity = async (id: string) => {
@@ -113,7 +135,7 @@ export default function MemberEntitiesPage() {
           </div>
         ) : (
           entities.map((entity: Entity) => (
-            <Card key={entity.id} className="hover:shadow-lg transition-shadow">
+            <Card key={entity.entityId} className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row justify-between items-start space-y-0">
                 <div>
                   <div className="flex items-center gap-2">
@@ -134,25 +156,40 @@ export default function MemberEntitiesPage() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem className="flex items-center gap-2">
+                    <DropdownMenuItem 
+                      className="flex items-center gap-2"
+                      onClick={() => handleViewEntity(entity.entityId)}
+                    >
                       <Eye className="h-4 w-4" /> View Details
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2">
+                    <DropdownMenuItem 
+                      className="flex items-center gap-2"
+                      onClick={() => handleEditEntity(entity.entityId)}
+                    >
                       <Edit className="h-4 w-4" /> Edit Entity
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2">
+                    <DropdownMenuItem 
+                      className="flex items-center gap-2"
+                      onClick={() => handleManageMembers(entity.entityId)}
+                    >
                       <Users className="h-4 w-4" /> Manage Members
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2">
+                    <DropdownMenuItem 
+                      className="flex items-center gap-2"
+                      onClick={() => handleViewEvents(entity.entityId)}
+                    >
                       <Calendar className="h-4 w-4" /> View Events
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2">
+                    <DropdownMenuItem 
+                      className="flex items-center gap-2"
+                      onClick={() => handleEntitySettings(entity.entityId)}
+                    >
                       <Settings className="h-4 w-4" /> Settings
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem 
                       className="flex items-center gap-2 text-red-600"
-                      onClick={() => handleDeleteEntity(entity.id)}
+                      onClick={() => handleDeleteEntity(entity.entityId)}
                     >
                       <Trash2 className="h-4 w-4" /> Delete Entity
                     </DropdownMenuItem>
@@ -179,7 +216,7 @@ export default function MemberEntitiesPage() {
                     <div>
                       <p className="text-sm font-medium mb-1">Parent Entity</p>
                       <p className="text-sm text-gray-500">
-                        {entities.find((e: Entity) => e.id === entity.parentEntityId)?.name || entity.parentEntityId}
+                        {entities.find((e: Entity) => e.entityId === entity.parentEntityId)?.name || entity.parentEntityId}
                       </p>
                     </div>
                   )}

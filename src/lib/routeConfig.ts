@@ -200,6 +200,36 @@ export const routeConfig: Record<string, RouteConfig> = {
     allowedRoles: ['member'],
     redirectTo: '/',
   },
+  '/member/entities/[entityId]': {
+    path: '/member/entities/[entityId]',
+    requireAuth: true,
+    allowedRoles: ['member'],
+    redirectTo: '/',
+  },
+  '/member/entities/[entityId]/edit': {
+    path: '/member/entities/[entityId]/edit',
+    requireAuth: true,
+    allowedRoles: ['member'],
+    redirectTo: '/',
+  },
+  '/member/entities/[entityId]/members': {
+    path: '/member/entities/[entityId]/members',
+    requireAuth: true,
+    allowedRoles: ['member'],
+    redirectTo: '/',
+  },
+  '/member/entities/[entityId]/events': {
+    path: '/member/entities/[entityId]/events',
+    requireAuth: true,
+    allowedRoles: ['member'],
+    redirectTo: '/',
+  },
+  '/member/entities/[entityId]/settings': {
+    path: '/member/entities/[entityId]/settings',
+    requireAuth: true,
+    allowedRoles: ['member'],
+    redirectTo: '/',
+  },
 };
 
 export const getRouteConfig = (pathname: string): RouteConfig | undefined => {
