@@ -244,3 +244,42 @@ export const GET_ORGANIZATION_BY_ID = gql`
     }
   }
 `;
+
+export const GET_USER_ENTITIES = gql`
+  query GetUserEntities {
+    getUserEntities {
+      success
+      message
+      entities {
+        entityId
+        name
+        type
+        status
+        code
+        description
+        parentEntityId
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const GET_ENTITY_BY_ID = gql`
+  query GetEntityById($id: ID!) {
+    getEntityById(id: $id) {
+      success
+      message
+      entity {
+        id
+        name
+        type
+        code
+        description
+        parentId
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;

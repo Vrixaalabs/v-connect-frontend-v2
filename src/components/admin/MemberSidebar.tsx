@@ -17,6 +17,7 @@ import {
   Megaphone,
   Search,
   MapPin,
+  Building2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { OrganizationSwitcher } from '@/components/organization/OrganizationSwitcher';
@@ -51,6 +52,7 @@ const sidebarLinks: SidebarLink[] = [
     ],
   },
   { icon: Users, label: 'Network', href: '/network' },
+  { icon: Building2, label: 'My Entities', href: '/member/entities' },
   { icon: BookOpen, label: 'Clubs', href: '/clubs' },
   { icon: GraduationCap, label: 'Alumni', href: '/alumni' },
   { icon: Briefcase, label: 'Jobs', href: '/jobs' },

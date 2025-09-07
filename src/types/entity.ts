@@ -1,4 +1,21 @@
-export type EntityType = 'department' | 'school' | 'office' | 'center' | 'other';
+export type EntityType = 'DEPARTMENT' | 'COMMITTEE' | 'TEAM' | 'OTHER';
+export type EntityStatus = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED';
+
+export interface EntityMember {
+  user: {
+    userId: string;
+    firstName: string;
+    lastName: string;
+    avatar?: string;
+  };
+  role: {
+    roleId: string;
+    name: string;
+    permissions: string[];
+  };
+  joinedAt: string;
+  status: 'ACTIVE' | 'INACTIVE';
+}
 
 export interface Entity {
   id: string;
@@ -6,7 +23,9 @@ export interface Entity {
   type: EntityType;
   code: string;
   description?: string;
-  parentId?: string | null;
+  parentEntityId?: string | null;
+  status: EntityStatus;
+  member?: EntityMember;
   createdAt: string;
   updatedAt: string;
 }
@@ -16,7 +35,7 @@ export interface CreateEntityInput {
   type: EntityType;
   code: string;
   description?: string;
-  parentId?: string | null;
+  parentEntityId?: string | null;
 }
 
 export interface UpdateEntityInput extends Partial<CreateEntityInput> {
