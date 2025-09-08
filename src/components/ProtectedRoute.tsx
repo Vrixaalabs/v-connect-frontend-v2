@@ -45,7 +45,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   const checkTokenValidity = useCallback(() => {
     const token = tokenService.getAccessToken();
-    
+
     if (token) {
       try {
         const decoded = tokenService.decodeToken(token);
@@ -142,9 +142,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
     if (isAuthenticated && authState.isTokenValid) {
       if (authState.userRole === 'super_admin' && location.pathname === '/super-admin/login') {
-        return <Navigate to="/super-admin/dashboard" replace />;
+        return <Navigate to='/super-admin/dashboard' replace />;
       } else if (!requireAuth && location.pathname !== '/') {
-        return <Navigate to="/" replace />;
+        return <Navigate to='/' replace />;
       }
     }
 
@@ -162,7 +162,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     redirectTo,
     children,
     getRoleBasedRedirect,
-    slug
+    slug,
   ]);
 
   return renderedComponent;

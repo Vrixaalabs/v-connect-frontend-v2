@@ -151,7 +151,7 @@ export interface Client {
     addressLine: string;
     city: string;
     region: string;
-    postalCode: string;   
+    postalCode: string;
     country: string;
   }[];
   map?: {
@@ -160,7 +160,6 @@ export interface Client {
   };
   createdAt: string;
   updatedAt: string;
-  
 }
 export interface GetClientsListResponse {
   listClients: {
@@ -170,7 +169,7 @@ export interface GetClientsListResponse {
     total: number;
     page: number;
     limit: number;
-  }
+  };
 }
 
 export interface GetClientsByBranchResponse {
@@ -182,7 +181,7 @@ export interface GetClientsByBranchResponse {
     page: number;
     limit: number;
     totalPages: number;
-  }
+  };
 }
 
 export interface GetJobTypesResponse {
@@ -207,7 +206,7 @@ export interface CreateJobTypeInput {
 
 export interface CreateJobTypeResponse {
   createJobType: {
-    success: boolean; 
+    success: boolean;
     message: string;
     jobType: JobType;
   };

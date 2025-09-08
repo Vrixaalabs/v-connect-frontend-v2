@@ -9,14 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import mockData from '@/data/mock-lost-found.json';
 
 const fadeInUp = {
@@ -37,67 +30,64 @@ export default function LostAndFoundPage() {
   const [filter, setFilter] = useState<'all' | 'lost' | 'found'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredItems = mockData.items.filter((item) => {
+  const filteredItems = mockData.items.filter(item => {
     const matchesFilter = filter === 'all' || item.type === filter;
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const matchesSearch =
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
   return (
     <MemberLayout>
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+      <div className='space-y-6'>
+        <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between'>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Lost & Found</h1>
-            <p className="text-muted-foreground">
-              Report lost items or help others find their belongings.
-            </p>
+            <h1 className='text-3xl font-bold tracking-tight'>Lost & Found</h1>
+            <p className='text-muted-foreground'>Report lost items or help others find their belongings.</p>
           </div>
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <div className="relative flex-1 sm:flex-none sm:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <div className='flex items-center gap-2 w-full sm:w-auto'>
+            <div className='relative flex-1 sm:flex-none sm:w-64'>
+              <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
               <Input
-                placeholder="Search items..."
-                className="pl-9"
+                placeholder='Search items...'
+                className='pl-9'
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
               />
             </div>
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <SlidersHorizontal className="h-4 w-4" />
+                <Button variant='outline' size='icon'>
+                  <SlidersHorizontal className='h-4 w-4' />
                 </Button>
               </SheetTrigger>
               <SheetContent>
                 <SheetHeader>
                   <SheetTitle>Filter Items</SheetTitle>
-                  <SheetDescription>
-                    Filter items by status and type.
-                  </SheetDescription>
+                  <SheetDescription>Filter items by status and type.</SheetDescription>
                 </SheetHeader>
-                <div className="py-6 space-y-6">
-                  <div className="space-y-3">
-                    <h3 className="text-sm font-medium">Status</h3>
-                    <div className="flex flex-wrap gap-2">
+                <div className='py-6 space-y-6'>
+                  <div className='space-y-3'>
+                    <h3 className='text-sm font-medium'>Status</h3>
+                    <div className='flex flex-wrap gap-2'>
                       <Badge
-                        variant={filter === 'all' ? "default" : "outline"}
-                        className="cursor-pointer hover:bg-primary/90 transition-colors"
+                        variant={filter === 'all' ? 'default' : 'outline'}
+                        className='cursor-pointer hover:bg-primary/90 transition-colors'
                         onClick={() => setFilter('all')}
                       >
                         All
                       </Badge>
                       <Badge
-                        variant={filter === 'lost' ? "destructive" : "outline"}
-                        className="cursor-pointer hover:bg-destructive/90 transition-colors"
+                        variant={filter === 'lost' ? 'destructive' : 'outline'}
+                        className='cursor-pointer hover:bg-destructive/90 transition-colors'
                         onClick={() => setFilter('lost')}
                       >
                         Lost
                       </Badge>
                       <Badge
-                        variant={filter === 'found' ? "default" : "outline"}
-                        className="cursor-pointer hover:bg-primary/90 transition-colors"
+                        variant={filter === 'found' ? 'default' : 'outline'}
+                        className='cursor-pointer hover:bg-primary/90 transition-colors'
                         onClick={() => setFilter('found')}
                       >
                         Found
@@ -108,7 +98,7 @@ export default function LostAndFoundPage() {
               </SheetContent>
             </Sheet>
             <Button>
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className='h-4 w-4 mr-2' />
               Report Item
             </Button>
           </div>
@@ -117,65 +107,54 @@ export default function LostAndFoundPage() {
         {/* Items Grid */}
         <motion.div
           variants={stagger}
-          initial="initial"
-          animate="animate"
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          initial='initial'
+          animate='animate'
+          className='grid grid-cols-1 md:grid-cols-2 gap-6'
         >
-          <AnimatePresence mode="popLayout">
-            {filteredItems.map((item) => (
-              <motion.div
-                key={item.id}
-                variants={fadeInUp}
-                layout
-                layoutId={item.id}
-              >
-                <Card className="h-full">
+          <AnimatePresence mode='popLayout'>
+            {filteredItems.map(item => (
+              <motion.div key={item.id} variants={fadeInUp} layout layoutId={item.id}>
+                <Card className='h-full'>
                   {item.image && (
                     <motion.div
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-48 object-cover rounded-t-lg"
-                      />
+                      <img src={item.image} alt={item.title} className='w-full h-48 object-cover rounded-t-lg' />
                     </motion.div>
                   )}
                   <CardHeader>
-                    <div className="flex items-center justify-between">
+                    <div className='flex items-center justify-between'>
                       <Badge variant={item.type === 'lost' ? 'destructive' : 'default'}>
                         {item.type.toUpperCase()}
                       </Badge>
-                      <Badge variant="outline">{item.category}</Badge>
+                      <Badge variant='outline'>{item.category}</Badge>
                     </div>
-                    <CardTitle className="mt-2">{item.title}</CardTitle>
-                    <CardDescription>
-                      {format(new Date(item.date), 'PPP')}
-                    </CardDescription>
+                    <CardTitle className='mt-2'>{item.title}</CardTitle>
+                    <CardDescription>{format(new Date(item.date), 'PPP')}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">{item.description}</p>
-                    <div className="mt-4 flex items-center text-sm text-muted-foreground">
-                      <MapPin className="h-4 w-4 mr-2" />
+                    <p className='text-muted-foreground'>{item.description}</p>
+                    <div className='mt-4 flex items-center text-sm text-muted-foreground'>
+                      <MapPin className='h-4 w-4 mr-2' />
                       {item.location}
                     </div>
                   </CardContent>
-                  <CardFooter className="flex flex-col items-start gap-2">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Mail className="h-4 w-4" />
+                  <CardFooter className='flex flex-col items-start gap-2'>
+                    <div className='flex items-center gap-2 text-sm'>
+                      <Mail className='h-4 w-4' />
                       {item.contact.email}
                     </div>
                     {item.contact.phone && (
-                      <div className="flex items-center gap-2 text-sm">
-                        <Phone className="h-4 w-4" />
+                      <div className='flex items-center gap-2 text-sm'>
+                        <Phone className='h-4 w-4' />
                         {item.contact.phone}
                       </div>
                     )}
                     {item.status === 'closed' && (
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground mt-2">
-                        <AlertCircle className="h-4 w-4" />
+                      <div className='flex items-center gap-2 text-sm text-muted-foreground mt-2'>
+                        <AlertCircle className='h-4 w-4' />
                         This item has been found/returned
                       </div>
                     )}
@@ -187,18 +166,12 @@ export default function LostAndFoundPage() {
         </motion.div>
 
         {filteredItems.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-12"
-          >
-            <h2 className="text-2xl font-semibold mb-2">No Items Found</h2>
-            <p className="text-muted-foreground">
-              Try adjusting your search or filter criteria
-            </p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='text-center py-12'>
+            <h2 className='text-2xl font-semibold mb-2'>No Items Found</h2>
+            <p className='text-muted-foreground'>Try adjusting your search or filter criteria</p>
           </motion.div>
         )}
       </div>
     </MemberLayout>
   );
-} 
+}

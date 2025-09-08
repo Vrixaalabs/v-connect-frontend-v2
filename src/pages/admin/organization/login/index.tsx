@@ -5,14 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
@@ -45,7 +38,7 @@ export default function AdminLogin() {
       setIsLoading(true);
       await login(data.email, data.password);
       toast.success('Success', 'Logged in successfully');
-      
+
       // Navigate to admin dashboard after successful login
       navigate('/admin/institute/dashboard');
     } catch (error) {
@@ -56,30 +49,24 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="container flex items-center justify-center min-h-screen py-12">
-      <Card className="w-full max-w-md p-6">
-        <div className="space-y-6">
-          <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold">Admin Login</h1>
-            <p className="text-gray-500">
-              Enter your credentials to access your account
-            </p>
+    <div className='container flex items-center justify-center min-h-screen py-12'>
+      <Card className='w-full max-w-md p-6'>
+        <div className='space-y-6'>
+          <div className='space-y-2 text-center'>
+            <h1 className='text-3xl font-bold'>Admin Login</h1>
+            <p className='text-gray-500'>Enter your credentials to access your account</p>
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
               <FormField
                 control={form.control}
-                name="email"
+                name='email'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Enter your email"
-                        {...field}
-                      />
+                      <Input type='email' placeholder='Enter your email' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -88,36 +75,25 @@ export default function AdminLogin() {
 
               <FormField
                 control={form.control}
-                name="password"
+                name='password'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter your password"
-                        {...field}
-                      />
+                      <Input type='password' placeholder='Enter your password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <div className="text-sm text-right">
-                <Link
-                  to="/admin/forgot-password"
-                  className="text-primary hover:underline"
-                >
+              <div className='text-sm text-right'>
+                <Link to='/admin/forgot-password' className='text-primary hover:underline'>
                   Forgot password?
                 </Link>
               </div>
 
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
+              <Button type='submit' className='w-full' disabled={isLoading}>
                 {isLoading ? 'Logging in...' : 'Login'}
               </Button>
             </form>

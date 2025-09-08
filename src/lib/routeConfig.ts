@@ -20,7 +20,7 @@ export const routeConfig: Record<string, RouteConfig> = {
     requireAuth: true,
     redirectTo: '/login',
   },
-  
+
   // Institute admin routes
   '/admin/institute/dashboard': {
     path: '/admin/institute/dashboard',
@@ -244,7 +244,7 @@ export const getRouteConfig = (pathname: string): RouteConfig | undefined => {
 
   for (const [pattern, config] of routes) {
     const patternParts = pattern.split('/').filter(Boolean);
-    
+
     if (pathParts.length !== patternParts.length) {
       continue;
     }

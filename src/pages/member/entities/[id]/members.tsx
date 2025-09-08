@@ -33,32 +33,32 @@ export default function EntityMembersPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto py-6 space-y-6">
-        <Skeleton className="h-8 w-64" />
-        <Skeleton className="h-[400px] w-full" />
+      <div className='container mx-auto py-6 space-y-6'>
+        <Skeleton className='h-8 w-64' />
+        <Skeleton className='h-[400px] w-full' />
       </div>
     );
   }
 
   if (!entity) {
     return (
-      <div className="container mx-auto py-6">
-        <h1 className="text-2xl font-bold">Entity not found</h1>
+      <div className='container mx-auto py-6'>
+        <h1 className='text-2xl font-bold'>Entity not found</h1>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto py-6">
-      <div className="flex items-center justify-between mb-6">
+    <div className='container mx-auto py-6'>
+      <div className='flex items-center justify-between mb-6'>
         <div>
-          <h1 className="text-2xl font-bold">Members</h1>
-          <p className="text-sm text-gray-500">{entity.name}</p>
+          <h1 className='text-2xl font-bold'>Members</h1>
+          <p className='text-sm text-gray-500'>{entity.name}</p>
         </div>
         <Dialog>
           <DialogTrigger asChild>
             <Button>
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className='h-4 w-4 mr-2' />
               Add Member
             </Button>
           </DialogTrigger>
@@ -67,7 +67,7 @@ export default function EntityMembersPage() {
               <DialogTitle>Add Member</DialogTitle>
             </DialogHeader>
             {/* TODO: Add member form */}
-            <p className="text-sm text-gray-500">Coming soon...</p>
+            <p className='text-sm text-gray-500'>Coming soon...</p>
           </DialogContent>
         </Dialog>
       </div>
@@ -77,13 +77,10 @@ export default function EntityMembersPage() {
           <CardTitle>All Members</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className='space-y-4'>
             {members.map((member: any) => (
-              <div
-                key={member.user.userId}
-                className="flex items-center justify-between p-4 rounded-lg border"
-              >
-                <div className="flex items-center gap-4">
+              <div key={member.user.userId} className='flex items-center justify-between p-4 rounded-lg border'>
+                <div className='flex items-center gap-4'>
                   <Avatar>
                     <AvatarImage src={member.user.avatar} />
                     <AvatarFallback>
@@ -92,40 +89,32 @@ export default function EntityMembersPage() {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium">
+                    <p className='font-medium'>
                       {member.user.firstName} {member.user.lastName}
                     </p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Badge variant="outline">{member.role.name}</Badge>
-                      <p className="text-sm text-gray-500">
-                        Joined {format(new Date(member.joinedAt), 'MMM d, yyyy')}
-                      </p>
+                    <div className='flex items-center gap-2 mt-1'>
+                      <Badge variant='outline'>{member.role.name}</Badge>
+                      <p className='text-sm text-gray-500'>Joined {format(new Date(member.joinedAt), 'MMM d, yyyy')}</p>
                     </div>
                   </div>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical className="h-4 w-4" />
+                    <Button variant='ghost' size='sm'>
+                      <MoreVertical className='h-4 w-4' />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align='end'>
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuItem>Change Role</DropdownMenuItem>
                     <DropdownMenuItem>View Profile</DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="text-red-600">
-                      Remove Member
-                    </DropdownMenuItem>
+                    <DropdownMenuItem className='text-red-600'>Remove Member</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
             ))}
-            {members.length === 0 && (
-              <p className="text-center text-sm text-gray-500 py-8">
-                No members found
-              </p>
-            )}
+            {members.length === 0 && <p className='text-center text-sm text-gray-500 py-8'>No members found</p>}
           </div>
         </CardContent>
       </Card>

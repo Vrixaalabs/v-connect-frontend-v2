@@ -13,18 +13,18 @@ interface StatsCardProps {
 
 const StatsCard = ({ title, value, description, trend, trendValue }: StatsCardProps) => {
   return (
-    <Card className="p-6">
-      <div className="flex flex-col space-y-2">
-        <h3 className="text-sm font-medium text-gray-500">{title}</h3>
-        <div className="flex items-baseline">
-          <p className="text-2xl font-semibold">{value}</p>
+    <Card className='p-6'>
+      <div className='flex flex-col space-y-2'>
+        <h3 className='text-sm font-medium text-gray-500'>{title}</h3>
+        <div className='flex items-baseline'>
+          <p className='text-2xl font-semibold'>{value}</p>
           {trend && trendValue && (
             <span className={`ml-2 text-sm ${trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
               {trend === 'up' ? '↑' : '↓'} {trendValue}
             </span>
           )}
         </div>
-        <p className="text-sm text-gray-500">{description}</p>
+        <p className='text-sm text-gray-500'>{description}</p>
       </div>
     </Card>
   );
@@ -43,15 +43,15 @@ interface ActivityItem {
 
 const RecentActivity = ({ activities }: { activities: ActivityItem[] }) => {
   return (
-    <div className="space-y-4">
-      {activities.map((activity) => (
-        <div key={activity.id} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
-          <div className="flex-1">
-            <p className="text-sm font-medium">{activity.description}</p>
-            <div className="flex items-center mt-1 space-x-2">
-              <span className="text-xs text-gray-500">{activity.user.name}</span>
-              <span className="text-xs text-gray-400">•</span>
-              <span className="text-xs text-gray-500">{activity.timestamp}</span>
+    <div className='space-y-4'>
+      {activities.map(activity => (
+        <div key={activity.id} className='flex items-start space-x-4 p-4 bg-gray-50 rounded-lg'>
+          <div className='flex-1'>
+            <p className='text-sm font-medium'>{activity.description}</p>
+            <div className='flex items-center mt-1 space-x-2'>
+              <span className='text-xs text-gray-500'>{activity.user.name}</span>
+              <span className='text-xs text-gray-400'>•</span>
+              <span className='text-xs text-gray-500'>{activity.timestamp}</span>
             </div>
           </div>
         </div>
@@ -105,54 +105,47 @@ export default function InstituteDashboard() {
   ];
 
   return (
-    <OrganizationAdminLayout
-      title="Dashboard"
-      description="Manage your institute dashboard"
-    >
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Institute Dashboard</h1>
+    <OrganizationAdminLayout title='Dashboard' description='Manage your institute dashboard'>
+      <div className='flex justify-between items-center mb-8'>
+        <h1 className='text-3xl font-bold'>Institute Dashboard</h1>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className='space-y-6'>
         <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="activity">Recent Activity</TabsTrigger>
+          <TabsTrigger value='overview'>Overview</TabsTrigger>
+          <TabsTrigger value='activity'>Recent Activity</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <TabsContent value='overview' className='space-y-6'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
             <StatsCard
-              title="Total Students"
+              title='Total Students'
               value={mockStats.totalStudents}
-              description="Active students in the institute"
-              trend="up"
-              trendValue="5%"
+              description='Active students in the institute'
+              trend='up'
+              trendValue='5%'
             />
+            <StatsCard title='Active Clubs' value={mockStats.activeClubs} description='Currently active clubs' />
             <StatsCard
-              title="Active Clubs"
-              value={mockStats.activeClubs}
-              description="Currently active clubs"
-            />
-            <StatsCard
-              title="Pending Requests"
+              title='Pending Requests'
               value={mockStats.pendingRequests}
-              description="Requests awaiting approval"
+              description='Requests awaiting approval'
             />
             <StatsCard
-              title="Total Events"
+              title='Total Events'
               value={mockStats.totalEvents}
-              description="Events this month"
-              trend="up"
-              trendValue="12%"
+              description='Events this month'
+              trend='up'
+              trendValue='12%'
             />
           </div>
 
           {/* Add more overview content here */}
         </TabsContent>
 
-        <TabsContent value="activity">
-          <Card className="p-6">
-            <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
+        <TabsContent value='activity'>
+          <Card className='p-6'>
+            <h2 className='text-xl font-semibold mb-4'>Recent Activity</h2>
             <RecentActivity activities={mockActivities} />
           </Card>
         </TabsContent>

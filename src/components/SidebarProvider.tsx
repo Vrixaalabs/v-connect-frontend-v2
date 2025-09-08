@@ -14,7 +14,7 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
   const isMobile = useIsMobile();
 
   const toggleSidebar = useCallback(() => {
-    setState((prev) => (prev === 'expanded' ? 'collapsed' : 'expanded'));
+    setState(prev => (prev === 'expanded' ? 'collapsed' : 'expanded'));
   }, []);
 
   // Close mobile sidebar when switching between mobile and desktop

@@ -29,38 +29,38 @@ const OrganizationJoinPage = () => {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <Card className="max-w-2xl mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-6">Join {organization.name}</h1>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <div className='container mx-auto py-8'>
+      <Card className='max-w-2xl mx-auto p-6'>
+        <h1 className='text-2xl font-bold mb-6'>Join {organization.name}</h1>
+
+        <form onSubmit={handleSubmit} className='space-y-6'>
           <div>
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor='name'>Full Name</Label>
             <Input
-              id="name"
+              id='name'
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={e => setFormData({ ...formData, name: e.target.value })}
               required
             />
           </div>
 
           <div>
-            <Label htmlFor="rollNumber">Roll Number</Label>
+            <Label htmlFor='rollNumber'>Roll Number</Label>
             <Input
-              id="rollNumber"
+              id='rollNumber'
               value={formData.rollNumber}
-              onChange={(e) => setFormData({ ...formData, rollNumber: e.target.value })}
+              onChange={e => setFormData({ ...formData, rollNumber: e.target.value })}
               required
             />
           </div>
 
           <div>
-            <Label htmlFor="department">Department</Label>
+            <Label htmlFor='department'>Department</Label>
             <Select
               value={formData.department}
-              onValueChange={(value) => setFormData({ ...formData, department: value })}
+              onValueChange={value => setFormData({ ...formData, department: value })}
             >
-              {organization.departments.map((dept) => (
+              {organization.departments.map(dept => (
                 <option key={dept.id} value={dept.id}>
                   {dept.name}
                 </option>
@@ -69,16 +69,16 @@ const OrganizationJoinPage = () => {
           </div>
 
           <div>
-            <Label htmlFor="school">School</Label>
+            <Label htmlFor='school'>School</Label>
             <Input
-              id="school"
+              id='school'
               value={formData.school}
-              onChange={(e) => setFormData({ ...formData, school: e.target.value })}
+              onChange={e => setFormData({ ...formData, school: e.target.value })}
               required
             />
           </div>
 
-          <Button type="submit" className="w-full">
+          <Button type='submit' className='w-full'>
             Submit Join Request
           </Button>
         </form>

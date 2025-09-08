@@ -9,14 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import mockData from '@/data/mock-events.json';
 
 const fadeInUp = {
@@ -39,9 +32,9 @@ export default function EventsPage() {
 
   const categories = ['all', ...new Set(mockData.events.map(event => event.category))];
 
-  const filteredEvents = mockData.events.filter((event) => {
+  const filteredEvents = mockData.events.filter(event => {
     const matchesCategory = selectedCategory === 'all' || event.category === selectedCategory;
-    const matchesSearch = 
+    const matchesSearch =
       event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.club.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -50,46 +43,42 @@ export default function EventsPage() {
 
   return (
     <MemberLayout>
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+      <div className='space-y-6'>
+        <div className='flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between'>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Club Events</h1>
-            <p className="text-muted-foreground">
-              Discover and participate in exciting events organized by clubs.
-            </p>
+            <h1 className='text-3xl font-bold tracking-tight'>Club Events</h1>
+            <p className='text-muted-foreground'>Discover and participate in exciting events organized by clubs.</p>
           </div>
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <div className="relative flex-1 sm:flex-none sm:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <div className='flex items-center gap-2 w-full sm:w-auto'>
+            <div className='relative flex-1 sm:flex-none sm:w-64'>
+              <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
               <Input
-                placeholder="Search events..."
-                className="pl-9"
+                placeholder='Search events...'
+                className='pl-9'
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
               />
             </div>
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <SlidersHorizontal className="h-4 w-4" />
+                <Button variant='outline' size='icon'>
+                  <SlidersHorizontal className='h-4 w-4' />
                 </Button>
               </SheetTrigger>
               <SheetContent>
                 <SheetHeader>
                   <SheetTitle>Filter Events</SheetTitle>
-                  <SheetDescription>
-                    Filter events by category and type.
-                  </SheetDescription>
+                  <SheetDescription>Filter events by category and type.</SheetDescription>
                 </SheetHeader>
-                <div className="py-6 space-y-6">
-                  <div className="space-y-3">
-                    <h3 className="text-sm font-medium">Categories</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {categories.map((category) => (
+                <div className='py-6 space-y-6'>
+                  <div className='space-y-3'>
+                    <h3 className='text-sm font-medium'>Categories</h3>
+                    <div className='flex flex-wrap gap-2'>
+                      {categories.map(category => (
                         <Badge
                           key={category}
-                          variant={selectedCategory === category ? "default" : "outline"}
-                          className="cursor-pointer hover:bg-primary/90 transition-colors"
+                          variant={selectedCategory === category ? 'default' : 'outline'}
+                          className='cursor-pointer hover:bg-primary/90 transition-colors'
                           onClick={() => setSelectedCategory(category)}
                         >
                           {category === 'all' ? 'All' : category}
@@ -101,7 +90,7 @@ export default function EventsPage() {
               </SheetContent>
             </Sheet>
             <Button>
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className='h-4 w-4 mr-2' />
               Create Event
             </Button>
           </div>
@@ -110,76 +99,63 @@ export default function EventsPage() {
         {/* Events Grid */}
         <motion.div
           variants={stagger}
-          initial="initial"
-          animate="animate"
-          className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+          initial='initial'
+          animate='animate'
+          className='grid grid-cols-1 lg:grid-cols-2 gap-6'
         >
-          <AnimatePresence mode="popLayout">
-            {filteredEvents.map((event) => (
-              <motion.div
-                key={event.id}
-                variants={fadeInUp}
-                layout
-                layoutId={event.id}
-              >
-                <Card className="h-full overflow-hidden">
+          <AnimatePresence mode='popLayout'>
+            {filteredEvents.map(event => (
+              <motion.div key={event.id} variants={fadeInUp} layout layoutId={event.id}>
+                <Card className='h-full overflow-hidden'>
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      className="w-full h-48 object-cover"
-                    />
+                    <img src={event.image} alt={event.title} className='w-full h-48 object-cover' />
                   </motion.div>
                   <CardHeader>
-                    <div className="flex items-center gap-2 mb-2">
-                      <img
-                        src={event.club.logo}
-                        alt={event.club.name}
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <span className="font-medium">{event.club.name}</span>
+                    <div className='flex items-center gap-2 mb-2'>
+                      <img src={event.club.logo} alt={event.club.name} className='w-8 h-8 rounded-full' />
+                      <span className='font-medium'>{event.club.name}</span>
                     </div>
                     <CardTitle>{event.title}</CardTitle>
                     <CardDescription>{event.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
+                    <div className='space-y-2 text-sm'>
+                      <div className='flex items-center gap-2'>
+                        <Calendar className='h-4 w-4' />
                         <span>
                           {format(new Date(event.date), 'PPP')}
                           {event.endDate && ` - ${format(new Date(event.endDate), 'PPP')}`}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4" />
+                      <div className='flex items-center gap-2'>
+                        <Clock className='h-4 w-4' />
                         <span>{format(new Date(event.date), 'p')}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4" />
+                      <div className='flex items-center gap-2'>
+                        <MapPin className='h-4 w-4' />
                         <span>{event.location}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Users className="h-4 w-4" />
+                      <div className='flex items-center gap-2'>
+                        <Users className='h-4 w-4' />
                         <span>{event.attendees} attendees</span>
                       </div>
                     </div>
                   </CardContent>
-                  <CardFooter className="flex flex-col items-start gap-4">
-                    <div className="flex flex-wrap gap-2">
-                      {event.tags.map((tag) => (
-                        <Badge key={tag} variant="outline" className="flex items-center gap-1">
-                          <Tag className="h-3 w-3" />
+                  <CardFooter className='flex flex-col items-start gap-4'>
+                    <div className='flex flex-wrap gap-2'>
+                      {event.tags.map(tag => (
+                        <Badge key={tag} variant='outline' className='flex items-center gap-1'>
+                          <Tag className='h-3 w-3' />
                           {tag}
                         </Badge>
                       ))}
                     </div>
-                    <Button className="w-full" asChild>
-                      <a href={event.registrationLink} target="_blank" rel="noopener noreferrer">
+                    <Button className='w-full' asChild>
+                      <a href={event.registrationLink} target='_blank' rel='noopener noreferrer'>
                         Register Now
                       </a>
                     </Button>
@@ -191,18 +167,12 @@ export default function EventsPage() {
         </motion.div>
 
         {filteredEvents.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-12"
-          >
-            <h2 className="text-2xl font-semibold mb-2">No Events Found</h2>
-            <p className="text-muted-foreground">
-              Try adjusting your search or filter criteria
-            </p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='text-center py-12'>
+            <h2 className='text-2xl font-semibold mb-2'>No Events Found</h2>
+            <p className='text-muted-foreground'>Try adjusting your search or filter criteria</p>
           </motion.div>
         )}
       </div>
     </MemberLayout>
   );
-} 
+}

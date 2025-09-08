@@ -29,7 +29,6 @@ function CommandDialog({
   title?: string;
   description?: string;
   className?: string;
-
 }) {
   return (
     <Dialog {...props}>

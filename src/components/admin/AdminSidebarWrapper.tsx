@@ -2,9 +2,8 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AdminSidebar } from './Sidebar';
 import InstituteAdminSidebar from './organization/OrganizationAdminSidebar';
-import SuperAdminSidebar  from './SuperAdminSidebar';
-import { useSidebar } from '@/components/ui/sidebar-context';
-import type { AdminType } from '@/components/ui/sidebar-context';
+import SuperAdminSidebar from './SuperAdminSidebar';
+import { useSidebar, type AdminType } from '@/components/ui/sidebar-context';
 
 export function AdminSidebarWrapper() {
   const { pathname } = useLocation();

@@ -71,7 +71,7 @@ export interface Club {
   description: string;
   logo: string;
   coverImage: string;
-  template: "modern" | "creative" | "minimal";
+  template: 'modern' | 'creative' | 'minimal';
   category: string;
   established: string;
   socialLinks: {
@@ -88,7 +88,7 @@ export interface Club {
     id: string;
     name: string;
     avatar: string;
-    role: "admin" | "moderator" | "member";
+    role: 'admin' | 'moderator' | 'member';
     joinedAt: string;
     department: string;
     year: number;
@@ -105,7 +105,7 @@ export interface Club {
     registrationDeadline: string;
     attendees: number;
     maxAttendees: number;
-    status: "upcoming" | "ongoing" | "completed" | "cancelled";
+    status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
   }[];
   achievements: {
     id: string;
@@ -118,7 +118,7 @@ export interface Club {
     id: string;
     title: string;
     image: string;
-    type: "image" | "video";
+    type: 'image' | 'video';
     date: string;
   }[];
   announcements: {
@@ -130,9 +130,9 @@ export interface Club {
       id: string;
       name: string;
       avatar: string;
-      role: "admin" | "moderator" | "member";
+      role: 'admin' | 'moderator' | 'member';
     };
-    priority: "low" | "medium" | "high";
+    priority: 'low' | 'medium' | 'high';
   }[];
   features: {
     enableEvents: boolean;
@@ -141,4 +141,4 @@ export interface Club {
     enableMassMessage: boolean;
     enableRegistration: boolean;
   };
-} 
+}

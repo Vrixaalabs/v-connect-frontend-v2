@@ -41,4 +41,4 @@ export interface Post {
 
 export interface FeedData {
   posts: Post[];
-} 
+}

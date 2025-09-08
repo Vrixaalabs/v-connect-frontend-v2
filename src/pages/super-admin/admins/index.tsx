@@ -26,30 +26,38 @@ const SuperAdminAdminsPage = () => {
     organizationId: '',
   });
 
-  const { data: adminsData, loading: adminsLoading, error: adminsError } = useQuery(GET_ORGANIZATION_ADMINS, {
+  const {
+    data: adminsData,
+    loading: adminsLoading,
+    error: adminsError,
+  } = useQuery(GET_ORGANIZATION_ADMINS, {
     variables: {
       page: 1,
       limit: 10,
       search: searchQuery,
     },
-    onError: (error) => {
+    onError: error => {
       toast.error('Failed to load admins', error.message);
     },
   });
 
-  const { data: organizationsData, loading: organizationsLoading, error: organizationsError } = useQuery(SEARCH_ORGANIZATIONS, {
+  const {
+    data: organizationsData,
+    loading: organizationsLoading,
+    error: organizationsError,
+  } = useQuery(SEARCH_ORGANIZATIONS, {
     variables: {
       filter: {},
       page: 1,
       limit: 1000,
     },
-    onError: (error) => {
+    onError: error => {
       toast.error('Failed to load organizations', error.message);
     },
   });
 
   const [assignAdmin, { loading: assigning }] = useMutation(ASSIGN_ORGANIZATION_ADMIN, {
-    onCompleted: (data) => {
+    onCompleted: data => {
       if (data.assignAdmin.success) {
         toast.success('Admin assigned successfully');
         setIsAssignModalOpen(false);
@@ -61,21 +69,21 @@ const SuperAdminAdminsPage = () => {
         toast.error('Failed to assign admin', data.assignAdmin.message);
       }
     },
-    onError: (error) => {
+    onError: error => {
       toast.error('Failed to assign admin', error.message);
     },
     refetchQueries: ['GetOrganizationAdmins'],
   });
 
   const [removeAdmin, { loading: removing }] = useMutation(REMOVE_ORGANIZATION_ADMIN, {
-    onCompleted: (data) => {
+    onCompleted: data => {
       if (data.removeAdmin.success) {
         toast.success('Admin removed successfully');
       } else {
         toast.error('Failed to remove admin', data.removeAdmin.message);
       }
     },
-    onError: (error) => {
+    onError: error => {
       toast.error('Failed to remove admin', error.message);
     },
     refetchQueries: ['GetOrganizationAdmins'],
@@ -104,7 +112,7 @@ const SuperAdminAdminsPage = () => {
 
   if (adminsLoading || organizationsLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className='flex items-center justify-center min-h-screen'>
         <LoadingSpinner />
       </div>
     );
@@ -112,10 +120,10 @@ const SuperAdminAdminsPage = () => {
 
   if (adminsError || organizationsError) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen text-center p-6">
-        <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
-        <h2 className="text-2xl font-bold mb-2">Failed to Load Data</h2>
-        <p className="text-muted-foreground">Please try refreshing the page</p>
+      <div className='flex flex-col items-center justify-center min-h-screen text-center p-6'>
+        <AlertCircle className='w-12 h-12 text-red-500 mb-4' />
+        <h2 className='text-2xl font-bold mb-2'>Failed to Load Data</h2>
+        <p className='text-muted-foreground'>Please try refreshing the page</p>
       </div>
     );
   }
@@ -145,45 +153,35 @@ const SuperAdminAdminsPage = () => {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className='container mx-auto p-6 space-y-8'>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
         {stats.map((stat, index) => (
-          <MotionCard
-            key={stat.title}
-            delay={index * 0.1}
-            className="bg-card"
-          >
-            <div className="flex items-center gap-4">
-              <div className={cn("p-3 rounded-full bg-muted", stat.color)}>
-                <stat.icon className="w-6 h-6" />
+          <MotionCard key={stat.title} delay={index * 0.1} className='bg-card'>
+            <div className='flex items-center gap-4'>
+              <div className={cn('p-3 rounded-full bg-muted', stat.color)}>
+                <stat.icon className='w-6 h-6' />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">{stat.title}</p>
-                <h3 className="text-2xl font-bold">{stat.value}</h3>
+                <p className='text-sm text-muted-foreground'>{stat.title}</p>
+                <h3 className='text-2xl font-bold'>{stat.value}</h3>
               </div>
             </div>
           </MotionCard>
         ))}
       </div>
 
-      <div className="flex justify-between items-center">
-        <div className="flex gap-4 items-center">
+      <div className='flex justify-between items-center'>
+        <div className='flex gap-4 items-center'>
           <Input
-            type="text"
-            placeholder="Search admins..."
+            type='text'
+            placeholder='Search admins...'
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="max-w-sm"
+            onChange={e => setSearchQuery(e.target.value)}
+            className='max-w-sm'
           />
         </div>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <Button onClick={() => setIsAssignModalOpen(true)}>
-            Assign New Admin
-          </Button>
+        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3 }}>
+          <Button onClick={() => setIsAssignModalOpen(true)}>Assign New Admin</Button>
         </motion.div>
       </div>
 
@@ -192,42 +190,34 @@ const SuperAdminAdminsPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
         >
           {admins.map((admin: OrganizationAdmin, index: number) => (
             <MotionCard
               key={admin.id}
               delay={index * 0.1}
-              className="relative group"
+              className='relative group'
               header={
-                <div className="flex items-center justify-between">
+                <div className='flex items-center justify-between'>
                   <div>
-                    <h3 className="text-lg font-semibold">{admin.userId}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {admin.organizationId}
-                    </p>
+                    <h3 className='text-lg font-semibold'>{admin.userId}</h3>
+                    <p className='text-sm text-muted-foreground'>{admin.organizationId}</p>
                   </div>
-                  <Badge variant={admin.role.isCustom ? "secondary" : "default"}>
-                    {admin.role.name}
-                  </Badge>
+                  <Badge variant={admin.role.isCustom ? 'secondary' : 'default'}>{admin.role.name}</Badge>
                 </div>
               }
               footer={
-                <div className="flex justify-between items-center">
-                  <div className="text-sm text-muted-foreground">
+                <div className='flex justify-between items-center'>
+                  <div className='text-sm text-muted-foreground'>
                     Added {new Date(admin.createdAt).toLocaleDateString()}
                   </div>
-                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setSelectedAdmin(admin)}
-                    >
+                  <div className='flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity'>
+                    <Button variant='outline' size='sm' onClick={() => setSelectedAdmin(admin)}>
                       View
                     </Button>
                     <Button
-                      variant="destructive"
-                      size="sm"
+                      variant='destructive'
+                      size='sm'
                       onClick={() => handleRemoveAdmin(admin)}
                       disabled={removing}
                     >
@@ -237,16 +227,12 @@ const SuperAdminAdminsPage = () => {
                 </div>
               }
             >
-              <div className="space-y-2">
-                <div className="text-sm">
-                  <span className="font-medium">Permissions:</span>
-                  <div className="flex flex-wrap gap-1 mt-1">
+              <div className='space-y-2'>
+                <div className='text-sm'>
+                  <span className='font-medium'>Permissions:</span>
+                  <div className='flex flex-wrap gap-1 mt-1'>
                     {admin.role.permissions.map((permission: string) => (
-                      <Badge
-                        key={permission}
-                        variant="outline"
-                        className="text-xs"
-                      >
+                      <Badge key={permission} variant='outline' className='text-xs'>
                         {permission.split('_').join(' ')}
                       </Badge>
                     ))}
@@ -259,27 +245,24 @@ const SuperAdminAdminsPage = () => {
       </AnimatePresence>
 
       {/* Assign Admin Modal */}
-      <Dialog
-        open={isAssignModalOpen}
-        onOpenChange={setIsAssignModalOpen}
-      >
+      <Dialog open={isAssignModalOpen} onOpenChange={setIsAssignModalOpen}>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className="p-6"
+          className='p-6'
         >
-          <h2 className="text-2xl font-bold mb-6">Assign New Admin</h2>
-          
-          <div className="space-y-4">
+          <h2 className='text-2xl font-bold mb-6'>Assign New Admin</h2>
+
+          <div className='space-y-4'>
             <div>
               <Label>Admin Email</Label>
               <Input
-                type="email"
+                type='email'
                 value={newAdmin.email}
-                onChange={(e) => setNewAdmin({ ...newAdmin, email: e.target.value })}
-                placeholder="Enter admin email"
+                onChange={e => setNewAdmin({ ...newAdmin, email: e.target.value })}
+                placeholder='Enter admin email'
               />
             </div>
 
@@ -287,7 +270,7 @@ const SuperAdminAdminsPage = () => {
               <Label>Institute</Label>
               <Select
                 value={newAdmin.organizationId}
-                onValueChange={(value) => setNewAdmin({ ...newAdmin, organizationId: value })}
+                onValueChange={value => setNewAdmin({ ...newAdmin, organizationId: value })}
               >
                 {organizations.map((organization: Organization) => (
                   <option key={organization.id} value={organization.id}>
@@ -297,17 +280,11 @@ const SuperAdminAdminsPage = () => {
               </Select>
             </div>
 
-            <div className="flex justify-end gap-4 mt-6">
-              <Button
-                variant="outline"
-                onClick={() => setIsAssignModalOpen(false)}
-              >
+            <div className='flex justify-end gap-4 mt-6'>
+              <Button variant='outline' onClick={() => setIsAssignModalOpen(false)}>
                 Cancel
               </Button>
-              <Button 
-                onClick={handleAssignAdmin}
-                disabled={assigning || !newAdmin.email || !newAdmin.organizationId}
-              >
+              <Button onClick={handleAssignAdmin} disabled={assigning || !newAdmin.email || !newAdmin.organizationId}>
                 {assigning ? 'Assigning...' : 'Assign Admin'}
               </Button>
             </div>
@@ -316,48 +293,42 @@ const SuperAdminAdminsPage = () => {
       </Dialog>
 
       {/* View Admin Modal */}
-      <Dialog
-        open={!!selectedAdmin}
-        onOpenChange={() => setSelectedAdmin(null)}
-      >
+      <Dialog open={!!selectedAdmin} onOpenChange={() => setSelectedAdmin(null)}>
         {selectedAdmin && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="p-6"
+            className='p-6'
           >
-            <h2 className="text-2xl font-bold mb-6">Admin Details</h2>
-            <div className="space-y-4">
+            <h2 className='text-2xl font-bold mb-6'>Admin Details</h2>
+            <div className='space-y-4'>
               <div>
-                <label className="font-semibold">Email:</label>
-                <p className="text-muted-foreground">{selectedAdmin.userId}</p>
+                <label className='font-semibold'>Email:</label>
+                <p className='text-muted-foreground'>{selectedAdmin.userId}</p>
               </div>
 
               <div>
-                <label className="font-semibold">Institute:</label>
-                <p className="text-muted-foreground">{selectedAdmin.organizationId}</p>
+                <label className='font-semibold'>Institute:</label>
+                <p className='text-muted-foreground'>{selectedAdmin.organizationId}</p>
               </div>
 
               <div>
-                <label className="font-semibold">Role:</label>
-                <div className="flex items-center gap-2">
+                <label className='font-semibold'>Role:</label>
+                <div className='flex items-center gap-2'>
                   <p>{selectedAdmin.role.name}</p>
-                  <Badge variant={selectedAdmin.role.isCustom ? "secondary" : "default"}>
+                  <Badge variant={selectedAdmin.role.isCustom ? 'secondary' : 'default'}>
                     {selectedAdmin.role.isCustom ? 'Custom' : 'Default'}
                   </Badge>
                 </div>
               </div>
 
               <div>
-                <label className="font-semibold">Permissions:</label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  {selectedAdmin.role.permissions.map((permission) => (
-                    <div
-                      key={permission}
-                      className="p-2 bg-muted rounded-md text-sm"
-                    >
+                <label className='font-semibold'>Permissions:</label>
+                <div className='grid grid-cols-2 gap-2 mt-2'>
+                  {selectedAdmin.role.permissions.map(permission => (
+                    <div key={permission} className='p-2 bg-muted rounded-md text-sm'>
                       {permission.split('_').join(' ')}
                     </div>
                   ))}
@@ -365,10 +336,8 @@ const SuperAdminAdminsPage = () => {
               </div>
 
               <div>
-                <label className="font-semibold">Assigned Date:</label>
-                <p className="text-muted-foreground">
-                  {new Date(selectedAdmin.createdAt).toLocaleDateString()}
-                </p>
+                <label className='font-semibold'>Assigned Date:</label>
+                <p className='text-muted-foreground'>{new Date(selectedAdmin.createdAt).toLocaleDateString()}</p>
               </div>
             </div>
           </motion.div>

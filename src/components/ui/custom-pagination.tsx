@@ -16,12 +16,7 @@ interface CustomPaginationProps {
   onChange: (page: number) => void;
 }
 
-export function CustomPagination({
-  total,
-  pageSize,
-  current,
-  onChange,
-}: CustomPaginationProps) {
+export function CustomPagination({ total, pageSize, current, onChange }: CustomPaginationProps) {
   const totalPages = Math.ceil(total / pageSize);
 
   if (totalPages <= 1) {
@@ -43,13 +38,13 @@ export function CustomPagination({
     // Add first page
     if (startPage > 1) {
       items.push(
-        <PaginationItem key="1">
+        <PaginationItem key='1'>
           <PaginationLink onClick={() => onChange(1)}>1</PaginationLink>
         </PaginationItem>
       );
       if (startPage > 2) {
         items.push(
-          <PaginationItem key="start-ellipsis">
+          <PaginationItem key='start-ellipsis'>
             <PaginationEllipsis />
           </PaginationItem>
         );
@@ -60,10 +55,7 @@ export function CustomPagination({
     for (let i = startPage; i <= endPage; i++) {
       items.push(
         <PaginationItem key={i}>
-          <PaginationLink
-            isActive={current === i}
-            onClick={() => onChange(i)}
-          >
+          <PaginationLink isActive={current === i} onClick={() => onChange(i)}>
             {i}
           </PaginationLink>
         </PaginationItem>
@@ -74,16 +66,14 @@ export function CustomPagination({
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
         items.push(
-          <PaginationItem key="end-ellipsis">
+          <PaginationItem key='end-ellipsis'>
             <PaginationEllipsis />
           </PaginationItem>
         );
       }
       items.push(
         <PaginationItem key={totalPages}>
-          <PaginationLink onClick={() => onChange(totalPages)}>
-            {totalPages}
-          </PaginationLink>
+          <PaginationLink onClick={() => onChange(totalPages)}>{totalPages}</PaginationLink>
         </PaginationItem>
       );
     }

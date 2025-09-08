@@ -53,34 +53,30 @@ export default function EditEntityPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto py-6 space-y-6">
-        <Skeleton className="h-8 w-64" />
-        <Skeleton className="h-[400px] w-full" />
+      <div className='container mx-auto py-6 space-y-6'>
+        <Skeleton className='h-8 w-64' />
+        <Skeleton className='h-[400px] w-full' />
       </div>
     );
   }
 
   if (!entity) {
     return (
-      <div className="container mx-auto py-6">
-        <h1 className="text-2xl font-bold">Entity not found</h1>
+      <div className='container mx-auto py-6'>
+        <h1 className='text-2xl font-bold'>Entity not found</h1>
       </div>
     );
   }
 
   return (
     <EntityLayout>
-      <div className="container mx-auto py-6">
+      <div className='container mx-auto py-6'>
         <Card>
           <CardHeader>
             <CardTitle>Edit Entity</CardTitle>
           </CardHeader>
           <CardContent>
-            <EntityForm
-              onSubmit={handleUpdateEntity}
-              initialData={entity}
-              isLoading={updating}
-            />
+            <EntityForm onSubmit={handleUpdateEntity} initialData={entity} isLoading={updating} />
           </CardContent>
         </Card>
       </div>

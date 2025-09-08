@@ -33,19 +33,9 @@ export function MotionCard({
       whileTap={{ scale: 0.98 }}
     >
       <Card className={cn('overflow-hidden', className)} {...props}>
-        {header && (
-          <CardHeader className={headerClassName}>
-            {header}
-          </CardHeader>
-        )}
-        <CardContent className={contentClassName}>
-          {children}
-        </CardContent>
-        {footer && (
-          <CardFooter className={footerClassName}>
-            {footer}
-          </CardFooter>
-        )}
+        {header && <CardHeader className={headerClassName}>{header}</CardHeader>}
+        <CardContent className={contentClassName}>{children}</CardContent>
+        {footer && <CardFooter className={footerClassName}>{footer}</CardFooter>}
       </Card>
     </motion.div>
   );

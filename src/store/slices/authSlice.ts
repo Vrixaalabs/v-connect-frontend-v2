@@ -301,19 +301,19 @@ const authSlice = createSlice({
   },
 });
 
-export const { 
-  setLoading, 
-  setError, 
-  clearError, 
-  updateLastActivity, 
-  setTokens, 
-  clearTokens, 
-  setUser, 
-  clearUser, 
-  setCurrentBranchId, 
-  clearCurrentBranchId, 
-  setCurrentOrganization, 
-  clearCurrentOrganization 
+export const {
+  setLoading,
+  setError,
+  clearError,
+  updateLastActivity,
+  setTokens,
+  clearTokens,
+  setUser,
+  clearUser,
+  setCurrentBranchId,
+  clearCurrentBranchId,
+  setCurrentOrganization,
+  clearCurrentOrganization,
 } = authSlice.actions;
 
 export default authSlice.reducer;

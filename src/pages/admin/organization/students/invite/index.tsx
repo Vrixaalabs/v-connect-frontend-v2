@@ -3,22 +3,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToastHelpers } from '@/components/ui/toast';
 import { Card } from '@/components/ui/card';
 import InstituteAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
@@ -34,17 +21,7 @@ const inviteStudentSchema = z.object({
   program: z.string().min(1, 'Program is required'),
 });
 
-const programs = [
-  'B.Tech',
-  'M.Tech',
-  'PhD',
-  'MBA',
-  'BBA',
-  'MCA',
-  'MSc',
-  'BSc',
-  'Other',
-];
+const programs = ['B.Tech', 'M.Tech', 'PhD', 'MBA', 'BBA', 'MCA', 'MSc', 'BSc', 'Other'];
 
 export default function InviteStudent() {
   const [isLoading, setIsLoading] = useState(false);
@@ -75,7 +52,7 @@ export default function InviteStudent() {
       setIsLoading(true);
       // TODO: Implement the invite mutation here
       console.log('Inviting student:', data);
-      
+
       toast.success('Success', 'Student invitation sent successfully');
       form.reset();
     } catch (error) {
@@ -86,23 +63,20 @@ export default function InviteStudent() {
   };
 
   return (
-    <InstituteAdminLayout
-      title="Invite Student"
-      description="Send an invitation to a new student"
-    >
-      <div className="max-w-2xl mx-auto">
-        <Card className="p-6">
+    <InstituteAdminLayout title='Invite Student' description='Send an invitation to a new student'>
+      <div className='max-w-2xl mx-auto'>
+        <Card className='p-6'>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <FormField
                   control={form.control}
-                  name="firstName"
+                  name='firstName'
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter first name" {...field} />
+                        <Input placeholder='Enter first name' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -111,12 +85,12 @@ export default function InviteStudent() {
 
                 <FormField
                   control={form.control}
-                  name="lastName"
+                  name='lastName'
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Last Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter last name" {...field} />
+                        <Input placeholder='Enter last name' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -126,16 +100,12 @@ export default function InviteStudent() {
 
               <FormField
                 control={form.control}
-                name="email"
+                name='email'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Enter student email"
-                        {...field}
-                      />
+                      <Input type='email' placeholder='Enter student email' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -144,21 +114,18 @@ export default function InviteStudent() {
 
               <FormField
                 control={form.control}
-                name="entityId"
+                name='entityId'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Department/School</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select department/school" />
+                          <SelectValue placeholder='Select department/school' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {mockEntities.map((entity) => (
+                        {mockEntities.map(entity => (
                           <SelectItem key={entity.id} value={entity.id}>
                             {entity.name}
                           </SelectItem>
@@ -170,15 +137,15 @@ export default function InviteStudent() {
                 )}
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <FormField
                   control={form.control}
-                  name="rollNumber"
+                  name='rollNumber'
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Roll Number</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter roll number" {...field} />
+                        <Input placeholder='Enter roll number' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -187,18 +154,12 @@ export default function InviteStudent() {
 
                 <FormField
                   control={form.control}
-                  name="batch"
+                  name='batch'
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Batch</FormLabel>
                       <FormControl>
-                        <Input
-                          type="number"
-                          min={2000}
-                          max={2100}
-                          placeholder="Enter batch year"
-                          {...field}
-                        />
+                        <Input type='number' min={2000} max={2100} placeholder='Enter batch year' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -208,21 +169,18 @@ export default function InviteStudent() {
 
               <FormField
                 control={form.control}
-                name="program"
+                name='program'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Program</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select program" />
+                          <SelectValue placeholder='Select program' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {programs.map((program) => (
+                        {programs.map(program => (
                           <SelectItem key={program} value={program}>
                             {program}
                           </SelectItem>
@@ -234,11 +192,7 @@ export default function InviteStudent() {
                 )}
               />
 
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
+              <Button type='submit' className='w-full' disabled={isLoading}>
                 {isLoading ? 'Sending Invitation...' : 'Send Invitation'}
               </Button>
             </form>

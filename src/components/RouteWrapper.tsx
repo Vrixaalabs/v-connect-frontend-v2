@@ -18,17 +18,16 @@ export const RouteWrapper: React.FC<RouteWrapperProps> = ({ children }) => {
   }
 
   return (
-    <ProtectedRoute 
+    <ProtectedRoute
       requireAuth={routeConfig.requireAuth}
       allowedRoles={routeConfig.allowedRoles}
       requireBranch={routeConfig.requireBranch}
-      redirectTo={routeConfig.redirectTo}>
+      redirectTo={routeConfig.redirectTo}
+    >
       {isAdminRoute ? (
-        <div className="flex h-screen">
+        <div className='flex h-screen'>
           <AdminSidebarWrapper />
-          <main className="flex-1 overflow-y-auto">
-            {children}
-          </main>
+          <main className='flex-1 overflow-y-auto'>{children}</main>
         </div>
       ) : (
         children
