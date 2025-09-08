@@ -241,6 +241,49 @@ export const DELETE_ORGANIZATION_ROLE = gql`
   }
 `;
 
+export const CREATE_ENTITY = gql`
+  mutation CreateEntity($input: CreateEntityInput!) {
+    createEntity(input: $input) {
+      success
+      message
+      entity {
+        entityId
+        name
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const UPDATE_ENTITY = gql`
+  mutation UpdateEntity($id: ID!, $input: UpdateEntityInput!) {
+    updateEntity(id: $id, input: $input) {
+      success
+      message
+      entity {
+        id
+        name
+        type
+        code
+        description
+        parentId
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const DELETE_ENTITY = gql`
+  mutation DeleteEntity($id: ID!) {
+    deleteEntity(id: $id) {
+      success
+      message
+    }
+  }
+`;
+
 export const ASSIGN_ORGANIZATION_ROLE = gql`
   mutation AssignOrganizationRole($organizationId: ID!, $userId: ID!, $roleId: ID!, $departmentId: ID) {
     assignOrganizationRole(

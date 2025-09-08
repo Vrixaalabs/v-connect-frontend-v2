@@ -23,10 +23,10 @@ import type { CreateEntityInput, Entity, EntityType } from '@/types/entity';
 
 const entitySchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  type: z.enum(['department', 'school', 'office', 'center', 'other'] as const),
+  type: z.enum(['DEPARTMENT', 'COMMITTEE', 'TEAM', 'OTHER'] as const),
   code: z.string().min(1, 'Code is required'),
   description: z.string().optional(),
-  parentId: z.string().optional().nullable(),
+  parentEntityId: z.string().optional().nullable(),
 });
 
 interface EntityFormProps {
@@ -46,14 +46,14 @@ export default function EntityForm({
     resolver: zodResolver(entitySchema),
     defaultValues: {
       name: initialData?.name || '',
-      type: initialData?.type || 'department',
+      type: initialData?.type || 'DEPARTMENT',
       code: initialData?.code || '',
       description: initialData?.description || '',
-      parentId: initialData?.parentId || null,
+      parentEntityId: initialData?.parentEntityId || null,
     },
   });
 
-  const entityTypes: EntityType[] = ['department', 'school', 'office', 'center', 'other'];
+  const entityTypes: EntityType[] = ['DEPARTMENT', 'COMMITTEE', 'TEAM', 'OTHER'];
 
   return (
     <Form {...form}>
@@ -135,7 +135,7 @@ export default function EntityForm({
 
         <FormField
           control={form.control}
-          name="parentId"
+          name="parentEntityId"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Parent Entity (Optional)</FormLabel>
@@ -149,7 +149,7 @@ export default function EntityForm({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="">None</SelectItem>
+                  <SelectItem value="none">None</SelectItem>
                   {existingEntities.map((entity) => (
                     <SelectItem key={entity.id} value={entity.id}>
                       {entity.name}
