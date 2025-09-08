@@ -1,6 +1,8 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from '@/hooks/redux';
+import { useQuery } from '@apollo/client';
+import { GET_USER_ENTITIES } from '@/graphql/queries';
 import {
   Home,
   Users,
@@ -52,7 +54,19 @@ const sidebarLinks: SidebarLink[] = [
     ],
   },
   { icon: Users, label: 'Network', href: '/network' },
-  { icon: Building2, label: 'My Entities', href: '/member/entities' },
+  { 
+    icon: Building2, 
+    label: 'My Entities', 
+    href: '/member/entities',
+    subItems: [
+      { icon: Building2, label: 'All Entities', href: '/member/entities' },
+      { icon: Building2, label: 'My Entities', href: '/member/entities/[entityId]' },
+      { icon: Building2, label: 'Create Entity', href: '/member/entities/[entityId]/create' },
+      { icon: Building2, label: 'Manage Members', href: '/member/entities/[entityId]/members' },
+      { icon: Building2, label: 'View Events', href: '/member/entities/[entityId]/events' },
+      { icon: Building2, label: 'Settings', href: '/member/entities/[entityId]/settings' },
+    ],
+  },
   { icon: BookOpen, label: 'Clubs', href: '/clubs' },
   { icon: GraduationCap, label: 'Alumni', href: '/alumni' },
   { icon: Briefcase, label: 'Jobs', href: '/jobs' },
@@ -65,7 +79,18 @@ const sidebarLinks: SidebarLink[] = [
 
 export const MemberSidebar: React.FC<MemberSidebarProps> = ({ isCollapsed = false }) => {
   const location = useLocation();
+  const { id: urlEntityId } = useParams();
   const { user } = useAppSelector((state) => state.auth);
+  const { data: entitiesData } = useQuery(GET_USER_ENTITIES);
+
+  // Get the first entity ID if available, otherwise use the URL param
+  const firstEntityId = entitiesData?.getUserEntities?.entities?.[0]?.entityId;
+  const entityId = urlEntityId || firstEntityId;
+
+  // Function to replace [entityId] with actual ID in href
+  const getEntityUrl = (href: string) => {
+    return entityId ? href.replace('[entityId]', entityId) : href;
+  };
 
   return (
     <div className="flex flex-col h-full border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -79,14 +104,14 @@ export const MemberSidebar: React.FC<MemberSidebarProps> = ({ isCollapsed = fals
         <nav className={cn("space-y-1", isCollapsed ? "px-1" : "px-2")}>
           {sidebarLinks.map((link) => {
             const Icon = link.icon;
-            const isActive = location.pathname === link.href || 
-              (link.subItems?.some(item => location.pathname === item.href));
+            const isActive = location.pathname === getEntityUrl(link.href) || 
+              (link.subItems?.some(item => location.pathname === getEntityUrl(item.href)));
             const hasSubItems = link.subItems && link.subItems.length > 0;
 
             return (
               <div key={link.href} className="space-y-1">
                 <Link
-                  to={link.href}
+                  to={getEntityUrl(link.href)}
                   className={cn(
                     'flex items-center gap-x-3 py-2 text-sm font-medium rounded-lg transition-colors relative group',
                     isCollapsed ? 'justify-center px-2' : 'px-3',
@@ -121,22 +146,22 @@ export const MemberSidebar: React.FC<MemberSidebarProps> = ({ isCollapsed = fals
                   <div className="ml-6 space-y-1">
                     {link.subItems?.map((subItem) => {
                       const SubIcon = subItem.icon;
-                      const isSubActive = location.pathname === subItem.href;
+                      const isSubActive = location.pathname === getEntityUrl(subItem.href);
 
                       return (
-                        <Link
-                          key={subItem.href}
-                          to={subItem.href}
-                          className={cn(
-                            'flex items-center gap-x-3 py-1.5 px-3 text-sm rounded-md transition-colors',
-                            isSubActive
-                              ? 'text-primary font-medium bg-primary/10'
-                              : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                          )}
-                        >
-                          <SubIcon className="h-3.5 w-3.5" />
-                          {subItem.label}
-                        </Link>
+                  <Link
+                    key={subItem.href}
+                    to={getEntityUrl(subItem.href)}
+                    className={cn(
+                      'flex items-center gap-x-3 py-1.5 px-3 text-sm rounded-md transition-colors',
+                      isSubActive
+                        ? 'text-primary font-medium bg-primary/10'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    )}
+                  >
+                    <SubIcon className="h-3.5 w-3.5" />
+                    {subItem.label}
+                  </Link>
                       );
                     })}
                   </div>
