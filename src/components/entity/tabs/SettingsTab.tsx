@@ -1,51 +1,15 @@
-import { useParams, useLocation } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-import { GET_ENTITY_BY_ENTITY_ID } from '@/graphql/queries';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
+import type { Entity } from '@/types/entity';
 
-export default function EntitySettingsPage() {
-  const { id } = useParams();
-  const { state } = useLocation();
-  const entityId = state?.entityId || id;
 
-  const { data, loading } = useQuery(GET_ENTITY_BY_ENTITY_ID, {
-    variables: { entityId },
-    skip: !entityId,
-  });
-
-  const entity = data?.getEntityByEntityId?.entity;
-
-  if (loading) {
-    return (
-      <div className='container mx-auto py-6 space-y-6'>
-        <Skeleton className='h-8 w-64' />
-        <Skeleton className='h-[400px] w-full' />
-      </div>
-    );
-  }
-
-  if (!entity) {
-    return (
-      <div className='container mx-auto py-6'>
-        <h1 className='text-2xl font-bold'>Entity not found</h1>
-      </div>
-    );
-  }
-
+export default function SettingsTab({ entity }: { entity: any }) {
   return (
-    <div className='container mx-auto py-6'>
-      <div className='mb-6'>
-        <h1 className='text-2xl font-bold'>Settings</h1>
-        <p className='text-sm text-gray-500'>{entity.name}</p>
-      </div>
-
-      <Tabs defaultValue='general' className='space-y-4'>
+    <Tabs defaultValue='general' className='space-y-4'>
         <TabsList>
           <TabsTrigger value='general'>General</TabsTrigger>
           <TabsTrigger value='permissions'>Permissions</TabsTrigger>
@@ -195,6 +159,5 @@ export default function EntitySettingsPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
   );
 }

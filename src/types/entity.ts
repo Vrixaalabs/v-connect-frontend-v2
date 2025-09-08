@@ -17,6 +17,13 @@ export interface EntityMember {
   status: 'ACTIVE' | 'INACTIVE';
 }
 
+export interface EntityMetadata {
+  totalMembers: number;
+  totalPosts: number;
+  totalEvents: number;
+  lastActivityAt?: string;
+}
+
 export interface Entity {
   entityId: string;
   name: string;
@@ -26,6 +33,7 @@ export interface Entity {
   parentEntityId?: string | null;
   status: EntityStatus;
   member?: EntityMember;
+  metadata?: EntityMetadata;
   createdAt: string;
   updatedAt: string;
 }
