@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { Button } from '@/components/ui/button';
-import EntityForm from '@/components/admin/EntityForm';
+import EntityForm from '@/components/entity/forms/EntityForm';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/useToast';
@@ -20,6 +20,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import MemberLayout from '@/components/layouts/MemberLayout';
 
 export default function MemberEntitiesPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -97,6 +98,7 @@ export default function MemberEntitiesPage() {
   };
 
   return (
+    <MemberLayout>
     <div className='container mx-auto py-6'>
       <div className='flex justify-between items-center mb-6'>
         <h1 className='text-2xl font-bold'>My Entities</h1>
@@ -221,5 +223,6 @@ export default function MemberEntitiesPage() {
         )}
       </div>
     </div>
+    </MemberLayout>
   );
 }

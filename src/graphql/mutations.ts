@@ -311,3 +311,12 @@ export const REMOVE_ORGANIZATION_ROLE = gql`
     }
   }
 `;
+
+export const INVITE_ENTITY_MEMBER = gql`
+  mutation InviteEntityMember($input: InviteEntityMemberInput!) {
+    inviteEntityMember(input: $input) {
+      success
+      message
+    }
+  }
+`;

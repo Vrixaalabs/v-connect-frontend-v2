@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useToastHelpers } from '@/components/ui/toast';
-import EntityForm from '@/components/admin/EntityForm';
+import EntityForm from '@/components/entity/forms/EntityForm';
 import InstituteAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
 import type { Entity, CreateEntityInput } from '@/types/entity';
 

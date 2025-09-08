@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import EntityForm from '@/components/admin/EntityForm';
+import EntityForm from '@/components/entity/forms/EntityForm';
 import type { CreateEntityInput } from '@/types/entity';
 
 export default function EditTab({

@@ -12,6 +12,7 @@ import EditTab from '@/components/entity/tabs/EditTab';
 import SettingsTab from '@/components/entity/tabs/SettingsTab';
 import { toast } from 'sonner';
 import { UPDATE_ENTITY } from '@/graphql/mutations';
+import MemberLayout from '@/components/layouts/MemberLayout';
 
 export default function EntityDetailsPage() {
   const { id } = useParams();
@@ -70,6 +71,7 @@ export default function EntityDetailsPage() {
   };
 
   return (
+    <MemberLayout>
     <div className='container mx-auto py-6'>
       <div className='flex items-center justify-between mb-6'>
         <div>
@@ -100,7 +102,7 @@ export default function EntityDetailsPage() {
         </TabsContent>
 
         <TabsContent value='members'>
-          <MembersTab members={entity.members || []} />
+          <MembersTab members={entity.members || []} entityId={entityId} />
         </TabsContent>
 
         <TabsContent value='events'>
@@ -124,5 +126,6 @@ export default function EntityDetailsPage() {
         </TabsContent>
       </Tabs>
     </div>
+    </MemberLayout>
   );
 }
