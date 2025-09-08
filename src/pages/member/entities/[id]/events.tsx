@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { GET_ENTITY_BY_ID } from '@/graphql/queries';
+import { GET_ENTITY_BY_ENTITY_ID } from '@/graphql/queries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -11,12 +11,16 @@ import { format } from 'date-fns';
 
 export default function EntityEventsPage() {
   const { id } = useParams();
-  const { data, loading } = useQuery(GET_ENTITY_BY_ID, {
-    variables: { id },
+  const { state } = useLocation();
+  const entityId = state?.entityId || id;
+
+  const { data, loading } = useQuery(GET_ENTITY_BY_ENTITY_ID, {
+    variables: { entityId },
+    skip: !entityId,
   });
 
-  const entity = data?.getEntityById?.entity;
-  const events = []; // TODO: Replace with actual events data
+  const entity = data?.getEntityByEntityId?.entity;
+  const events: Array<any> = []; // TODO: Replace with actual events data
 
   if (loading) {
     return (

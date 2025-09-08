@@ -1,19 +1,26 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { GET_ENTITY_BY_ID } from '@/graphql/queries';
+import { GET_ENTITY_BY_ENTITY_ID } from '@/graphql/queries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
+import EntityLayout  from '../../../../components/layouts/EntityLayout';
+
+console.log('[Page] EntityLayout import =', EntityLayout);
 
 export default function EntityDetailsPage() {
   const { id } = useParams();
-  const { data, loading } = useQuery(GET_ENTITY_BY_ID, {
-    variables: { id },
+  const { state } = useLocation();
+  const entityId = state?.entityId || id;
+
+  const { data, loading } = useQuery(GET_ENTITY_BY_ENTITY_ID, {
+    variables: { entityId },
+    skip: !entityId,
   });
 
-  const entity = data?.getEntityById?.entity;
+  const entity = data?.getEntityByEntityId?.entity;
 
   if (loading) {
     return (
@@ -33,14 +40,15 @@ export default function EntityDetailsPage() {
   }
 
   return (
-    <div className="container mx-auto py-6">
+    <EntityLayout>
+      <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold">{entity.name}</h1>
           <p className="text-sm text-gray-500">Code: {entity.code}</p>
         </div>
         <Badge variant={entity.status === 'ACTIVE' ? 'default' : 'secondary'}>
-          {entity.status.charAt(0) + entity.status.slice(1).toLowerCase()}
+          {/* {entity.status.charAt(0) + entity.status.slice(1).toLowerCase()} */}
         </Badge>
       </div>
 
@@ -62,7 +70,7 @@ export default function EntityDetailsPage() {
                 <div>
                   <p className="text-sm font-medium">Type</p>
                   <Badge variant="outline" className="mt-1">
-                    {entity.type.charAt(0) + entity.type.slice(1).toLowerCase()}
+                    {/* {entity.type.charAt(0) + entity.type.slice(1).toLowerCase()} */}
                   </Badge>
                 </div>
 
@@ -82,7 +90,7 @@ export default function EntityDetailsPage() {
 
                 <div>
                   <p className="text-sm font-medium">Created</p>
-                  <p className="text-sm text-gray-500 mt-1">{format(new Date(entity.createdAt), 'PPP')}</p>
+                  {/* <p className="text-sm text-gray-500 mt-1">{format(new Date(entity.createdAt), 'PPP')}</p> */}
                 </div>
               </CardContent>
             </Card>
@@ -105,9 +113,9 @@ export default function EntityDetailsPage() {
                 <div>
                   <p className="text-sm font-medium">Last Activity</p>
                   <p className="text-sm text-gray-500 mt-1">
-                    {entity.metadata?.lastActivityAt
+                    {/* {entity.metadata?.lastActivityAt
                       ? format(new Date(entity.metadata.lastActivityAt), 'PPP')
-                      : 'No activity yet'}
+                      : 'No activity yet'} */}
                   </p>
                 </div>
               </CardContent>
@@ -152,5 +160,6 @@ export default function EntityDetailsPage() {
         </TabsContent>
       </Tabs>
     </div>
+    </EntityLayout>
   );
 }

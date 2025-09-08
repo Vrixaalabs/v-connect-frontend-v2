@@ -1,24 +1,29 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_ENTITY_BY_ID } from '@/graphql/queries';
+import { GET_ENTITY_BY_ENTITY_ID } from '@/graphql/queries';
 import { UPDATE_ENTITY } from '@/graphql/mutations';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/useToast';
 import EntityForm from '@/components/admin/EntityForm';
+import { EntityLayout } from '@/components/layouts/EntityLayout';
 
 export default function EditEntityPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { state } = useLocation();
   const toast = useToast();
 
-  const { data, loading } = useQuery(GET_ENTITY_BY_ID, {
-    variables: { id },
+  const entityId = state?.entityId || id;
+
+  const { data, loading } = useQuery(GET_ENTITY_BY_ENTITY_ID, {
+    variables: { entityId },
+    skip: !entityId,
   });
 
   const [updateEntity, { loading: updating }] = useMutation(UPDATE_ENTITY);
 
-  const entity = data?.getEntityById?.entity;
+  const entity = data?.getEntityByEntityId?.entity;
 
   const handleUpdateEntity = async (formData: any) => {
     try {
@@ -64,19 +69,21 @@ export default function EditEntityPage() {
   }
 
   return (
-    <div className="container mx-auto py-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Edit Entity</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <EntityForm
-            onSubmit={handleUpdateEntity}
-            initialData={entity}
-            isLoading={updating}
-          />
-        </CardContent>
-      </Card>
-    </div>
+    <EntityLayout>
+      <div className="container mx-auto py-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Edit Entity</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <EntityForm
+              onSubmit={handleUpdateEntity}
+              initialData={entity}
+              isLoading={updating}
+            />
+          </CardContent>
+        </Card>
+      </div>
+    </EntityLayout>
   );
 }

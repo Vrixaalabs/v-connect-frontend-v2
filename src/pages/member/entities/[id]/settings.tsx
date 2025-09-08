@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { GET_ENTITY_BY_ID } from '@/graphql/queries';
+import { GET_ENTITY_BY_ENTITY_ID } from '@/graphql/queries';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -17,11 +17,15 @@ import {
 
 export default function EntitySettingsPage() {
   const { id } = useParams();
-  const { data, loading } = useQuery(GET_ENTITY_BY_ID, {
-    variables: { id },
+  const { state } = useLocation();
+  const entityId = state?.entityId || id;
+
+  const { data, loading } = useQuery(GET_ENTITY_BY_ENTITY_ID, {
+    variables: { entityId },
+    skip: !entityId,
   });
 
-  const entity = data?.getEntityById?.entity;
+  const entity = data?.getEntityByEntityId?.entity;
 
   if (loading) {
     return (

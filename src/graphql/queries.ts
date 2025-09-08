@@ -265,18 +265,18 @@ export const GET_USER_ENTITIES = gql`
   }
 `;
 
-export const GET_ENTITY_BY_ID = gql`
-  query GetEntityById($id: ID!) {
-    getEntityById(id: $id) {
+export const GET_ENTITY_BY_ENTITY_ID = gql`
+  query GetEntityByEntityId($entityId: String!) {
+    getEntityByEntityId(entityId: $entityId) {
       success
       message
       entity {
-        id
+        entityId
         name
         type
         code
         description
-        parentId
+        parentEntityId
         createdAt
         updatedAt
       }
