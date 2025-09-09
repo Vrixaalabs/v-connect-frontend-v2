@@ -4,7 +4,6 @@ import { MemberLayout } from '@/components/layouts/MemberLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  Settings,
   User,
   Bell,
   Lock,

@@ -3,7 +3,7 @@ import { MemberLayout } from '@/components/layouts/MemberLayout';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
@@ -28,8 +28,6 @@ import {
   GraduationCap,
   MapPin,
   MessageSquare,
-  Mail,
-  Link as LinkIcon,
   Filter,
   Clock,
   CheckCircle2,

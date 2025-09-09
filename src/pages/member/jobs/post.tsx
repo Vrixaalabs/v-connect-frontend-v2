@@ -15,11 +15,6 @@ import {
 } from '@/components/ui/select';
 import {
   ArrowLeft,
-  Building2,
-  MapPin,
-  Clock,
-  Calendar,
-  DollarSign,
   Plus,
   X,
   FileText,
