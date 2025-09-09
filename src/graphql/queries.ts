@@ -316,11 +316,30 @@ export const GET_MY_ENTITY_INVITES = gql`
   }
 `;
 
-export const GET_ENTITY_INVITES = gql`
-  query GetEntityInvites($entityId: String!) {
-    getEntityInvites(entityId: $entityId) {
+export const GET_INVITE_BY_ENTITY_ID = gql`
+  query GetInviteByEntityId($entityId: String!) {
+    getInviteByEntityId(entityId: $entityId) {
       success
       message
+      invites {
+        inviteId
+        email
+        status
+        entityId
+        userId
+        role
+        rollNumber
+        batch
+        createdAt
+        updatedAt
+        user {
+          userId
+          firstName
+          lastName
+          email
+          avatar
+        }
+      }
     }
   }
 `;

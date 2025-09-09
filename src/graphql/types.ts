@@ -1,7 +1,10 @@
 // User types
 export interface User {
-  id: string;
-  name: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  avatar: string;
+  username: string;
   email: string;
   profile?: {
     avatar?: string;
@@ -99,10 +102,32 @@ export interface IInviteWithEntity {
   entity: IEntity;
 }
 
+export interface IInviteWithUser {
+  inviteId: string;
+  email: string;
+  status: string;
+  entityId: string;
+  userId: string;
+  role: string;
+  rollNumber: string;
+  batch: string;
+  createdAt: string;
+  updatedAt: string;
+  user: User;
+}
+
 export interface IInvitesResponse {
   getMyEntityInvites: {
     success: boolean;
     message: string;
     invites: IInviteWithEntity[];
+  };
+}
+
+export interface IInviteByEntityIdResponse {
+  getInviteByEntityId: {
+    success: boolean;
+    message: string;
+    invites: IInviteWithUser[];
   };
 }

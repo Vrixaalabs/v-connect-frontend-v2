@@ -1,19 +1,21 @@
 import { useMutation } from '@apollo/client';
 import { ACCEPT_ENTITY_INVITE, REJECT_ENTITY_INVITE } from '@/graphql/mutations';
-import type { EntityInvite } from '@/types/entity';
+import type { IInviteWithUser } from '@/graphql/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 import { Building2, Users, Calendar } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
+import type { Entity } from '@/types/entity';
 
 interface InvitesListProps {
-  invites: EntityInvite[];
+  invites: IInviteWithUser[];
   onUpdate?: () => void;
+  entity: Entity;
 }
 
-export default function InvitesList({ invites, onUpdate }: InvitesListProps) {
+export default function InvitesList({ invites, onUpdate, entity }: InvitesListProps) {
   const [acceptInvite, { loading: accepting }] = useMutation(ACCEPT_ENTITY_INVITE);
   const [rejectInvite, { loading: rejecting }] = useMutation(REJECT_ENTITY_INVITE);
   const toast = useToast();
@@ -59,10 +61,10 @@ export default function InvitesList({ invites, onUpdate }: InvitesListProps) {
   return (
     <div className='space-y-4'>
       {invites.map((invite) => (
-        <Card key={invite.inviteId}>
+        <Card key={invite.user.userId}>
           <CardContent className='pt-6'>
             <div className='flex items-center justify-between mb-4'>
-              <Badge variant='outline'>{invite.entity.type}</Badge>
+              <Badge variant='outline'>{entity.type}</Badge>
               <Badge
                 variant={
                   invite.status === 'PENDING'
@@ -76,42 +78,34 @@ export default function InvitesList({ invites, onUpdate }: InvitesListProps) {
               </Badge>
             </div>
 
-            <h3 className='text-lg font-semibold mb-2'>{invite.entity.name}</h3>
-            {invite.entity.description && (
-              <p className='text-sm text-gray-500 mb-4'>{invite.entity.description}</p>
+            <h3 className='text-lg font-semibold mb-2'>{invite.user.firstName} {invite.user.lastName}</h3>
+            {invite.user.email && (
+              <p className='text-sm text-gray-500 mb-4'>{invite.user.email}</p>
             )}
 
             <div className='space-y-2 mb-4'>
               <div className='flex items-center gap-2 text-sm text-gray-500'>
                 <Building2 className='h-4 w-4' />
-                <span>Code: {invite.entity.code}</span>
+                <span>Code: {invite.rollNumber}</span>
               </div>
               <div className='flex items-center gap-2 text-sm text-gray-500'>
                 <Users className='h-4 w-4' />
-                <span>{invite.entity.metadata?.totalMembers || 0} members</span>
+                <span>{invite.batch}</span>
               </div>
               <div className='flex items-center gap-2 text-sm text-gray-500'>
                 <Calendar className='h-4 w-4' />
-                <span>Expires {format(new Date(invite.expiresAt), 'PPP')}</span>
+                {/* <span>Expires {format(new Date(entity.expiresAt), 'PPP')}</span> */}
               </div>
             </div>
 
-            {invite.status === 'PENDING' && (
+            {invite.status === 'pending' && (
               <div className='flex items-center gap-2'>
                 <Button
                   className='flex-1'
                   onClick={() => handleAcceptInvite(invite.inviteId)}
                   disabled={accepting || rejecting}
                 >
-                  Accept
-                </Button>
-                <Button
-                  variant='outline'
-                  className='flex-1'
-                  onClick={() => handleRejectInvite(invite.inviteId)}
-                  disabled={accepting || rejecting}
-                >
-                  Reject
+                  Cancel Invite
                 </Button>
               </div>
             )}

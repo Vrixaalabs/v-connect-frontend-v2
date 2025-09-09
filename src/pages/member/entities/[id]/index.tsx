@@ -102,7 +102,7 @@ export default function EntityDetailsPage() {
         </TabsContent>
 
         <TabsContent value='members'>
-          <MembersTab members={entity.members || []} entityId={entityId} />
+          <MembersTab entity={entity} />
         </TabsContent>
 
         <TabsContent value='events'>

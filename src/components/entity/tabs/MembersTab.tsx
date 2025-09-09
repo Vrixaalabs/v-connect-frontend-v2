@@ -1,25 +1,28 @@
 import { useQuery } from '@apollo/client';
-import { GET_ENTITY_INVITES } from '@/graphql/queries';
+import { GET_INVITE_BY_ENTITY_ID } from '@/graphql/queries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { EntityMember, EntityInvite } from '@/types/entity';
+import type { EntityMember, EntityInvite, Entity } from '@/types/entity';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InviteMemberDialog from '../dialogs/InviteMemberDialog';
 import MembersList from '../lists/MembersList';
 import InvitesList from '../lists/InvitesList';
+import type { IInviteByEntityIdResponse, IInviteWithUser } from '@/graphql/types';
 
 interface MembersTabProps {
-  members: EntityMember[];
-  entityId: string;
+  entity: Entity;
   onMemberUpdate?: () => void;
 }
 
-export default function MembersTab({ members, entityId, onMemberUpdate }: MembersTabProps) {
-  const { data: invitesData, refetch: refetchInvites } = useQuery(GET_ENTITY_INVITES, {
-    variables: { entityId },
+export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) {
+  const { data: invitesData, refetch: refetchInvites } = useQuery<IInviteByEntityIdResponse>(GET_INVITE_BY_ENTITY_ID, {
+    variables: {
+      entityId: entity.entityId,
+    },
   });
 
-  const invites: EntityInvite[] = invitesData?.getEntityInvites?.invites || [];
-  const pendingInvites = invites.filter(invite => invite.status === 'PENDING');
+  const invites = invitesData?.getInviteByEntityId?.invites || [];
+  console.log("invites", invites);
+  const pendingInvites = invites.filter(invite => invite.status === 'pending');
 
   const handleInviteUpdate = () => {
     refetchInvites();
@@ -30,25 +33,21 @@ export default function MembersTab({ members, entityId, onMemberUpdate }: Member
     <Card>
       <CardHeader className='flex items-center justify-between'>
         <CardTitle>Members</CardTitle>
-        <InviteMemberDialog entityId={entityId} onSuccess={handleInviteUpdate} />
+        <InviteMemberDialog entityId={entity.entityId} onSuccess={handleInviteUpdate} />
       </CardHeader>
       <CardContent>
         <Tabs defaultValue='members' className='space-y-4'>
           <TabsList>
-            <TabsTrigger value='members'>
-              Members ({members.length})
-            </TabsTrigger>
-            <TabsTrigger value='invites'>
-              Pending Invites ({pendingInvites.length})
-            </TabsTrigger>
+            <TabsTrigger value='members'>Members {0}</TabsTrigger>
+            <TabsTrigger value='invites'>Pending Invites ({pendingInvites.length})</TabsTrigger>
           </TabsList>
 
           <TabsContent value='members'>
-            <MembersList members={members} />
+            <MembersList members={[]} />
           </TabsContent>
 
           <TabsContent value='invites'>
-            <InvitesList invites={pendingInvites} onUpdate={handleInviteUpdate} />
+            <InvitesList invites={pendingInvites as IInviteWithUser[]} onUpdate={handleInviteUpdate} entity={entity} />
           </TabsContent>
         </Tabs>
       </CardContent>
