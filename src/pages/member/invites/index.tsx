@@ -115,7 +115,7 @@ export default function InvitesPage() {
                     {/* <span>Invited on {format(new Date(invite.createdAt), 'PPP')}</span> */}
                   </div>
 
-                  {invite.status === 'PENDING' && (
+                  {invite.status === 'pending' && (
                     <div className="flex items-center gap-2 mt-4">
                       <Button
                         className="flex-1"

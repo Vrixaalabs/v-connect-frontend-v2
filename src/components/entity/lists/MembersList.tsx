@@ -36,7 +36,7 @@ export default function MembersList({ members }: MembersListProps) {
               </p>
               <div className='flex items-center gap-2 mt-1'>
                 <Badge variant='outline'>{member.role.name}</Badge>
-                <p className='text-sm text-gray-500'>Joined {format(new Date(member.joinedAt), 'MMM d, yyyy')}</p>
+                {/* <p className='text-sm text-gray-500'>Joined {format(new Date(member.joinedAt), 'MMM d, yyyy')}</p> */}
               </div>
             </div>
           </div>

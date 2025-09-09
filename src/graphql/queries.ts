@@ -343,3 +343,26 @@ export const GET_INVITE_BY_ENTITY_ID = gql`
     }
   }
 `;
+
+export const GET_ENTITY_MEMBERS = gql`
+  query GetEntityMembers($entityId: String!) {
+    getEntityMembers(entityId: $entityId) {
+      success
+      message
+      members {
+        user {
+          userId
+          firstName
+          lastName
+          avatar
+        }
+        role {
+          roleId
+          name
+        }
+        joinedAt
+        status
+      }
+    }
+  }
+`;

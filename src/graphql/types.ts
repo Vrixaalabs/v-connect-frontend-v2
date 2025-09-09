@@ -131,3 +131,27 @@ export interface IInviteByEntityIdResponse {
     invites: IInviteWithUser[];
   };
 }
+
+export interface IEntityMember {
+  user: {
+    userId: string;
+    firstName: string;
+    lastName: string;
+    avatar: string;
+  }
+  role: {
+    roleId: string;
+    name: string;
+    permissions: string[];
+  };
+  joinedAt: string;
+  status: string;
+}
+
+export interface IEntityMembersResponse {
+  getEntityMembers: {
+    success: boolean;
+    message: string;
+    members: IEntityMember[];
+  };
+}

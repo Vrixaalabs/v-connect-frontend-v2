@@ -326,6 +326,13 @@ export const ACCEPT_ENTITY_INVITE = gql`
     acceptEntityInvite(input: $input) {
       success
       message
+      invite {
+        inviteId
+        email
+        status
+        entityId
+        userId
+      }
     }
   }
 `;
