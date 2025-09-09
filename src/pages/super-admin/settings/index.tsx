@@ -81,7 +81,7 @@ const SuperAdminSettings = () => {
     },
   });
 
-  const [updatePassword ] = useMutation(UPDATE_SUPER_ADMIN_PASSWORD, {
+  const [updatePassword] = useMutation(UPDATE_SUPER_ADMIN_PASSWORD, {
     onCompleted: data => {
       if (data.updateSuperAdminPassword.success) {
         toast.success('Password updated successfully');

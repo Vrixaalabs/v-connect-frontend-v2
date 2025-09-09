@@ -14,13 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus } from 'lucide-react';
 
 interface InviteMemberDialogProps {
@@ -66,43 +60,32 @@ export default function InviteMemberDialog({ entityId, onSuccess }: InviteMember
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className='h-4 w-4 mr-2' />
           Invite Member
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Invite Member</DialogTitle>
           <DialogDescription>
             Send an invitation to join this entity. They will receive an email with instructions.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="Enter email address"
-              required
-            />
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          <div className='space-y-2'>
+            <Label htmlFor='email'>Email</Label>
+            <Input id='email' name='email' type='email' placeholder='Enter email address' required />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="rollNumber">Roll Number</Label>
-            <Input
-              id="rollNumber"
-              name="rollNumber"
-              placeholder="Enter roll number"
-              required
-            />
+          <div className='space-y-2'>
+            <Label htmlFor='rollNumber'>Roll Number</Label>
+            <Input id='rollNumber' name='rollNumber' placeholder='Enter roll number' required />
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="batch">Batch</Label>
-              <Select name="batch" required>
+          <div className='grid grid-cols-2 gap-4'>
+            <div className='space-y-2'>
+              <Label htmlFor='batch'>Batch</Label>
+              <Select name='batch' required>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select batch" />
+                  <SelectValue placeholder='Select batch' />
                 </SelectTrigger>
                 <SelectContent>
                   {Array.from({ length: 10 }, (_, i) => {
@@ -117,24 +100,24 @@ export default function InviteMemberDialog({ entityId, onSuccess }: InviteMember
               </Select>
             </div>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="role">Role</Label>
-            <Select name="role" required>
+          <div className='space-y-2'>
+            <Label htmlFor='role'>Role</Label>
+            <Select name='role' required>
               <SelectTrigger>
-                <SelectValue placeholder="Select role" />
+                <SelectValue placeholder='Select role' />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="member">Member</SelectItem>
-                <SelectItem value="admin">Admin</SelectItem>
-                <SelectItem value="moderator">Moderator</SelectItem>
+                <SelectItem value='member'>Member</SelectItem>
+                <SelectItem value='admin'>Admin</SelectItem>
+                <SelectItem value='moderator'>Moderator</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+            <Button type='button' variant='outline' onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button type='submit' disabled={loading}>
               Send Invitation
             </Button>
           </DialogFooter>

@@ -4,7 +4,6 @@ import type { IInviteWithUser } from '@/graphql/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { format } from 'date-fns';
 import { Building2, Users, Calendar } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import type { Entity } from '@/types/entity';
@@ -60,28 +59,24 @@ export default function InvitesList({ invites, onUpdate, entity }: InvitesListPr
 
   return (
     <div className='space-y-4'>
-      {invites.map((invite) => (
+      {invites.map(invite => (
         <Card key={invite.user.userId}>
           <CardContent className='pt-6'>
             <div className='flex items-center justify-between mb-4'>
               <Badge variant='outline'>{entity.type}</Badge>
               <Badge
                 variant={
-                  invite.status === 'PENDING'
-                    ? 'default'
-                    : invite.status === 'ACCEPTED'
-                    ? 'default'
-                    : 'destructive'
+                  invite.status === 'PENDING' ? 'default' : invite.status === 'ACCEPTED' ? 'default' : 'destructive'
                 }
               >
                 {invite.status}
               </Badge>
             </div>
 
-            <h3 className='text-lg font-semibold mb-2'>{invite.user.firstName} {invite.user.lastName}</h3>
-            {invite.user.email && (
-              <p className='text-sm text-gray-500 mb-4'>{invite.user.email}</p>
-            )}
+            <h3 className='text-lg font-semibold mb-2'>
+              {invite.user.firstName} {invite.user.lastName}
+            </h3>
+            {invite.user.email && <p className='text-sm text-gray-500 mb-4'>{invite.user.email}</p>}
 
             <div className='space-y-2 mb-4'>
               <div className='flex items-center gap-2 text-sm text-gray-500'>
@@ -112,9 +107,7 @@ export default function InvitesList({ invites, onUpdate, entity }: InvitesListPr
           </CardContent>
         </Card>
       ))}
-      {invites.length === 0 && (
-        <p className='text-center text-sm text-gray-500 py-8'>No pending invites found</p>
-      )}
+      {invites.length === 0 && <p className='text-center text-sm text-gray-500 py-8'>No pending invites found</p>}
     </div>
   );
 }

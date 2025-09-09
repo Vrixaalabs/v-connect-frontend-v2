@@ -38,7 +38,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Derive branch validity from props and params
   const isBranchValid = useMemo(() => {
-    if (!requireBranch || !slug) return true;
+    if (!requireBranch || !slug) {return true;}
     const storedBranchId = branchService.getCurrentBranchId();
     return storedBranchId === slug;
   }, [requireBranch, slug]);

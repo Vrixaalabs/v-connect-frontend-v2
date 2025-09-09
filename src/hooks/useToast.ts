@@ -5,11 +5,11 @@ import { useToast as useToastContext, type ToastType } from '../components/ui/to
  * Provides simple methods for showing different types of toasts
  */
 export const useToast = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
   const { addToast } = useToastContext() as any;
 
   const showToast = (title: string, description?: string, type: ToastType = 'info', duration?: number) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     addToast({ title, description, type, duration });
   };
 

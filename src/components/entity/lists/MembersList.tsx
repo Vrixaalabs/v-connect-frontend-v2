@@ -1,7 +1,6 @@
 import type { EntityMember } from '@/types/entity';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { format } from 'date-fns';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +19,7 @@ interface MembersListProps {
 export default function MembersList({ members }: MembersListProps) {
   return (
     <div className='space-y-4'>
-      {members.map((member) => (
+      {members.map(member => (
         <div key={member.user.userId} className='flex items-center justify-between p-4 rounded-lg border'>
           <div className='flex items-center gap-4'>
             <Avatar>

@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAppSelector, useAppDispatch } from '@/hooks/redux';
-import { setCurrentOrganization } from '@/store/slices/authSlice';
 
 interface Organization {
   id: string;

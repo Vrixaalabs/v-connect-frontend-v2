@@ -72,60 +72,60 @@ export default function EntityDetailsPage() {
 
   return (
     <MemberLayout>
-    <div className='container mx-auto py-6'>
-      <div className='flex items-center justify-between mb-6'>
-        <div>
-          <h1 className='text-2xl font-bold'>{entity.name}</h1>
-          <p className='text-sm text-gray-500'>Code: {entity.code}</p>
+      <div className='container mx-auto py-6'>
+        <div className='flex items-center justify-between mb-6'>
+          <div>
+            <h1 className='text-2xl font-bold'>{entity.name}</h1>
+            <p className='text-sm text-gray-500'>Code: {entity.code}</p>
+          </div>
+          <Badge variant={entity.status === 'ACTIVE' ? 'default' : 'secondary'}>
+            {/* {entity.status.charAt(0) + entity.status.slice(1).toLowerCase()} */}
+          </Badge>
         </div>
-        <Badge variant={entity.status === 'ACTIVE' ? 'default' : 'secondary'}>
-          {/* {entity.status.charAt(0) + entity.status.slice(1).toLowerCase()} */}
-        </Badge>
+
+        <Tabs defaultValue='overview' className='space-y-4'>
+          <TabsList>
+            <TabsTrigger value='overview'>Overview</TabsTrigger>
+            <TabsTrigger value='edit'>Edit</TabsTrigger>
+            <TabsTrigger value='members'>Members</TabsTrigger>
+            <TabsTrigger value='events'>Events</TabsTrigger>
+            <TabsTrigger value='activity'>Activity</TabsTrigger>
+            <TabsTrigger value='settings'>Settings</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value='overview'>
+            <DetailsTab entity={entity} />
+          </TabsContent>
+
+          <TabsContent value='edit'>
+            <EditTab handleUpdateEntity={handleUpdateEntity} entity={entity} updating={updating} />
+          </TabsContent>
+
+          <TabsContent value='members'>
+            <MembersTab entity={entity} />
+          </TabsContent>
+
+          <TabsContent value='events'>
+            <EventsTab events={entity.events || []} />
+          </TabsContent>
+
+          <TabsContent value='activity'>
+            <Card>
+              <CardHeader>
+                <CardTitle>Activity</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {/* TODO: Add activity feed component */}
+                <p className='text-sm text-gray-500'>Coming soon...</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value='settings'>
+            <SettingsTab entity={entity} />
+          </TabsContent>
+        </Tabs>
       </div>
-
-      <Tabs defaultValue='overview' className='space-y-4'>
-        <TabsList>
-          <TabsTrigger value='overview'>Overview</TabsTrigger>
-          <TabsTrigger value='edit'>Edit</TabsTrigger>
-          <TabsTrigger value='members'>Members</TabsTrigger>
-          <TabsTrigger value='events'>Events</TabsTrigger>
-          <TabsTrigger value='activity'>Activity</TabsTrigger>
-          <TabsTrigger value='settings'>Settings</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value='overview'>
-          <DetailsTab entity={entity} />
-        </TabsContent>
-
-        <TabsContent value='edit'>
-          <EditTab handleUpdateEntity={handleUpdateEntity} entity={entity} updating={updating} />
-        </TabsContent>
-
-        <TabsContent value='members'>
-          <MembersTab entity={entity} />
-        </TabsContent>
-
-        <TabsContent value='events'>
-          <EventsTab events={entity.events || []} />
-        </TabsContent>
-
-        <TabsContent value='activity'>
-          <Card>
-            <CardHeader>
-              <CardTitle>Activity</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* TODO: Add activity feed component */}
-              <p className='text-sm text-gray-500'>Coming soon...</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value='settings'>
-          <SettingsTab entity={entity} />
-        </TabsContent>
-      </Tabs>
-    </div>
     </MemberLayout>
   );
 }

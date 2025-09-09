@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client';
 import { GET_ENTITY_MEMBERS, GET_INVITE_BY_ENTITY_ID } from '@/graphql/queries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { EntityMember, EntityInvite, Entity } from '@/types/entity';
+import type { EntityMember, Entity } from '@/types/entity';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InviteMemberDialog from '../dialogs/InviteMemberDialog';
 import MembersList from '../lists/MembersList';
 import InvitesList from '../lists/InvitesList';
-import type { IEntityMember, IInviteByEntityIdResponse, IInviteWithUser } from '@/graphql/types';
+import type { IInviteByEntityIdResponse } from '@/graphql/types';
 import type { IEntityMembersResponse } from '@/graphql/types';
 
 interface MembersTabProps {
@@ -54,7 +54,7 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
           </TabsContent>
 
           <TabsContent value='invites'>
-            <InvitesList invites={pendingInvites as IInviteWithUser[]} onUpdate={handleInviteUpdate} entity={entity} />
+            <InvitesList invites={pendingInvites} onUpdate={handleInviteUpdate} entity={entity} />
           </TabsContent>
         </Tabs>
       </CardContent>

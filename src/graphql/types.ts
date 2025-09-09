@@ -32,7 +32,6 @@ export interface IEntity {
   updatedAt?: string;
 }
 
-
 // Auth types
 export interface LoginResponse {
   token: string;
@@ -138,7 +137,7 @@ export interface IEntityMember {
     firstName: string;
     lastName: string;
     avatar: string;
-  }
+  };
   role: {
     roleId: string;
     name: string;
