@@ -20,6 +20,7 @@ import {
   Search,
   MapPin,
   Building2,
+  Loader2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { OrganizationSwitcher } from '@/components/organization/OrganizationSwitcher';
@@ -74,16 +75,39 @@ export const MemberSidebar: React.FC<MemberSidebarProps> = ({ isCollapsed = fals
   const location = useLocation();
   const { id: urlEntityId } = useParams();
   const { user } = useAppSelector(state => state.auth);
-  const { data: entitiesData } = useQuery(GET_USER_ENTITIES);
+  const { data: entitiesData, loading: entitiesLoading } = useQuery(GET_USER_ENTITIES);
+  console.log("entitiesData", entitiesData);
 
   // Get the first entity ID if available, otherwise use the URL param
-  const firstEntityId = entitiesData?.getUserEntities?.entities?.[0]?.entityId;
+
+  let firstEntityId = null;
+  if (entitiesLoading) {
+    firstEntityId = null;
+  } else if (entitiesData?.getUserEntities?.entities?.length === 0) {
+    firstEntityId = 1
+  } else {
+    firstEntityId = entitiesData?.getUserEntities?.entities?.[0]?.entityId;
+  }
   const entityId = urlEntityId ?? firstEntityId;
 
   // Function to replace [entityId] with actual ID in href
   const getEntityUrl = (href: string) => {
     return entityId ? href.replace('[entityId]', entityId) : href;
   };
+
+  // what if no entities are found?
+  if (entitiesLoading) {
+    return (
+      <div className='flex flex-col h-full border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+        <div className='flex flex-col h-full border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+          <div className='flex-1 flex items-center justify-center'>
+            <Loader2 className='h-4 w-4 animate-spin' />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <div className='flex flex-col h-full border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>

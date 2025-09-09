@@ -288,6 +288,30 @@ export const GET_MY_ENTITY_INVITES = gql`
     getMyEntityInvites {
       success
       message
+      invites {
+        inviteId
+        email
+        status
+        entityId
+        userId
+        role
+        rollNumber
+        batch
+        createdAt
+        updatedAt
+        entity {
+          entityId
+          name
+          type
+          code
+          description
+          status
+          metadata {
+            totalMembers
+            totalEvents
+          }
+        }
+      }
     }
   }
 `;
