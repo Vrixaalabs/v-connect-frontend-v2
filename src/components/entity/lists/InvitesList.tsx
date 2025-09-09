@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { ACCEPT_ENTITY_INVITE, REJECT_ENTITY_INVITE } from '@/graphql/mutations';
+import { ACCEPT_ENTITY_INVITE } from '@/graphql/mutations';
 import type { IInviteWithUser } from '@/graphql/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,8 +15,8 @@ interface InvitesListProps {
 }
 
 export default function InvitesList({ invites, onUpdate, entity }: InvitesListProps) {
-  const [acceptInvite, { loading: accepting }] = useMutation(ACCEPT_ENTITY_INVITE);
-  const [rejectInvite, { loading: rejecting }] = useMutation(REJECT_ENTITY_INVITE);
+  const [acceptInvite] = useMutation(ACCEPT_ENTITY_INVITE);
+  // const [rejectInvite, { loading: rejecting }] = useMutation(REJECT_ENTITY_INVITE);
   const toast = useToast();
 
   const handleAcceptInvite = async (inviteId: string) => {
@@ -38,24 +38,24 @@ export default function InvitesList({ invites, onUpdate, entity }: InvitesListPr
     }
   };
 
-  const handleRejectInvite = async (inviteId: string) => {
-    try {
-      const response = await rejectInvite({
-        variables: {
-          input: { inviteId },
-        },
-      });
+  // const handleRejectInvite = async (inviteId: string) => {
+  //   try {
+  //     const response = await rejectInvite({
+  //       variables: {
+  //         input: { inviteId },
+  //       },
+  //     });
 
-      if (response.data?.rejectEntityInvite?.success) {
-        toast.showToast('Success', 'Invite rejected successfully');
-        onUpdate?.();
-      } else {
-        throw new Error(response.data?.rejectEntityInvite?.message || 'Failed to reject invite');
-      }
-    } catch (error) {
-      toast.error('Error', 'Failed to reject invite');
-    }
-  };
+  //     if (response.data?.rejectEntityInvite?.success) {
+  //       toast.showToast('Success', 'Invite rejected successfully');
+  //       onUpdate?.();
+  //     } else {
+  //       throw new Error(response.data?.rejectEntityInvite?.message || 'Failed to reject invite');
+  //     }
+  //   } catch (error) {
+  //     toast.error('Error', 'Failed to reject invite');
+  //   }
+  // };
 
   return (
     <div className='space-y-4'>
@@ -98,7 +98,7 @@ export default function InvitesList({ invites, onUpdate, entity }: InvitesListPr
                 <Button
                   className='flex-1'
                   onClick={() => handleAcceptInvite(invite.inviteId)}
-                  disabled={accepting || rejecting}
+                  // disabled={accepting || rejecting}
                 >
                   Cancel Invite
                 </Button>

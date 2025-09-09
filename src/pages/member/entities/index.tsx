@@ -55,7 +55,7 @@ export default function MemberEntitiesPage() {
         throw new Error(response.data?.createEntity?.message || 'Failed to create entity');
       }
     } catch (error) {
-      toast.error('Error', 'Failed to create entity');
+      toast.error('Error', error as string);
     }
   };
 

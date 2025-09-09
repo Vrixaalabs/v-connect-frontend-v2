@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -9,18 +8,16 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { AuthCard } from '../../components/auth/AuthCard';
 import {
   studentSignupSchema,
-  instituteSignupSchema,
   type StudentSignupValues,
-  type InstituteSignupValues,
 } from '../../lib/validations/auth';
 import { toast } from 'sonner';
 import { useAuth } from '../../hooks/useAuth';
 
 export default function SignupPage() {
-  const searchParams = useSearchParams();
-  const [userType, setUserType] = useState<'student' | 'institute' | null>(
-    (searchParams[0].get('type') as 'student' | 'institute' | null) || null
-  );
+  // const searchParams = useSearchParams();
+  // const [userType, setUserType] = useState<'student' | 'institute' | null>(
+  //   (searchParams[0].get('type') as 'student' | 'institute' | null) || null
+  // );
   const [isLoading, setIsLoading] = useState(false);
   const { register } = useAuth();
   const studentForm = useForm<StudentSignupValues>({
@@ -36,16 +33,16 @@ export default function SignupPage() {
     },
   });
 
-  const instituteForm = useForm<InstituteSignupValues>({
-    resolver: zodResolver(instituteSignupSchema),
-    defaultValues: {
-      instituteName: '',
-      instituteCode: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
-  });
+  // const instituteForm = useForm<InstituteSignupValues>({
+  //   resolver: zodResolver(instituteSignupSchema),
+  //   defaultValues: {
+  //     instituteName: '',
+  //     instituteCode: '',
+  //     email: '',
+  //     password: '',
+  //     confirmPassword: '',
+  //   },
+  // });
 
   async function onStudentSubmit(data: StudentSignupValues) {
     try {
@@ -63,20 +60,20 @@ export default function SignupPage() {
     }
   }
 
-  async function onInstituteSubmit(data: InstituteSignupValues) {
-    try {
-      setIsLoading(true);
-      // TODO: Implement institute signup
-      console.log(data);
-      toast.success('Account created successfully!');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.log(error);
-      toast.error('Something went wrong. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  // async function onInstituteSubmit(data: InstituteSignupValues) {
+  //   try {
+  //     setIsLoading(true);
+  //     // TODO: Implement institute signup
+  //     console.log(data);
+  //     toast.success('Account created successfully!');
+  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   } catch (error: any) {
+  //     console.log(error);
+  //     toast.error('Something went wrong. Please try again.');
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }
 
   return (
     <div className='min-h-screen flex items-center justify-center p-4'>

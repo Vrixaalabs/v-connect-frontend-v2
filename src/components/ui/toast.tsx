@@ -19,6 +19,7 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | null>(null);
 
+// eslint-disable-next-line
 export const useToast = (): ToastContextType => {
   const context = useContext(ToastContext);
   if (!context) {
@@ -103,6 +104,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 };
 
 // Convenience hook for common toast types
+// eslint-disable-next-line
 export const useToastHelpers = () => {
   const { addToast } = useToast();
 

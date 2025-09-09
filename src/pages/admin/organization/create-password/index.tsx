@@ -35,7 +35,7 @@ export default function CreatePassword() {
     },
   });
 
-  const onSubmit = async (data: CreatePasswordForm) => {
+  const onSubmit = async () => {
     try {
       setIsLoading(true);
       // TODO: Implement the create password mutation here

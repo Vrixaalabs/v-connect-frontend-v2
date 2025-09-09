@@ -23,22 +23,24 @@ export default function EntityManagement() {
   // TODO: Replace with actual data from API
   const mockEntities: Entity[] = [
     {
-      id: '1',
+      entityId: '1',
       name: 'Computer Science',
-      type: 'department',
+      type: 'DEPARTMENT',
       code: 'CSE',
       description: 'Department of Computer Science and Engineering',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      status: 'ACTIVE',
     },
     {
-      id: '2',
+      entityId: '2',
       name: 'School of Management',
-      type: 'school',
+      type: 'COMMITTEE',
       code: 'SOM',
       description: 'School of Management Studies',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      status: 'ACTIVE',
     },
   ];
 
@@ -61,7 +63,7 @@ export default function EntityManagement() {
     try {
       setIsLoading(true);
       // TODO: Implement update mutation
-      console.log('Updating entity:', { id: selectedEntity?.id, ...data });
+      console.log('Updating entity:', { id: selectedEntity?.entityId, ...data });
 
       toast.success('Success', 'Entity updated successfully');
       setIsDialogOpen(false);
@@ -77,7 +79,7 @@ export default function EntityManagement() {
     try {
       setIsLoading(true);
       // TODO: Implement delete mutation
-      console.log('Deleting entity:', entity.id);
+      console.log('Deleting entity:', entity.entityId);
 
       toast.success('Success', 'Entity deleted successfully');
     } catch (error) {
@@ -117,7 +119,7 @@ export default function EntityManagement() {
     >
       <div className='grid gap-4'>
         {mockEntities.map(entity => (
-          <Card key={entity.id} className='p-4'>
+          <Card key={entity.entityId} className='p-4'>
             <div className='flex items-center justify-between'>
               <div>
                 <h3 className='text-lg font-semibold'>{entity.name}</h3>

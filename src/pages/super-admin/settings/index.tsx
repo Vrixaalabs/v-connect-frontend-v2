@@ -1,20 +1,17 @@
 import { useState } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { MotionCard } from '@/components/ui/motion-card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Mail, Shield, Key, Globe, Database, AlertCircle } from 'lucide-react';
-import { GET_SUPER_ADMIN_SETTINGS } from '@/graphql/queries';
+import { Mail, Shield, Key, Globe, Database } from 'lucide-react';
 import {
   UPDATE_SUPER_ADMIN_PROFILE,
-  UPDATE_SUPER_ADMIN_PASSWORD,
   UPDATE_SUPER_ADMIN_SETTINGS,
 } from '@/graphql/mutations';
 import { useToast } from '@/hooks/useToast';
-import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface SuperAdminSettings {
   emailNotifications: boolean;
@@ -46,26 +43,26 @@ const SuperAdminSettings = () => {
     notifyOnSystemAlerts: true,
     notifyOnSecurityAlerts: true,
   });
-  const [newPassword, setNewPassword] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  });
-  const [_, setIsChangePasswordModalOpen] = useState(false);
+  // const [newPassword, setNewPassword] = useState({
+  //   currentPassword: '',
+  //   newPassword: '',
+  //   confirmPassword: '',
+  // });
+  // const [_, setIsChangePasswordModalOpen] = useState(false);
 
-  const { data, loading, error } = useQuery(GET_SUPER_ADMIN_SETTINGS, {
-    onCompleted: data => {
-      if (data.getSuperAdminSettings.success) {
-        setProfile(data.getSuperAdminSettings.user);
-        setSettings(data.getSuperAdminSettings.settings);
-      } else {
-        toast.error('Failed to load settings', data.getSuperAdminSettings.message);
-      }
-    },
-    onError: error => {
-      toast.error('Failed to load settings', error.message);
-    },
-  });
+  // const { data, loading, error } = useQuery(GET_SUPER_ADMIN_SETTINGS, {
+  //   onCompleted: data => {
+  //     if (data.getSuperAdminSettings.success) {
+  //       setProfile(data.getSuperAdminSettings.user);
+  //       setSettings(data.getSuperAdminSettings.settings);
+  //     } else {
+  //       toast.error('Failed to load settings', data.getSuperAdminSettings.message);
+  //     }
+  //   },
+  //   onError: error => {
+  //     toast.error('Failed to load settings', error.message);
+  //   },
+  // });
 
   const [updateProfile, { loading: updatingProfile }] = useMutation(UPDATE_SUPER_ADMIN_PROFILE, {
     onCompleted: data => {
@@ -81,24 +78,24 @@ const SuperAdminSettings = () => {
     },
   });
 
-  const [updatePassword] = useMutation(UPDATE_SUPER_ADMIN_PASSWORD, {
-    onCompleted: data => {
-      if (data.updateSuperAdminPassword.success) {
-        toast.success('Password updated successfully');
-        setIsChangePasswordModalOpen(false);
-        setNewPassword({
-          currentPassword: '',
-          newPassword: '',
-          confirmPassword: '',
-        });
-      } else {
-        toast.error('Failed to update password', data.updateSuperAdminPassword.message);
-      }
-    },
-    onError: error => {
-      toast.error('Failed to update password', error.message);
-    },
-  });
+  // const [updatePassword] = useMutation(UPDATE_SUPER_ADMIN_PASSWORD, {
+  //   onCompleted: data => {
+  //     if (data.updateSuperAdminPassword.success) {
+  //       toast.success('Password updated successfully');
+  //       setIsChangePasswordModalOpen(false);
+  //       setNewPassword({
+  //         currentPassword: '',
+  //         newPassword: '',
+  //         confirmPassword: '',
+  //       });
+  //     } else {
+  //       toast.error('Failed to update password', data.updateSuperAdminPassword.message);
+  //     }
+  //   },
+  //   onError: error => {
+  //     toast.error('Failed to update password', error.message);
+  //   },
+  // });
 
   const [updateSettings, { loading: updatingSettings }] = useMutation(UPDATE_SUPER_ADMIN_SETTINGS, {
     onCompleted: data => {
@@ -152,23 +149,23 @@ const SuperAdminSettings = () => {
     });
   };
 
-  if (loading) {
-    return (
-      <div className='flex items-center justify-center min-h-screen'>
-        <LoadingSpinner />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className='flex items-center justify-center min-h-screen'>
+  //       <LoadingSpinner />
+  //     </div>
+  //   );
+  // }
 
-  if (error) {
-    return (
-      <div className='flex flex-col items-center justify-center min-h-screen text-center p-6'>
-        <AlertCircle className='w-12 h-12 text-red-500 mb-4' />
-        <h2 className='text-2xl font-bold mb-2'>Failed to Load Settings</h2>
-        <p className='text-muted-foreground'>Please try refreshing the page</p>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className='flex flex-col items-center justify-center min-h-screen text-center p-6'>
+  //       <AlertCircle className='w-12 h-12 text-red-500 mb-4' />
+  //       <h2 className='text-2xl font-bold mb-2'>Failed to Load Settings</h2>
+  //       <p className='text-muted-foreground'>Please try refreshing the page</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className='container mx-auto p-6 space-y-8'>

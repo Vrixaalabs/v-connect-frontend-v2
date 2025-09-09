@@ -11,7 +11,7 @@ import type { IInvitesResponse } from '@/graphql/types';
 import MemberLayout from '@/components/layouts/MemberLayout';
 
 export default function InvitesPage() {
-  const { data, loading, error, refetch } = useQuery<IInvitesResponse>(GET_MY_ENTITY_INVITES);
+  const { data, loading, refetch } = useQuery<IInvitesResponse>(GET_MY_ENTITY_INVITES);
   const [acceptInvite, { loading: accepting }] = useMutation(ACCEPT_ENTITY_INVITE);
   const [rejectInvite, { loading: rejecting }] = useMutation(REJECT_ENTITY_INVITE);
   const toast = useToast();

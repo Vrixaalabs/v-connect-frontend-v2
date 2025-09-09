@@ -5,15 +5,17 @@ import { Input } from '@/components/ui/input';
 import { Dialog } from '@/components/ui/dialog';
 import type { InstituteStudent } from '@/types/organization';
 import InstituteAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
+import { useNavigate } from 'react-router-dom';
 
 const InstituteStudentsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStudent, setSelectedStudent] = useState<InstituteStudent | null>(null);
-
+  const navigate = useNavigate();
   // TODO: Replace with actual API call
   const students: InstituteStudent[] = [];
 
   const handleRemoveStudent = async (student: InstituteStudent) => {
+    navigate(`/admin/organization/students/${student.id}/remove`);
     // TODO: Implement student removal
   };
 

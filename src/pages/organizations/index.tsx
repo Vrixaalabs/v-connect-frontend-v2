@@ -24,6 +24,7 @@ const OrganizationSearchPage = () => {
   };
 
   const handleFollow = (organization: Organization) => {
+    navigate(`/organization/${organization.slug}/follow`);
     // TODO: Implement follow functionality
   };
 

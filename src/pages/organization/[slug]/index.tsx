@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,7 +7,6 @@ import { Card } from '@/components/ui/card';
 import type { Organization } from '@/types/organization';
 
 const OrganizationJoinPage = () => {
-  const { slug } = useParams();
   const [formData, setFormData] = useState({
     name: '',
     rollNumber: '',
@@ -31,7 +29,7 @@ const OrganizationJoinPage = () => {
   return (
     <div className='container mx-auto py-8'>
       <Card className='max-w-2xl mx-auto p-6'>
-        <h1 className='text-2xl font-bold mb-6'>Join {organization.name}</h1>
+        <h1 className='text-2xl font-bold mb-6'>Join {""}</h1>
 
         <form onSubmit={handleSubmit} className='space-y-6'>
           <div>
@@ -60,11 +58,11 @@ const OrganizationJoinPage = () => {
               value={formData.department}
               onValueChange={value => setFormData({ ...formData, department: value })}
             >
-              {organization.departments.map(dept => (
+              {/* {organization.departments.map(dept => (
                 <option key={dept.id} value={dept.id}>
                   {dept.name}
                 </option>
-              ))}
+              ))} */}
             </Select>
           </div>
 

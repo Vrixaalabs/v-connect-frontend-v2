@@ -43,6 +43,7 @@ interface SidebarItemProps {
 }
 
 export function SidebarItem({ icon, label, isCollapsed, isActive, href, onClick }: SidebarItemProps) {
+  localStorage.setItem('currentOrganization', JSON.stringify(href));
   const content = (
     <div
       className={cn(

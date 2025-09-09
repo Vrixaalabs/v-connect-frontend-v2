@@ -66,7 +66,7 @@ export default function EntityDetailsPage() {
         throw new Error(response.data?.updateEntity?.message || 'Failed to update entity');
       }
     } catch (error) {
-      toast.error('Failed to update entity');
+      toast.error('Error');
     }
   };
 

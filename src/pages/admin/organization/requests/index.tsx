@@ -5,19 +5,22 @@ import { Input } from '@/components/ui/input';
 import { Dialog } from '@/components/ui/dialog';
 import type { OrganizationJoinRequest } from '@/types/organization';
 import OrganizationAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
+import { useNavigate } from 'react-router-dom';
 
 const InstituteJoinRequestsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRequest, setSelectedRequest] = useState<OrganizationJoinRequest | null>(null);
-
+  const navigate = useNavigate();
   // TODO: Replace with actual API call
   const requests: OrganizationJoinRequest[] = [];
 
   const handleApprove = async (request: OrganizationJoinRequest) => {
+    navigate(`/admin/organization/requests/${request.id}/approve`);
     // TODO: Implement request approval
   };
 
   const handleReject = async (request: OrganizationJoinRequest) => {
+    navigate(`/admin/organization/requests/${request.id}/reject`);
     // TODO: Implement request rejection
   };
 

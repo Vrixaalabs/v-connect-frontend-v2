@@ -4,7 +4,8 @@ import { LayoutDashboard, Users, GraduationCap, ClipboardList, Settings, Buildin
 import { CollapsibleSidebar, SidebarItem, SidebarSection } from '@/components/ui/collapsible-sidebar';
 
 export default function OrganizationAdminSidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  
+  const [isCollapsed, _] = useState(false);
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;

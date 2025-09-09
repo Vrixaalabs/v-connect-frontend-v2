@@ -8,20 +8,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAppSelector, useAppDispatch } from '@/hooks/redux';
+import { useAppSelector } from '@/hooks/redux';
 
-interface Organization {
-  id: string;
-  name: string;
-  role: string;
-  status: string;
-}
+// interface Organization {
+//   id: string;
+//   name: string;
+//   role: string;
+//   status: string;
+// }
 
 export const OrganizationSwitcher = () => {
-  const dispatch = useAppDispatch();
   const { organizations, currentOrganization } = useAppSelector(state => state.auth);
 
-  const handleOrganizationSelect = (org: Organization) => {
+  const handleOrganizationSelect = () => {
     // dispatch(setCurrentOrganization(org));
   };
 
@@ -41,7 +40,7 @@ export const OrganizationSwitcher = () => {
         <DropdownMenuLabel>Your Organizations</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {organizations.map(org => (
-          <DropdownMenuItem key={org.id} onClick={() => handleOrganizationSelect(org)} className='cursor-pointer'>
+          <DropdownMenuItem key={org.id} onClick={() => handleOrganizationSelect()} className='cursor-pointer'>
             <span className='flex-1'>{org.name}</span>
             {currentOrganization?.id === org.id && <Check className='h-4 w-4 text-primary' />}
           </DropdownMenuItem>

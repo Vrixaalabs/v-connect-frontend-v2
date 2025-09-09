@@ -163,6 +163,7 @@ const FeedPage = () => {
           return b.timestamp.getTime() - a.timestamp.getTime();
         case 'trending':
           // Mock trending logic based on engagement
+          // eslint-disable-next-line
           const getEngagement = (post: (typeof mockPosts)[0]) => (post.type === 'event' ? post.attendees || 0 : 0);
           return getEngagement(b) - getEngagement(a);
         default:

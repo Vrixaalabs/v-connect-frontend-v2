@@ -58,3 +58,22 @@ export interface OrganizationStudent {
   school: string;
   joinedAt: string;
 }
+
+export interface InstituteStudent {
+  id: string;
+  userId: string;
+  organizationId: string;
+  name: string;
+  rollNumber: string;
+  department: string;
+  school: string;
+  joinedAt: string;
+}
+
+export interface InstituteRole {
+  id: string;
+  name: string;
+  description?: string;
+  permissions: string[];
+  isDefault: boolean;
+}

@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Dialog } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
 import type { InstituteRole } from '@/types/organization';
+import { useNavigate } from 'react-router-dom';
 
 const AVAILABLE_PERMISSIONS = [
   'manage_students',
@@ -16,8 +17,9 @@ const AVAILABLE_PERMISSIONS = [
 ];
 
 const InstituteRolesPage = () => {
-  const [roles, setRoles] = useState<InstituteRole[]>([]);
+  const [roles, _] = useState<InstituteRole[]>([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const navigate = useNavigate();
   const [newRole, setNewRole] = useState({
     name: '',
     description: '',
@@ -30,6 +32,7 @@ const InstituteRolesPage = () => {
   };
 
   const handleDeleteRole = async (role: InstituteRole) => {
+    navigate(`/admin/organization/roles/${role.id}/delete`);
     // TODO: Implement role deletion
   };
 
@@ -57,7 +60,7 @@ const InstituteRolesPage = () => {
                 <h3 className='text-xl font-semibold'>{role.name}</h3>
                 {role.description && <p className='text-gray-500 text-sm'>{role.description}</p>}
               </div>
-              {role.isCustom && (
+              {role.isDefault && (
                 <Button variant='destructive' size='sm' onClick={() => handleDeleteRole(role)}>
                   Delete
                 </Button>

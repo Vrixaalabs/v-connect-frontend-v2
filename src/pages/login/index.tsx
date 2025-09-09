@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../components/ui/form';
 
 export default function LoginPage() {
-  const [userType, setUserType] = useState<'student' | null>(null);
+  const [userType, _] = useState<'student' | null>(null);
   const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 

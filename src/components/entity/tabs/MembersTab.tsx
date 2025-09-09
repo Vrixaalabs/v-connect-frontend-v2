@@ -15,7 +15,7 @@ interface MembersTabProps {
 }
 
 export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) {
-  const { data: membersData, refetch: refetchMembers } = useQuery<IEntityMembersResponse>(GET_ENTITY_MEMBERS, {
+  const { data: membersData } = useQuery<IEntityMembersResponse>(GET_ENTITY_MEMBERS, {
     variables: {
       entityId: entity.entityId,
     },
