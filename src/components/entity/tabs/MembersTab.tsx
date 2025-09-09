@@ -29,7 +29,6 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
 
   const invites = invitesData?.getInviteByEntityId?.invites || [];
   const members = membersData?.getEntityMembers?.members || [];
-  console.log("invites", invites);
   const pendingInvites = invites.filter(invite => invite.status === 'pending');
 
   const handleInviteUpdate = () => {
@@ -46,7 +45,7 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
       <CardContent>
         <Tabs defaultValue='members' className='space-y-4'>
           <TabsList>
-            <TabsTrigger value='members'>Members {0}</TabsTrigger>
+            <TabsTrigger value='members'>Members ({members.length})</TabsTrigger>
             <TabsTrigger value='invites'>Pending Invites ({pendingInvites.length})</TabsTrigger>
           </TabsList>
 
