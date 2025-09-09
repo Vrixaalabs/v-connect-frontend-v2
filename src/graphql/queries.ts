@@ -283,3 +283,12 @@ export const GET_ENTITY_BY_ENTITY_ID = gql`
     }
   }
 `;
+
+export const GET_MY_ENTITY_INVITES = gql`
+  query GetMyEntityInvites {
+    getMyEntityInvites {
+      success
+      message
+    }
+  }
+`;

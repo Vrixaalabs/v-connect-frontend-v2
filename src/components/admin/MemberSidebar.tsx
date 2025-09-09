@@ -59,6 +59,7 @@ const sidebarLinks: SidebarLink[] = [
     label: 'My Entities',
     href: '/member/entities',
   },
+  { icon: Building2, label: 'Invites', href: '/member/invites' },
   { icon: BookOpen, label: 'Clubs', href: '/clubs' },
   { icon: GraduationCap, label: 'Alumni', href: '/alumni' },
   { icon: Briefcase, label: 'Jobs', href: '/jobs' },

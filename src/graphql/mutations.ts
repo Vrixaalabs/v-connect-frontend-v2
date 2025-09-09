@@ -320,3 +320,21 @@ export const INVITE_ENTITY_MEMBER = gql`
     }
   }
 `;
+
+export const ACCEPT_ENTITY_INVITE = gql`
+  mutation AcceptEntityInvite($input: AcceptEntityInviteInput!) {
+    acceptEntityInvite(input: $input) {
+      success
+      message
+    }
+  }
+`;
+
+export const REJECT_ENTITY_INVITE = gql`
+  mutation RejectEntityInvite($input: RejectEntityInviteInput!) {
+    rejectEntityInvite(input: $input) {
+      success
+      message
+    }
+  }
+`;

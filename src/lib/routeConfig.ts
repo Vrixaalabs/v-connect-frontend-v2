@@ -230,6 +230,12 @@ export const routeConfig: Record<string, RouteConfig> = {
     allowedRoles: ['member'],
     redirectTo: '/',
   },
+  '/member/invites': {
+    path: '/member/invites',
+    requireAuth: true,
+    allowedRoles: ['member'],
+    redirectTo: '/',
+  },
 };
 
 export const getRouteConfig = (pathname: string): RouteConfig | undefined => {

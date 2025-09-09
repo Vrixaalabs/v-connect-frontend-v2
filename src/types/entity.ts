@@ -50,6 +50,8 @@ export interface UpdateEntityInput extends Partial<CreateEntityInput> {
   id: string;
 }
 
+export type InviteStatus = 'PENDING' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
+
 export interface InviteStudentInput {
   email: string;
   firstName: string;
@@ -58,4 +60,27 @@ export interface InviteStudentInput {
   rollNumber: string;
   batch: string;
   program: string;
+}
+
+export interface EntityInvite {
+  inviteId: string;
+  entity: Entity;
+  email: string;
+  firstName: string;
+  lastName: string;
+  rollNumber: string;
+  batch: string;
+  program: string;
+  status: InviteStatus;
+  expiresAt: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AcceptInviteInput {
+  inviteId: string;
+}
+
+export interface RejectInviteInput {
+  inviteId: string;
 }
