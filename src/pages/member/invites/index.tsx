@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
 import { Building2, Users, Calendar } from 'lucide-react';
 import type { EntityInvite } from '@/types/entity';
+import MemberLayout from '@/components/layouts/MemberLayout';
 
 export default function InvitesPage() {
   const { data, loading, refetch } = useQuery(GET_MY_ENTITY_INVITES);
@@ -69,82 +70,84 @@ export default function InvitesPage() {
   }
 
   return (
-    <div className="container mx-auto py-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">Entity Invites</h1>
-        <p className="text-sm text-gray-500">Manage your pending entity invitations</p>
-      </div>
+    <MemberLayout>
+      <div className="container mx-auto py-6">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold">Entity Invites</h1>
+          <p className="text-sm text-gray-500">Manage your pending entity invitations</p>
+        </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {invites.map((invite) => (
-          <Card key={invite.inviteId}>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline">{invite.entity.type}</Badge>
-                <Badge
-                  variant={
-                    invite.status === 'PENDING'
-                      ? 'default'
-                      : invite.status === 'ACCEPTED'
-                      ? 'default'
-                      : 'destructive'
-                  }
-                >
-                  {invite.status}
-                </Badge>
-              </div>
-              <CardTitle className="mt-2">{invite.entity.name}</CardTitle>
-              {invite.entity.description && (
-                <p className="text-sm text-gray-500">{invite.entity.description}</p>
-              )}
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Building2 className="h-4 w-4" />
-                  <span>Code: {invite.entity.code}</span>
+        <div className="grid gap-6 md:grid-cols-2">
+          {invites.map((invite) => (
+            <Card key={invite.inviteId}>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <Badge variant="outline">{invite.entity.type}</Badge>
+                  <Badge
+                    variant={
+                      invite.status === 'PENDING'
+                        ? 'default'
+                        : invite.status === 'ACCEPTED'
+                        ? 'default'
+                        : 'destructive'
+                    }
+                  >
+                    {invite.status}
+                  </Badge>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Users className="h-4 w-4" />
-                  <span>{invite.entity.metadata?.totalMembers || 0} members</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Calendar className="h-4 w-4" />
-                  <span>Expires {format(new Date(invite.expiresAt), 'PPP')}</span>
-                </div>
-
-                {invite.status === 'PENDING' && (
-                  <div className="flex items-center gap-2 mt-4">
-                    <Button
-                      className="flex-1"
-                      onClick={() => handleAcceptInvite(invite.inviteId)}
-                      disabled={accepting || rejecting}
-                    >
-                      Accept
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="flex-1"
-                      onClick={() => handleRejectInvite(invite.inviteId)}
-                      disabled={accepting || rejecting}
-                    >
-                      Reject
-                    </Button>
-                  </div>
+                <CardTitle className="mt-2">{invite.entity.name}</CardTitle>
+                {invite.entity.description && (
+                  <p className="text-sm text-gray-500">{invite.entity.description}</p>
                 )}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <Building2 className="h-4 w-4" />
+                    <span>Code: {invite.entity.code}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <Users className="h-4 w-4" />
+                    <span>{invite.entity.metadata?.totalMembers || 0} members</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <Calendar className="h-4 w-4" />
+                    <span>Expires {format(new Date(invite.expiresAt), 'PPP')}</span>
+                  </div>
 
-        {invites.length === 0 && (
-          <Card className="col-span-full">
-            <CardContent className="text-center py-8">
-              <p className="text-sm text-gray-500">No pending invites found</p>
-            </CardContent>
-          </Card>
-        )}
+                  {invite.status === 'PENDING' && (
+                    <div className="flex items-center gap-2 mt-4">
+                      <Button
+                        className="flex-1"
+                        onClick={() => handleAcceptInvite(invite.inviteId)}
+                        disabled={accepting || rejecting}
+                      >
+                        Accept
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() => handleRejectInvite(invite.inviteId)}
+                        disabled={accepting || rejecting}
+                      >
+                        Reject
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+
+          {invites.length === 0 && (
+            <Card className="col-span-full">
+              <CardContent className="text-center py-8">
+                <p className="text-sm text-gray-500">No pending invites found</p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
-    </div>
+    </MemberLayout>
   );
 }
