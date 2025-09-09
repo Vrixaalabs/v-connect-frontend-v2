@@ -1,4 +1,4 @@
-import { AdminSidebar } from "../../../components/admin/Sidebar"
+import { AdminSidebar } from '../../../components/admin/Sidebar';
 
 // export const metadata: Metadata = {
 //   title: {
@@ -8,19 +8,13 @@ import { AdminSidebar } from "../../../components/admin/Sidebar"
 //   description: "Manage clubs, members, events, and more",
 // }
 
-export default function AdminClubsLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function AdminClubsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen">
+    <div className='flex min-h-screen'>
       <AdminSidebar />
-      <main className="flex-1 overflow-y-auto">
-        <div className="container px-4 py-6 md:py-8">
-          {children}
-        </div>
+      <main className='flex-1 overflow-y-auto'>
+        <div className='container px-4 py-6 md:py-8'>{children}</div>
       </main>
     </div>
-  )
-} 
+  );
+}

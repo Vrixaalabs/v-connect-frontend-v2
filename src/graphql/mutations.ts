@@ -241,6 +241,49 @@ export const DELETE_ORGANIZATION_ROLE = gql`
   }
 `;
 
+export const CREATE_ENTITY = gql`
+  mutation CreateEntity($input: CreateEntityInput!) {
+    createEntity(input: $input) {
+      success
+      message
+      entity {
+        entityId
+        name
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const UPDATE_ENTITY = gql`
+  mutation UpdateEntity($id: ID!, $input: UpdateEntityInput!) {
+    updateEntity(id: $id, input: $input) {
+      success
+      message
+      entity {
+        id
+        name
+        type
+        code
+        description
+        parentId
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const DELETE_ENTITY = gql`
+  mutation DeleteEntity($id: ID!) {
+    deleteEntity(id: $id) {
+      success
+      message
+    }
+  }
+`;
+
 export const ASSIGN_ORGANIZATION_ROLE = gql`
   mutation AssignOrganizationRole($organizationId: ID!, $userId: ID!, $roleId: ID!, $departmentId: ID) {
     assignOrganizationRole(
@@ -263,6 +306,40 @@ export const ASSIGN_ORGANIZATION_ROLE = gql`
 export const REMOVE_ORGANIZATION_ROLE = gql`
   mutation RemoveOrganizationRole($organizationId: ID!, $userId: ID!) {
     removeOrganizationRole(organizationId: $organizationId, userId: $userId) {
+      success
+      message
+    }
+  }
+`;
+
+export const INVITE_ENTITY_MEMBER = gql`
+  mutation InviteEntityMember($input: InviteEntityMemberInput!) {
+    inviteEntityMember(input: $input) {
+      success
+      message
+    }
+  }
+`;
+
+export const ACCEPT_ENTITY_INVITE = gql`
+  mutation AcceptEntityInvite($input: AcceptEntityInviteInput!) {
+    acceptEntityInvite(input: $input) {
+      success
+      message
+      invite {
+        inviteId
+        email
+        status
+        entityId
+        userId
+      }
+    }
+  }
+`;
+
+export const REJECT_ENTITY_INVITE = gql`
+  mutation RejectEntityInvite($input: RejectEntityInviteInput!) {
+    rejectEntityInvite(input: $input) {
       success
       message
     }

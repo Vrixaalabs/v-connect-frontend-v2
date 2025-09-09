@@ -2,13 +2,7 @@ import { useState } from 'react';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useToastHelpers } from '@/components/ui/toast';
-import EntityForm from '@/components/admin/EntityForm';
+import EntityForm from '@/components/entity/forms/EntityForm';
 import InstituteAdminLayout from '@/components/admin/organization/OrganizationAdminLayout';
 import type { Entity, CreateEntityInput } from '@/types/entity';
 
@@ -29,22 +23,24 @@ export default function EntityManagement() {
   // TODO: Replace with actual data from API
   const mockEntities: Entity[] = [
     {
-      id: '1',
+      entityId: '1',
       name: 'Computer Science',
-      type: 'department',
+      type: 'DEPARTMENT',
       code: 'CSE',
       description: 'Department of Computer Science and Engineering',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      status: 'ACTIVE',
     },
     {
-      id: '2',
+      entityId: '2',
       name: 'School of Management',
-      type: 'school',
+      type: 'COMMITTEE',
       code: 'SOM',
       description: 'School of Management Studies',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      status: 'ACTIVE',
     },
   ];
 
@@ -53,7 +49,7 @@ export default function EntityManagement() {
       setIsLoading(true);
       // TODO: Implement create mutation
       console.log('Creating entity:', data);
-      
+
       toast.success('Success', 'Entity created successfully');
       setIsDialogOpen(false);
     } catch (error) {
@@ -67,8 +63,8 @@ export default function EntityManagement() {
     try {
       setIsLoading(true);
       // TODO: Implement update mutation
-      console.log('Updating entity:', { id: selectedEntity?.id, ...data });
-      
+      console.log('Updating entity:', { id: selectedEntity?.entityId, ...data });
+
       toast.success('Success', 'Entity updated successfully');
       setIsDialogOpen(false);
       setSelectedEntity(null);
@@ -83,8 +79,8 @@ export default function EntityManagement() {
     try {
       setIsLoading(true);
       // TODO: Implement delete mutation
-      console.log('Deleting entity:', entity.id);
-      
+      console.log('Deleting entity:', entity.entityId);
+
       toast.success('Success', 'Entity deleted successfully');
     } catch (error) {
       toast.error('Error', 'Failed to delete entity');
@@ -97,15 +93,13 @@ export default function EntityManagement() {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button onClick={() => setSelectedEntity(null)}>
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className='w-4 h-4 mr-2' />
           Add Entity
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className='sm:max-w-[500px]'>
         <DialogHeader>
-          <DialogTitle>
-            {selectedEntity ? 'Edit Entity' : 'Add New Entity'}
-          </DialogTitle>
+          <DialogTitle>{selectedEntity ? 'Edit Entity' : 'Add New Entity'}</DialogTitle>
         </DialogHeader>
         <EntityForm
           onSubmit={selectedEntity ? handleUpdate : handleCreate}
@@ -119,46 +113,41 @@ export default function EntityManagement() {
 
   return (
     <InstituteAdminLayout
-      title="Entity Management"
-      description="Manage departments, schools, and other entities"
+      title='Entity Management'
+      description='Manage departments, schools, and other entities'
       action={AddEntityButton}
     >
-      <div className="grid gap-4">
-        {mockEntities.map((entity) => (
-          <Card key={entity.id} className="p-4">
-            <div className="flex items-center justify-between">
+      <div className='grid gap-4'>
+        {mockEntities.map(entity => (
+          <Card key={entity.entityId} className='p-4'>
+            <div className='flex items-center justify-between'>
               <div>
-                <h3 className="text-lg font-semibold">{entity.name}</h3>
-                <p className="text-sm text-gray-500">
+                <h3 className='text-lg font-semibold'>{entity.name}</h3>
+                <p className='text-sm text-gray-500'>
                   {entity.type.charAt(0).toUpperCase() + entity.type.slice(1)} • {entity.code}
                 </p>
-                {entity.description && (
-                  <p className="mt-2 text-sm text-gray-600">{entity.description}</p>
-                )}
+                {entity.description && <p className='mt-2 text-sm text-gray-600'>{entity.description}</p>}
               </div>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <span className="sr-only">Open menu</span>
+                  <Button variant='ghost' size='icon'>
+                    <span className='sr-only'>Open menu</span>
                     •••
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align='end'>
                   <DropdownMenuItem
                     onClick={() => {
                       setSelectedEntity(entity);
                       setIsDialogOpen(true);
                     }}
                   >
-                    <Pencil className="w-4 h-4 mr-2" />
+                    <Pencil className='w-4 h-4 mr-2' />
                     Edit
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="text-red-600"
-                    onClick={() => handleDelete(entity)}
-                  >
-                    <Trash2 className="w-4 h-4 mr-2" />
+                  <DropdownMenuItem className='text-red-600' onClick={() => handleDelete(entity)}>
+                    <Trash2 className='w-4 h-4 mr-2' />
                     Delete
                   </DropdownMenuItem>
                 </DropdownMenuContent>

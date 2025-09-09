@@ -46,9 +46,7 @@ export function OrganizationDetailsModal({ organization, onClose }: Organization
   const navigate = useNavigate();
   const toast = useToast();
   const { user } = useAuth();
-  const [isFollowing, setIsFollowing] = useState(
-    organization.followers.includes(user?.userId || '')
-  );
+  const [isFollowing, setIsFollowing] = useState(organization.followers.includes(user?.userId || ''));
 
   const [followOrganization] = useMutation(FOLLOW_ORGANIZATION, {
     onCompleted: () => {
@@ -96,38 +94,31 @@ export function OrganizationDetailsModal({ organization, onClose }: Organization
   };
 
   return (
-    <DialogContent className="sm:max-w-[600px]">
+    <DialogContent className='sm:max-w-[600px]'>
       <DialogHeader>
-        <DialogTitle className="flex items-center justify-between">
+        <DialogTitle className='flex items-center justify-between'>
           <span>{organization.name}</span>
-          {organization.isVerified && (
-            <Badge variant="secondary">Verified</Badge>
-          )}
+          {organization.isVerified && <Badge variant='secondary'>Verified</Badge>}
         </DialogTitle>
       </DialogHeader>
 
-      <div className="mt-4">
+      <div className='mt-4'>
         {organization.banner && (
-          <div className="relative h-40 w-full mb-4 rounded-lg overflow-hidden">
-            <img
-              src={organization.banner}
-              alt={organization.name}
-              className="w-full h-full object-cover"
-            />
+          <div className='relative h-40 w-full mb-4 rounded-lg overflow-hidden'>
+            <img src={organization.banner} alt={organization.name} className='w-full h-full object-cover' />
           </div>
         )}
 
-        <p className="text-gray-600 mb-4">{organization.description}</p>
+        <p className='text-gray-600 mb-4'>{organization.description}</p>
 
-        <div className="space-y-4">
+        <div className='space-y-4'>
           <div>
-            <h3 className="font-semibold mb-2">Contact Information</h3>
-            <div className="text-sm text-gray-600">
+            <h3 className='font-semibold mb-2'>Contact Information</h3>
+            <div className='text-sm text-gray-600'>
               <p>Email: {organization.email}</p>
               <p>Phone: {organization.phone}</p>
               <p>
-                Location: {organization.address.city}, {organization.address.state},{' '}
-                {organization.address.country}
+                Location: {organization.address.city}, {organization.address.state}, {organization.address.country}
               </p>
             </div>
           </div>
@@ -135,10 +126,10 @@ export function OrganizationDetailsModal({ organization, onClose }: Organization
           <Separator />
 
           <div>
-            <h3 className="font-semibold mb-2">Departments</h3>
-            <div className="grid grid-cols-2 gap-2">
-              {organization.departments.map((dept) => (
-                <Badge key={dept.id} variant="outline" className="text-sm">
+            <h3 className='font-semibold mb-2'>Departments</h3>
+            <div className='grid grid-cols-2 gap-2'>
+              {organization.departments.map(dept => (
+                <Badge key={dept.id} variant='outline' className='text-sm'>
                   {dept.name} ({dept.code})
                 </Badge>
               ))}
@@ -146,8 +137,8 @@ export function OrganizationDetailsModal({ organization, onClose }: Organization
           </div>
         </div>
 
-        <div className="flex justify-end space-x-4 mt-8">
-          <Button variant="outline" onClick={handleFollow}>
+        <div className='flex justify-end space-x-4 mt-8'>
+          <Button variant='outline' onClick={handleFollow}>
             {isFollowing ? 'Unfollow' : 'Follow'}
           </Button>
           <Button onClick={handleJoin}>Join Organization</Button>

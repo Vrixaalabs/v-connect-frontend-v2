@@ -1,22 +1,11 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {
-  LayoutDashboard,
-  Users,
-  GraduationCap,
-  ClipboardList,
-  Settings,
-  Building2,
-  Club,
-} from 'lucide-react';
-import {
-  CollapsibleSidebar,
-  SidebarItem,
-  SidebarSection,
-} from '@/components/ui/collapsible-sidebar';
+import { LayoutDashboard, Users, GraduationCap, ClipboardList, Settings, Building2, Club } from 'lucide-react';
+import { CollapsibleSidebar, SidebarItem, SidebarSection } from '@/components/ui/collapsible-sidebar';
 
 export default function OrganizationAdminSidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  
+  const [isCollapsed, _] = useState(false);
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
@@ -26,17 +15,17 @@ export default function OrganizationAdminSidebar() {
       title: 'Overview',
       items: [
         {
-          icon: <LayoutDashboard className="h-4 w-4" />,
+          icon: <LayoutDashboard className='h-4 w-4' />,
           label: 'Dashboard',
           href: '/admin/organization/dashboard',
         },
         {
-          icon: <Users className="h-4 w-4" />,
+          icon: <Users className='h-4 w-4' />,
           label: 'Students',
           href: '/admin/organization/students',
         },
         {
-          icon: <GraduationCap className="h-4 w-4" />,
+          icon: <GraduationCap className='h-4 w-4' />,
           label: 'Invite Student',
           href: '/admin/organization/students/invite',
         },
@@ -46,17 +35,17 @@ export default function OrganizationAdminSidebar() {
       title: 'Management',
       items: [
         {
-          icon: <Building2 className="h-4 w-4" />,
+          icon: <Building2 className='h-4 w-4' />,
           label: 'Entities',
           href: '/admin/organization/entities',
         },
         {
-          icon: <Club className="h-4 w-4" />,
+          icon: <Club className='h-4 w-4' />,
           label: 'Clubs',
           href: '/admin/organization/clubs',
         },
         {
-          icon: <ClipboardList className="h-4 w-4" />,
+          icon: <ClipboardList className='h-4 w-4' />,
           label: 'Requests',
           href: '/admin/organization/requests',
         },
@@ -66,7 +55,7 @@ export default function OrganizationAdminSidebar() {
       title: 'Settings',
       items: [
         {
-          icon: <Settings className="h-4 w-4" />,
+          icon: <Settings className='h-4 w-4' />,
           label: 'Settings',
           href: '/admin/organization/settings',
         },
@@ -76,25 +65,19 @@ export default function OrganizationAdminSidebar() {
 
   return (
     <CollapsibleSidebar>
-      <div className="flex h-14 items-center border-b px-3">
+      <div className='flex h-14 items-center border-b px-3'>
         <Link
-          to="/admin/organization/dashboard"
-          className={`flex items-center space-x-2 ${
-            isCollapsed ? 'justify-center' : ''
-          }`}
+          to='/admin/organization/dashboard'
+          className={`flex items-center space-x-2 ${isCollapsed ? 'justify-center' : ''}`}
         >
-          {!isCollapsed && <span className="font-bold">Organization Admin</span>}
+          {!isCollapsed && <span className='font-bold'>Organization Admin</span>}
         </Link>
       </div>
 
-      <div className="flex-1 overflow-auto py-6">
-        <nav className="grid gap-6 px-2">
+      <div className='flex-1 overflow-auto py-6'>
+        <nav className='grid gap-6 px-2'>
           {navigationItems.map((section, i) => (
-            <SidebarSection
-              key={i}
-              title={section.title}
-              isCollapsed={isCollapsed}
-            >
+            <SidebarSection key={i} title={section.title} isCollapsed={isCollapsed}>
               {section.items.map((item, j) => (
                 <Link key={j} to={item.href}>
                   <SidebarItem

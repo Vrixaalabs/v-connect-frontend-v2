@@ -233,7 +233,7 @@ class TokenService {
   // Check if user is authenticated
   isAuthenticated(): boolean {
     const tokens = this.getTokens();
-    console.log("tokens from token service");
+    console.log('tokens from token service');
     console.log(tokens);
     if (!tokens) {
       return false;

@@ -244,3 +244,125 @@ export const GET_ORGANIZATION_BY_ID = gql`
     }
   }
 `;
+
+export const GET_USER_ENTITIES = gql`
+  query GetUserEntities {
+    getUserEntities {
+      success
+      message
+      entities {
+        entityId
+        name
+        type
+        status
+        code
+        description
+        parentEntityId
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const GET_ENTITY_BY_ENTITY_ID = gql`
+  query GetEntityByEntityId($entityId: String!) {
+    getEntityByEntityId(entityId: $entityId) {
+      success
+      message
+      entity {
+        entityId
+        name
+        type
+        code
+        description
+        parentEntityId
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const GET_MY_ENTITY_INVITES = gql`
+  query GetMyEntityInvites {
+    getMyEntityInvites {
+      success
+      message
+      invites {
+        inviteId
+        email
+        status
+        entityId
+        userId
+        role
+        rollNumber
+        batch
+        createdAt
+        updatedAt
+        entity {
+          entityId
+          name
+          type
+          code
+          description
+          status
+          metadata {
+            totalMembers
+            totalEvents
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_INVITE_BY_ENTITY_ID = gql`
+  query GetInviteByEntityId($entityId: String!) {
+    getInviteByEntityId(entityId: $entityId) {
+      success
+      message
+      invites {
+        inviteId
+        email
+        status
+        entityId
+        userId
+        role
+        rollNumber
+        batch
+        createdAt
+        updatedAt
+        user {
+          userId
+          firstName
+          lastName
+          email
+          avatar
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ENTITY_MEMBERS = gql`
+  query GetEntityMembers($entityId: String!) {
+    getEntityMembers(entityId: $entityId) {
+      success
+      message
+      members {
+        user {
+          userId
+          firstName
+          lastName
+          avatar
+        }
+        role {
+          roleId
+          name
+        }
+        joinedAt
+        status
+      }
+    }
+  }
+`;

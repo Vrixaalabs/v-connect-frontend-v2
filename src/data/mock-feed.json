@@ -53,9 +53,7 @@
         "university": "Tech University"
       },
       "content": "Found this amazing study spot in the new library wing! Perfect lighting and so quiet 📚✨",
-      "images": [
-        "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800&auto=format"
-      ],
+      "images": ["https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800&auto=format"],
       "likes": 156,
       "comments": [
         {
@@ -115,4 +113,4 @@
       "isAnnouncement": true
     }
   ]
-} 
+}

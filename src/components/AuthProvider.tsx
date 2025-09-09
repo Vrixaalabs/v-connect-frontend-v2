@@ -5,15 +5,14 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import HttpClient from '../lib/httpClient';
 import TokenService from '../lib/tokenService';
 import BranchService from '../lib/branchService';
-import { 
-  clearError, 
-  clearTokens, 
-  clearUser, 
-  setTokens, 
-  setUser, 
-  updateLastActivity, 
-  setCurrentBranchId, 
-  clearCurrentBranchId 
+import {
+  clearError,
+  clearTokens,
+  clearUser,
+  setTokens,
+  setUser,
+  updateLastActivity,
+  clearCurrentBranchId,
 } from '../store/slices/authSlice';
 
 interface AuthProviderProps {
@@ -301,22 +300,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         const branchService = BranchService.getInstance();
         const storedBranchId = branchService.getStoredOrDefaultBranchId();
-        
+
         const response = await httpClient.post<LoginResponse>(
           '/api/auth/login',
           { email, password, branchId: storedBranchId },
           { skipAuth: true }
         );
 
-        console.log(response);
-
         if (response.accessToken) {
           // Store tokens and branch ID
           tokenService.setTokens(response.accessToken);
-          // const branchService = BranchService.getInstance();
-          // branchService.setCurrentBranchId(response.branchId);
-
-          console.log(response);
 
           // Update Redux state
           dispatch(
@@ -325,7 +318,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               refreshToken: '',
             })
           );
-          // dispatch(setCurrentBranchId(response.branchId));
 
           // Get user info
           await checkAuthStatusDebounced();
@@ -336,12 +328,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
           // Navigate to intended destination
           const destination = getIntendedDestination();
-          console.log(destination);
           await navigate(destination);
           clearIntendedDestination(); // Clear intended destination after successful navigation
         }
       } catch (error) {
-        console.error(error);
         // Re-throw error for handling in UI
         throw error instanceof Error ? error : new Error('Login failed');
       }
@@ -361,7 +351,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = useCallback(
     async (email: string, password: string, username: string, firstName: string, lastName: string) => {
-      const response = await httpClient.post<RegisterResponse>('/api/auth/register', { email, password, username, firstName, lastName });
+      const response = await httpClient.post<RegisterResponse>('/api/auth/register', {
+        email,
+        password,
+        username,
+        firstName,
+        lastName,
+      });
       if (response.accessToken) {
         tokenService.setTokens(response.accessToken);
         dispatch(setTokens({ accessToken: response.accessToken, refreshToken: '' }));

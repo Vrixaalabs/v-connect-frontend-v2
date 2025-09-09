@@ -5,7 +5,8 @@ export const mockClubs: Club[] = [
     id: '1',
     name: 'Tech Club',
     slug: 'tech-club',
-    description: 'The premier technology club fostering innovation and technical excellence through workshops, hackathons, and tech talks.',
+    description:
+      'The premier technology club fostering innovation and technical excellence through workshops, hackathons, and tech talks.',
     logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=TechClub',
     coverImage: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200',
     template: 'modern',
@@ -101,7 +102,8 @@ export const mockClubs: Club[] = [
     id: '2',
     name: 'Arts & Culture Society',
     slug: 'arts-culture-society',
-    description: 'A vibrant community celebrating diverse art forms and cultural expressions through exhibitions, performances, and workshops.',
+    description:
+      'A vibrant community celebrating diverse art forms and cultural expressions through exhibitions, performances, and workshops.',
     logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=ArtsClub',
     coverImage: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=1200',
     template: 'creative',
@@ -193,4 +195,4 @@ export const mockClubs: Club[] = [
       enableRegistration: true,
     },
   },
-]; 
+];

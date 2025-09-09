@@ -22,16 +22,12 @@ export function CollapsibleSidebar({ children, className }: CollapsibleSidebarPr
     >
       {children}
       <Button
-        variant="ghost"
-        size="icon"
-        className="absolute -right-3 top-6 h-6 w-6 rounded-full border bg-background"
+        variant='ghost'
+        size='icon'
+        className='absolute -right-3 top-6 h-6 w-6 rounded-full border bg-background'
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
-        {isCollapsed ? (
-          <ChevronRight className="h-4 w-4" />
-        ) : (
-          <ChevronLeft className="h-4 w-4" />
-        )}
+        {isCollapsed ? <ChevronRight className='h-4 w-4' /> : <ChevronLeft className='h-4 w-4' />}
       </Button>
     </div>
   );
@@ -46,14 +42,8 @@ interface SidebarItemProps {
   onClick?: () => void;
 }
 
-export function SidebarItem({
-  icon,
-  label,
-  isCollapsed,
-  isActive,
-  href,
-  onClick,
-}: SidebarItemProps) {
+export function SidebarItem({ icon, label, isCollapsed, isActive, href, onClick }: SidebarItemProps) {
+  localStorage.setItem('currentOrganization', JSON.stringify(href));
   const content = (
     <div
       className={cn(
@@ -74,7 +64,7 @@ export function SidebarItem({
         <TooltipTrigger asChild>
           <div>{content}</div>
         </TooltipTrigger>
-        <TooltipContent side="right" className="flex items-center">
+        <TooltipContent side='right' className='flex items-center'>
           {label}
         </TooltipContent>
       </Tooltip>
@@ -92,11 +82,9 @@ interface SidebarSectionProps {
 
 export function SidebarSection({ children, title, isCollapsed }: SidebarSectionProps) {
   return (
-    <div className="space-y-3">
-      {title && !isCollapsed && (
-        <h3 className="px-3 text-xs font-semibold text-foreground/60">{title}</h3>
-      )}
-      <div className="space-y-1">{children}</div>
+    <div className='space-y-3'>
+      {title && !isCollapsed && <h3 className='px-3 text-xs font-semibold text-foreground/60'>{title}</h3>}
+      <div className='space-y-1'>{children}</div>
     </div>
   );
 }
