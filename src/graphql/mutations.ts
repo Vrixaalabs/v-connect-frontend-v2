@@ -345,3 +345,40 @@ export const REJECT_ENTITY_INVITE = gql`
     }
   }
 `;
+
+export const ADD_MESSAGE_TO_ENTITY_CHAT = gql`
+  mutation AddMessageToEntityChat($input: AddMessageToEntityChatInput!) {
+    addMessageToEntityChat(input: $input) {
+      success
+      message
+      entityChat {
+        entityChatId
+        entityId
+        userId
+        messages {
+          userId
+          message
+          createdAt
+        }
+      }
+    }
+  }
+`;
+
+export const CREATE_ENTITY_REQUEST = gql`
+  mutation CreateEntityRequest($input: CreateEntityRequestInput!) {
+    createEntityRequest(input: $input) {
+      success
+      message
+    }
+  }
+`;
+
+export const ACCEPT_JOIN_REQUEST = gql`
+  mutation AcceptJoinRequest($requestId: ID!) {
+    acceptJoinRequest(requestId: $requestId) {
+      success
+      message
+    }
+  }
+`;

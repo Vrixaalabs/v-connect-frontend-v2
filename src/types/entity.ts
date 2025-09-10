@@ -26,6 +26,7 @@ export interface EntityMetadata {
 
 export interface Entity {
   entityId: string;
+  entityChatId: string;
   name: string;
   type: EntityType;
   code: string;

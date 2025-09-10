@@ -27,6 +27,12 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
     },
   });
 
+  // const { data: requestsData, refetch: refetchRequests } = useQuery<IRequestByEntityIdResponse>(GET_REQUEST_BY_ENTITY_ID, {
+  //   variables: {
+  //     entityId: entity.entityId,
+  //   },
+  // });
+
   const invites = invitesData?.getInviteByEntityId?.invites || [];
   const members = membersData?.getEntityMembers?.members || [];
   const pendingInvites = invites.filter(invite => invite.status === 'pending');
@@ -47,6 +53,8 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
           <TabsList>
             <TabsTrigger value='members'>Members ({members.length})</TabsTrigger>
             <TabsTrigger value='invites'>Pending Invites ({pendingInvites.length})</TabsTrigger>
+            {/* Pending Requests */}
+            {/* <TabsTrigger value='requests'>Pending Requests ({pendingRequests.length})</TabsTrigger> */}
           </TabsList>
 
           <TabsContent value='members'>
@@ -55,6 +63,10 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
 
           <TabsContent value='invites'>
             <InvitesList invites={pendingInvites} onUpdate={handleInviteUpdate} entity={entity} />
+          </TabsContent>
+
+          <TabsContent value='requests'>
+            {/* <PendingRequestsList requests={pendingRequests} onUpdate={handleRequestUpdate} entity={entity} /> */}
           </TabsContent>
         </Tabs>
       </CardContent>

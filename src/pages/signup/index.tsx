@@ -12,6 +12,8 @@ import {
 } from '../../lib/validations/auth';
 import { toast } from 'sonner';
 import { useAuth } from '../../hooks/useAuth';
+import { Select, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { SelectContent } from '@/components/ui/select';
 
 export default function SignupPage() {
   // const searchParams = useSearchParams();
@@ -26,7 +28,7 @@ export default function SignupPage() {
       firstName: '',
       lastName: '',
       username: '',
-      studentId: '',
+      type: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -48,7 +50,7 @@ export default function SignupPage() {
     try {
       setIsLoading(true);
       // TODO: Implement student signup
-      await register(data.email, data.password, data.username, data.firstName, data.lastName);
+      await register(data.email, data.password, data.username, data.firstName, data.lastName, data.type);
       console.log(data);
       toast.success('Account created successfully!');
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -128,19 +130,27 @@ export default function SignupPage() {
               )}
             />
 
-            {/* <FormField
-                control={studentForm.control}
-                name="studentId"
-                render={({ field }: { field: any }) => (
-                  <FormItem>
-                    <FormLabel>Student ID</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., 2024CS001" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
+            <FormField
+              control={studentForm.control}
+              name='type'
+              render={({ field }: { field: any }) => (
+                <FormItem>
+                  <FormLabel>Type</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger>
+                        <SelectValue placeholder='Select type' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value='student'>Student</SelectItem>
+                        <SelectItem value='alumni'>Alumni</SelectItem>
+                        <SelectItem value='faculty'>Faculty</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={studentForm.control}
@@ -149,7 +159,7 @@ export default function SignupPage() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type='email' placeholder='student@example.com' {...field} />
+                    <Input type='email' placeholder='email@example.com' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -5,7 +5,7 @@ export const studentSignupSchema = z
     firstName: z.string().min(2, 'First name must be at least 2 characters'),
     lastName: z.string().min(2, 'Last name must be at least 2 characters'),
     username: z.string().min(3, 'Username must be at least 3 characters'),
-    studentId: z.string().optional(),
+    type: z.string().min(1, 'Type is required'),
     email: z.string().email('Please enter a valid email address'),
     password: z
       .string()

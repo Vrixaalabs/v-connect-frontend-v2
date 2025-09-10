@@ -6,17 +6,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/useToast';
 import type { Entity } from '@/types/entity';
-import { CREATE_ENTITY, DELETE_ENTITY } from '@/graphql/mutations';
+import { CREATE_ENTITY } from '@/graphql/mutations';
 import { GET_USER_ENTITIES } from '@/graphql/queries';
-import { MoreVertical, Eye, Edit, Trash2, Users, Calendar, Settings } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Eye } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 import MemberLayout from '@/components/layouts/MemberLayout';
@@ -28,7 +20,7 @@ export default function MemberEntitiesPage() {
 
   const { data: entitiesData, loading: entitiesLoading, refetch: refetchEntities } = useQuery(GET_USER_ENTITIES);
   const [createEntity, { loading: createLoading }] = useMutation(CREATE_ENTITY);
-  const [deleteEntity] = useMutation(DELETE_ENTITY);
+  // const [deleteEntity] = useMutation(DELETE_ENTITY);
 
   const entities = entitiesData?.getUserEntities?.entities || [];
   const isLoading = entitiesLoading || createLoading;
@@ -61,39 +53,6 @@ export default function MemberEntitiesPage() {
 
   const handleViewEntity = (id: string) => {
     navigate(`/member/entities/${id}`, { state: { entityId: id } });
-  };
-
-  const handleEditEntity = (id: string) => {
-    navigate(`/member/entities/${id}/edit`);
-  };
-
-  const handleManageMembers = (id: string) => {
-    navigate(`/member/entities/${id}/members`);
-  };
-
-  const handleViewEvents = (id: string) => {
-    navigate(`/member/entities/${id}/events`);
-  };
-
-  const handleEntitySettings = (id: string) => {
-    navigate(`/member/entities/${id}/settings`);
-  };
-
-  const handleDeleteEntity = async (id: string) => {
-    try {
-      const response = await deleteEntity({
-        variables: { id },
-      });
-
-      if (response.data?.deleteEntity?.success) {
-        toast.showToast('Success', 'Entity deleted successfully');
-        refetchEntities();
-      } else {
-        throw new Error(response.data?.deleteEntity?.message || 'Failed to delete entity');
-      }
-    } catch (error) {
-      toast.error('Error', 'Failed to delete entity');
-    }
   };
 
   return (
@@ -139,53 +98,12 @@ export default function MemberEntitiesPage() {
                     </div>
                     {entity.code && <CardDescription className='mt-1'>Code: {entity.code}</CardDescription>}
                   </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant='ghost' size='sm'>
-                        <MoreVertical className='h-4 w-4' />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='end'>
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleViewEntity(entity.entityId)}
-                      >
-                        <Eye className='h-4 w-4' /> View Details
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleEditEntity(entity.entityId)}
-                      >
-                        <Edit className='h-4 w-4' /> Edit Entity
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleManageMembers(entity.entityId)}
-                      >
-                        <Users className='h-4 w-4' /> Manage Members
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleViewEvents(entity.entityId)}
-                      >
-                        <Calendar className='h-4 w-4' /> View Events
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleEntitySettings(entity.entityId)}
-                      >
-                        <Settings className='h-4 w-4' /> Settings
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        className='flex items-center gap-2 text-red-600'
-                        onClick={() => handleDeleteEntity(entity.entityId)}
-                      >
-                        <Trash2 className='h-4 w-4' /> Delete Entity
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <div className='flex items-center gap-2'>
+                    {/* view details */}
+                    <Button variant='outline' size='icon' onClick={() => handleViewEntity(entity.entityId)}>
+                      <Eye className='w-4 h-4' />
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className='space-y-3'>

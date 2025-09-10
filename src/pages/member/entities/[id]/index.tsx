@@ -10,6 +10,7 @@ import MembersTab from '@/components/entity/tabs/MembersTab';
 import EventsTab from '@/components/entity/tabs/EventsTab';
 import EditTab from '@/components/entity/tabs/EditTab';
 import SettingsTab from '@/components/entity/tabs/SettingsTab';
+import GroupTab from '@/components/entity/tabs/GroupTab';
 import { toast } from 'sonner';
 import { UPDATE_ENTITY } from '@/graphql/mutations';
 import MemberLayout from '@/components/layouts/MemberLayout';
@@ -89,6 +90,7 @@ export default function EntityDetailsPage() {
             <TabsTrigger value='edit'>Edit</TabsTrigger>
             <TabsTrigger value='members'>Members</TabsTrigger>
             <TabsTrigger value='events'>Events</TabsTrigger>
+            <TabsTrigger value='group'>Group</TabsTrigger>
             <TabsTrigger value='activity'>Activity</TabsTrigger>
             <TabsTrigger value='settings'>Settings</TabsTrigger>
           </TabsList>
@@ -107,6 +109,9 @@ export default function EntityDetailsPage() {
 
           <TabsContent value='events'>
             <EventsTab events={entity.events || []} />
+          </TabsContent>
+          <TabsContent value='group'>
+            <GroupTab  />
           </TabsContent>
 
           <TabsContent value='activity'>

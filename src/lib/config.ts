@@ -4,9 +4,9 @@ export const config = {
   env: import.meta.env.VITE_ENV || 'development',
 
   // API URLs
-  apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-  graphqlUrl: import.meta.env.VITE_GRAPHQL_URL || 'http://localhost:3000/graphql',
-  socketUrl: import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000',
+  apiUrl: import.meta.env.VITE_API_URL || 'https://api.vrixaa-connect.com',
+  graphqlUrl: import.meta.env.VITE_GRAPHQL_URL || 'https://api.vrixaa-connect.com/graphql',
+  socketUrl: import.meta.env.VITE_SOCKET_URL || 'https://api.vrixaa-connect.com',
 
   // Google Maps API Key
   googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyDfXY7zynCJ2IMwyoeTZ73Lvc2XzrKIBco',
