@@ -107,9 +107,9 @@ export default function InviteMemberDialog({ entityId, onSuccess }: InviteMember
                 <SelectValue placeholder='Select role' />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='member'>Member</SelectItem>
-                <SelectItem value='admin'>Admin</SelectItem>
-                <SelectItem value='moderator'>Moderator</SelectItem>
+                <SelectItem value='member'>Student</SelectItem>
+                <SelectItem value='admin'>Faculty</SelectItem>
+                <SelectItem value='moderator'>Alumni</SelectItem>
               </SelectContent>
             </Select>
           </div>
