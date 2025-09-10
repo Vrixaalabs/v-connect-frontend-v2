@@ -236,6 +236,91 @@ export const routeConfig: Record<string, RouteConfig> = {
     allowedRoles: ['member'],
     redirectTo: '/',
   },
+  // Alumni routes
+  '/member/alumni': {
+    path: '/alumni',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  '/member/alumni/directory': {
+    path: '/alumni/directory',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  // Jobs routes
+  '/member/jobs': {
+    path: '/jobs',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  '/member/jobs/post': {
+    path: '/jobs/post',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  // Achievements routes
+  '/member/achievements': {
+    path: '/achievements',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  // Messages routes
+  '/member/messages': {
+    path: '/messages',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  '/member/messages/chat/[id]': {
+    path: '/messages/chat/[id]',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  // Notifications routes
+  '/member/notifications': {
+    path: '/notifications',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  // Profile routes
+  '/member/profile': {
+    path: '/profile',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  '/member/profile/edit': {
+    path: '/profile/edit',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  // Settings routes
+  '/member/settings': {
+    path: '/settings',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  '/member/settings/account': {
+    path: '/settings/account',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  '/member/settings/privacy': {
+    path: '/settings/privacy',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
 };
 
 export const getRouteConfig = (pathname: string): RouteConfig | undefined => {

@@ -62,13 +62,48 @@ const sidebarLinks: SidebarLink[] = [
   },
   { icon: Building2, label: 'Invites', href: '/member/invites' },
   { icon: BookOpen, label: 'Clubs', href: '/clubs' },
-  { icon: GraduationCap, label: 'Alumni', href: '/alumni' },
-  { icon: Briefcase, label: 'Jobs', href: '/jobs' },
-  { icon: Award, label: 'Achievements', href: '/achievements' },
-  { icon: MessageSquare, label: 'Messages', href: '/messages' },
-  { icon: Bell, label: 'Notifications', href: '/notifications' },
-  { icon: UserCircle, label: 'Profile', href: '/profile' },
-  { icon: Settings, label: 'Settings', href: '/settings' },
+  {
+    icon: GraduationCap,
+    label: 'Alumni',
+    href: '/member/alumni',
+    subItems: [
+      { icon: Users, label: 'Directory', href: '/member/alumni/directory' },
+    ],
+  },
+  {
+    icon: Briefcase,
+    label: 'Jobs',
+    href: '/member/jobs',
+    subItems: [
+      { icon: TrendingUp, label: 'Browse Jobs', href: '/member/jobs' },
+      { icon: MessageSquare, label: 'Post a Job', href: '/member/jobs/post' },
+    ],
+  },
+  { icon: Award, label: 'Achievements', href: '/member/achievements' },
+  {
+    icon: MessageSquare,
+    label: 'Messages',
+    href: '/member/messages',
+  },
+  { icon: Bell, label: 'Notifications', href: '/member/notifications' },
+  {
+    icon: UserCircle,
+    label: 'Profile',
+    href: '/member/profile',
+    subItems: [
+      { icon: UserCircle, label: 'View Profile', href: '/member/profile' },
+      { icon: Settings, label: 'Edit Profile', href: '/member/profile/edit' },
+    ],
+  },
+  {
+    icon: Settings,
+    label: 'Settings',
+    href: '/member/settings',
+    subItems: [
+      { icon: UserCircle, label: 'Account', href: '/member/settings/account' },
+      { icon: Settings, label: 'Privacy', href: '/member/settings/privacy' },
+    ],
+  },
 ];
 
 export const MemberSidebar: React.FC<MemberSidebarProps> = ({ isCollapsed = false }) => {

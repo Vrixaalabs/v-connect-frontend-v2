@@ -4,6 +4,7 @@ import { ClubsHeader } from '../../components/clubs/ClubsHeader';
 import { Suspense } from 'react';
 import { Skeleton } from '../../components/ui/skeleton';
 import ClubsLayout from './layout';
+import MemberLayout from '@/components/layouts/MemberLayout';
 
 function ClubCardSkeleton() {
   return (
@@ -26,30 +27,32 @@ function ClubCardSkeleton() {
 
 export default function ClubsPage() {
   return (
-    <ClubsLayout>
-      <main className='min-h-screen bg-background'>
-        <div className='container px-4 py-6 md:py-8 lg:py-12 space-y-6 md:space-y-8'>
-          <ClubsHeader />
+    <MemberLayout>
+      <ClubsLayout>
+        <main className='min-h-screen bg-background'>
+          <div className='container px-4 py-6 md:py-8 lg:py-12 space-y-6 md:space-y-8'>
+            <ClubsHeader />
 
-          <Suspense
-            fallback={
+            <Suspense
+              fallback={
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                  {Array(6)
+                    .fill(0)
+                    .map((_, i) => (
+                      <ClubCardSkeleton key={i} />
+                    ))}
+                </div>
+              }
+            >
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                {Array(6)
-                  .fill(0)
-                  .map((_, i) => (
-                    <ClubCardSkeleton key={i} />
-                  ))}
+                {mockClubs.map(club => (
+                  <ClubCard key={club.id} club={club} />
+                ))}
               </div>
-            }
-          >
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-              {mockClubs.map(club => (
-                <ClubCard key={club.id} club={club} />
-              ))}
-            </div>
-          </Suspense>
-        </div>
-      </main>
-    </ClubsLayout>
+            </Suspense>
+          </div>
+        </main>
+      </ClubsLayout>
+    </MemberLayout>
   );
 }
