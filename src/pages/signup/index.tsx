@@ -28,7 +28,7 @@ export default function SignupPage() {
       firstName: '',
       lastName: '',
       username: '',
-      type: '',
+      type: 'student',
       email: '',
       password: '',
       confirmPassword: '',
@@ -130,7 +130,7 @@ export default function SignupPage() {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={studentForm.control}
               name='type'
               render={({ field }: { field: any }) => (
@@ -150,7 +150,7 @@ export default function SignupPage() {
                   </FormControl>
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={studentForm.control}
