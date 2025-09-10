@@ -36,6 +36,13 @@ import {
 } from 'lucide-react';
 
 // Mock data for network
+// User types
+const userTypes = [
+  { value: 'student', label: 'Student' },
+  { value: 'faculty', label: 'Faculty' },
+  { value: 'alumni', label: 'Alumni' },
+];
+
 const mockConnections = [
   {
     id: '1',
@@ -47,6 +54,7 @@ const mockConnections = [
     location: 'San Francisco, CA',
     mutualConnections: 15,
     status: 'connected',
+    type: 'alumni',
     avatar: null,
   },
   {
@@ -59,6 +67,7 @@ const mockConnections = [
     location: 'Seattle, WA',
     mutualConnections: 8,
     status: 'connected',
+    type: 'faculty',
     avatar: null,
   },
 ];
@@ -74,6 +83,7 @@ const mockPendingRequests = [
     location: 'Cupertino, CA',
     mutualConnections: 5,
     status: 'pending',
+    type: 'student',
     avatar: null,
   },
 ];
@@ -89,6 +99,7 @@ const mockSuggestions = [
     location: 'New York, NY',
     mutualConnections: 12,
     status: 'suggestion',
+    type: 'student',
     avatar: null,
   },
   {
@@ -101,6 +112,7 @@ const mockSuggestions = [
     location: 'Los Angeles, CA',
     mutualConnections: 7,
     status: 'suggestion',
+    type: 'alumni',
     avatar: null,
   },
 ];
@@ -115,6 +127,7 @@ const NetworkPage: React.FC = () => {
   const [selectedBatch, setSelectedBatch] = useState<string>('');
   const [selectedBranch, setSelectedBranch] = useState<string>('');
   const [selectedCompany, setSelectedCompany] = useState<string>('');
+  const [selectedType, setSelectedType] = useState<string>('');
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   // Filter connections based on search and filters
@@ -128,8 +141,9 @@ const NetworkPage: React.FC = () => {
       const matchesBatch = !selectedBatch || profile.batch === selectedBatch;
       const matchesBranch = !selectedBranch || profile.branch === selectedBranch;
       const matchesCompany = !selectedCompany || profile.company === selectedCompany;
+      const matchesType = !selectedType || profile.type === selectedType;
 
-      return matchesSearch && matchesBatch && matchesBranch && matchesCompany;
+      return matchesSearch && matchesBatch && matchesBranch && matchesCompany && matchesType;
     });
   };
 
@@ -197,6 +211,10 @@ const NetworkPage: React.FC = () => {
               <Badge variant="secondary">
                 <Building2 className="h-3 w-3 mr-1" />
                 {profile.branch}
+              </Badge>
+              <Badge variant="outline">
+                <UserCircle className="h-3 w-3 mr-1" />
+                {userTypes.find(t => t.value === profile.type)?.label}
               </Badge>
               <Badge variant="secondary">
                 <MapPin className="h-3 w-3 mr-1" />
@@ -297,6 +315,22 @@ const NetworkPage: React.FC = () => {
                       </SelectContent>
                     </Select>
                   </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">User Type</label>
+                    <Select value={selectedType} onValueChange={setSelectedType}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select user type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">All Types</SelectItem>
+                        {userTypes.map(type => (
+                          <SelectItem key={type.value} value={type.value}>
+                            {type.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Button
                     variant="outline"
                     className="w-full"
@@ -304,6 +338,7 @@ const NetworkPage: React.FC = () => {
                       setSelectedBatch('');
                       setSelectedBranch('');
                       setSelectedCompany('');
+                      setSelectedType('');
                     }}
                   >
                     Clear All Filters

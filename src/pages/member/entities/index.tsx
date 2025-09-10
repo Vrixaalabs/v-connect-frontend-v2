@@ -139,53 +139,12 @@ export default function MemberEntitiesPage() {
                     </div>
                     {entity.code && <CardDescription className='mt-1'>Code: {entity.code}</CardDescription>}
                   </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant='ghost' size='sm'>
-                        <MoreVertical className='h-4 w-4' />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='end'>
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleViewEntity(entity.entityId)}
-                      >
-                        <Eye className='h-4 w-4' /> View Details
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleEditEntity(entity.entityId)}
-                      >
-                        <Edit className='h-4 w-4' /> Edit Entity
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleManageMembers(entity.entityId)}
-                      >
-                        <Users className='h-4 w-4' /> Manage Members
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleViewEvents(entity.entityId)}
-                      >
-                        <Calendar className='h-4 w-4' /> View Events
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className='flex items-center gap-2'
-                        onClick={() => handleEntitySettings(entity.entityId)}
-                      >
-                        <Settings className='h-4 w-4' /> Settings
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        className='flex items-center gap-2 text-red-600'
-                        onClick={() => handleDeleteEntity(entity.entityId)}
-                      >
-                        <Trash2 className='h-4 w-4' /> Delete Entity
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <div className='flex items-center gap-2'>
+                    {/* view details */}
+                    <Button variant='outline' size='icon' onClick={() => handleViewEntity(entity.entityId)}>
+                      <Eye className='w-4 h-4' />
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className='space-y-3'>

@@ -350,13 +350,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 
   const register = useCallback(
-    async (email: string, password: string, username: string, firstName: string, lastName: string) => {
+    async (email: string, password: string, username: string, firstName: string, lastName: string, type: string) => {
       const response = await httpClient.post<RegisterResponse>('/api/auth/register', {
         email,
         password,
         username,
         firstName,
         lastName,
+        type,
       });
       if (response.accessToken) {
         tokenService.setTokens(response.accessToken);

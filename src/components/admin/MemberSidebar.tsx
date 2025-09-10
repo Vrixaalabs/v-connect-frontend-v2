@@ -60,6 +60,7 @@ const sidebarLinks: SidebarLink[] = [
     label: 'My Entities',
     href: '/member/entities',
   },
+  { icon: Building2, label: 'Join Entity', href: '/member/entities/join' },
   { icon: Building2, label: 'Invites', href: '/member/invites' },
   { icon: BookOpen, label: 'Clubs', href: '/clubs' },
   {

@@ -272,6 +272,7 @@ export const GET_ENTITY_BY_ENTITY_ID = gql`
       message
       entity {
         entityId
+        entityChatId
         name
         type
         code
@@ -279,6 +280,10 @@ export const GET_ENTITY_BY_ENTITY_ID = gql`
         parentEntityId
         createdAt
         updatedAt
+        metadata {
+          totalMembers
+          totalEvents
+        }
       }
     }
   }
@@ -362,6 +367,39 @@ export const GET_ENTITY_MEMBERS = gql`
         }
         joinedAt
         status
+      }
+    }
+  }
+`;
+
+
+export const GET_ENTITY_CHAT = gql`
+  query GetEntityChat($entityChatId: String!) {
+    getEntityChat(entityChatId: $entityChatId) {
+      success
+      message
+      entityChat {
+        entityChatId
+        entityId
+        userId
+        messages {
+          userId
+          message
+          createdAt
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ALL_ENTITIES = gql`
+  query GetAllEntities {
+    getAllEntities {
+      success
+      message
+      entities {
+        entityId
+        name
       }
     }
   }

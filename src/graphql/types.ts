@@ -154,3 +154,19 @@ export interface IEntityMembersResponse {
     members: IEntityMember[];
   };
 }
+
+export interface IRequest {
+  requestId: string;
+  entityId: string;
+  userId: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface IRequestByEntityIdResponse {
+  getRequestByEntityId: {
+    success: boolean;
+    message: string;
+    requests: IRequest[];
+  };
+}

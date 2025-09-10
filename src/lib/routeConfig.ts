@@ -200,6 +200,12 @@ export const routeConfig: Record<string, RouteConfig> = {
     allowedRoles: ['member'],
     redirectTo: '/',
   },
+  '/member/entities/join': {
+    path: '/member/entities/join',
+    requireAuth: true,
+    allowedRoles: ['member'],
+    redirectTo: '/',
+  },
   '/member/entities/[entityId]': {
     path: '/member/entities/[entityId]',
     requireAuth: true,

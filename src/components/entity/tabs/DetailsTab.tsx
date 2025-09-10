@@ -4,6 +4,7 @@ import type { Entity } from '@/types/entity';
 import { format } from 'date-fns';
 
 export default function DetailsTab({ entity }: { entity: Entity }) {
+  console.log(entity);
   return (
     <div className='grid gap-4 md:grid-cols-2'>
       <Card>
