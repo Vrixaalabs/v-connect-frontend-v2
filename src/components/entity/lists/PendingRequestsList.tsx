@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_JOIN_REQUESTS } from "@/graphql/queries";
-import { ACCEPT_JOIN_REQUEST, REJECT_JOIN_REQUEST } from "@/graphql/mutations";
+import { ACCEPT_ENTITY_JOIN_REQUEST, REJECT_ENTITY_JOIN_REQUEST } from "@/graphql/mutations";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -24,75 +24,36 @@ import {
   GraduationCap,
 } from "lucide-react";
 import { toast } from "sonner";
+import type { Entity } from "@/types/entity";
 
-interface JoinRequest {
-  id: string;
+export interface JoinRequest {
+  joinRequestId: string;
   user: {
-    id: string;
-    firstName: string;
-    lastName: string;
+    userId: string;
+    fullName: string;
     email: string;
+    rollNumber: string,
     avatar: string | null;
     batch: string;
-    branch: string;
     role: string;
   };
   status: string;
-  requestedAt: Date;
+  requestedAt: string;
   message?: string;
 }
 
-// Mock data for pending requests
-const mockRequests = [
-  {
-    id: '1',
-    user: {
-      id: '1',
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@example.com',
-      avatar: null,
-      batch: '2024',
-      branch: 'Computer Science',
-      role: 'Student',
-    },
-    status: 'pending',
-    requestedAt: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
-    message: 'I would like to join the development team and contribute to ongoing projects.',
-  },
-  {
-    id: '2',
-    user: {
-      id: '2',
-      firstName: 'Emma',
-      lastName: 'Wilson',
-      email: 'emma.wilson@example.com',
-      avatar: null,
-      batch: '2023',
-      branch: 'Electronics',
-      role: 'Student',
-    },
-    status: 'pending',
-    requestedAt: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
-    message: 'Interested in joining the team to work on upcoming events.',
-  },
-];
-
 interface PendingRequestsListProps {
-  entityId?: string;
+  requests: JoinRequest[];
+  onUpdate: () => void;
+  entity: Entity;
 }
 
-export default function PendingRequestsList({ entityId }: PendingRequestsListProps) {
-  const [requests, setRequests] = useState<JoinRequest[]>(mockRequests);
+export default function PendingRequestsList({ requests, onUpdate, entity }: PendingRequestsListProps) {
+  // const [requests, setRequests] = useState<JoinRequest[]>(mockRequests);
 
-  // GraphQL queries and mutations
-  const { data, loading, error } = useQuery(GET_JOIN_REQUESTS, {
-    variables: { entityId },
-    skip: !entityId,
-  });
 
-  const [acceptRequest] = useMutation(ACCEPT_JOIN_REQUEST);
-  const [rejectRequest] = useMutation(REJECT_JOIN_REQUEST);
+  const [acceptRequest] = useMutation(ACCEPT_ENTITY_JOIN_REQUEST);
+  const [rejectRequest] = useMutation(REJECT_ENTITY_JOIN_REQUEST);
 
   // Handle accept request
   const handleAccept = async (requestId: string) => {
@@ -104,7 +65,7 @@ export default function PendingRequestsList({ entityId }: PendingRequestsListPro
       });
       toast.success('Request accepted successfully');
       // Update local state
-      setRequests(prev => prev.filter(req => req.id !== requestId));
+      // setRequests(prev => prev.filter(req => req.id !== requestId));
     } catch (error) {
       toast.error('Failed to accept request');
       console.error('Error accepting request:', error);
@@ -121,44 +82,44 @@ export default function PendingRequestsList({ entityId }: PendingRequestsListPro
       });
       toast.success('Request rejected');
       // Update local state
-      setRequests(prev => prev.filter(req => req.id !== requestId));
+      // setRequests(prev => prev.filter(req => req.id !== requestId));
     } catch (error) {
       toast.error('Failed to reject request');
       console.error('Error rejecting request:', error);
     }
   };
 
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Pending Requests</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Card>
+  //       <CardHeader>
+  //         <CardTitle>Pending Requests</CardTitle>
+  //       </CardHeader>
+  //       <CardContent>
+  //         <div className="flex items-center justify-center py-8">
+  //           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  //         </div>
+  //       </CardContent>
+  //     </Card>
+  //   );
+  // }
 
-  if (error) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Pending Requests</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-8 text-destructive">
-            Error loading requests
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <Card>
+  //       <CardHeader>
+  //         <CardTitle>Pending Requests</CardTitle>
+  //       </CardHeader>
+  //       <CardContent>
+  //         <div className="text-center py-8 text-destructive">
+  //           Error loading requests
+  //         </div>
+  //       </CardContent>
+  //     </Card>
+  //   );
+  // }
 
-  const displayRequests = data?.getEntityJoinRequests || requests;
+  const displayRequests = requests;
 
   if (displayRequests.length === 0) {
     return (
@@ -186,7 +147,7 @@ export default function PendingRequestsList({ entityId }: PendingRequestsListPro
       <CardContent className="space-y-4">
         {displayRequests.map((request: JoinRequest) => (
           <div
-            key={request.id}
+            key={request.joinRequestId}
             className="border rounded-lg p-4 space-y-4"
           >
             <div className="flex items-start justify-between">
@@ -195,7 +156,7 @@ export default function PendingRequestsList({ entityId }: PendingRequestsListPro
                   {request.user.avatar ? (
                     <img
                       src={request.user.avatar}
-                      alt={`${request.user.firstName} ${request.user.lastName}`}
+                      alt={`${request.user.fullName}`}
                       className="h-10 w-10 rounded-full object-cover"
                     />
                   ) : (
@@ -204,7 +165,7 @@ export default function PendingRequestsList({ entityId }: PendingRequestsListPro
                 </div>
                 <div>
                   <h3 className="font-medium">
-                    {request.user.firstName} {request.user.lastName}
+                    {request.user.fullName}
                   </h3>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Mail className="h-3 w-3" />
@@ -217,12 +178,12 @@ export default function PendingRequestsList({ entityId }: PendingRequestsListPro
                     </Badge>
                     <Badge variant="secondary">
                       <Building2 className="h-3 w-3 mr-1" />
-                      {request.user.branch}
+                      {request.user.rollNumber}
                     </Badge>
-                    <Badge variant="outline">
+                    {/* <Badge variant="outline">
                       <Calendar className="h-3 w-3 mr-1" />
                       {new Date(request.requestedAt).toLocaleDateString()}
-                    </Badge>
+                    </Badge> */}
                   </div>
                 </div>
               </div>
@@ -234,13 +195,13 @@ export default function PendingRequestsList({ entityId }: PendingRequestsListPro
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuItem onClick={() => handleAccept(request.id)}>
+                  <DropdownMenuItem onClick={() => handleAccept(request.joinRequestId)}>
                     <CheckCircle2 className="h-4 w-4 mr-2 text-green-600" />
                     Accept Request
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    onClick={() => handleReject(request.id)}
+                    onClick={() => handleReject(request.joinRequestId)}
                     className="text-destructive"
                   >
                     <XCircle className="h-4 w-4 mr-2" />
@@ -258,14 +219,14 @@ export default function PendingRequestsList({ entityId }: PendingRequestsListPro
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => handleReject(request.id)}
+                onClick={() => handleReject(request.joinRequestId)}
               >
                 <XCircle className="h-4 w-4 mr-2" />
                 Reject
               </Button>
               <Button
                 size="sm"
-                onClick={() => handleAccept(request.id)}
+                onClick={() => handleAccept(request.joinRequestId)}
               >
                 <CheckCircle2 className="h-4 w-4 mr-2" />
                 Accept

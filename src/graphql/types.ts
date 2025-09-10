@@ -156,17 +156,25 @@ export interface IEntityMembersResponse {
 }
 
 export interface IRequest {
-  requestId: string;
+  entityRequestId: string;
   entityId: string;
   userId: string;
   status: string;
   createdAt: string;
   updatedAt: string;
+  metadata: {
+    fullName: string;
+    email: string;
+    rollNumber: string;
+    batch: string;
+    branch: string;
+    role: string;
+  };
 }
 export interface IRequestByEntityIdResponse {
   getRequestByEntityId: {
     success: boolean;
     message: string;
-    requests: IRequest[];
+    entityRequests: IRequest[];
   };
 }

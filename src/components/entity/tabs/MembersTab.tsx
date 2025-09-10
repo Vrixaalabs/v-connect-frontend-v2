@@ -6,8 +6,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InviteMemberDialog from '../dialogs/InviteMemberDialog';
 import MembersList from '../lists/MembersList';
 import InvitesList from '../lists/InvitesList';
-import type { IInviteByEntityIdResponse } from '@/graphql/types';
+import type { IInviteByEntityIdResponse, IRequest } from '@/graphql/types';
 import type { IEntityMembersResponse } from '@/graphql/types';
+import type { IRequestByEntityIdResponse } from '@/graphql/types';
+import { GET_REQUEST_BY_ENTITY_ID } from '@/graphql/queries';
+import PendingRequestsList from '../lists/PendingRequestsList';
+import type { JoinRequest } from '../lists/PendingRequestsList';
 
 interface MembersTabProps {
   entity: Entity;
@@ -27,18 +31,39 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
     },
   });
 
-  // const { data: requestsData, refetch: refetchRequests } = useQuery<IRequestByEntityIdResponse>(GET_REQUEST_BY_ENTITY_ID, {
-  //   variables: {
-  //     entityId: entity.entityId,
-  //   },
-  // });
+  const { data: requestsData, refetch: refetchRequests } = useQuery<IRequestByEntityIdResponse>(GET_REQUEST_BY_ENTITY_ID, {
+    variables: {
+      entityId: entity.entityId,
+    },
+  });
 
   const invites = invitesData?.getInviteByEntityId?.invites || [];
   const members = membersData?.getEntityMembers?.members || [];
   const pendingInvites = invites.filter(invite => invite.status === 'pending');
+  const pendingRequests = requestsData?.getRequestByEntityId?.entityRequests || [];
+
+  const updatedPendingRequests: JoinRequest[] = pendingRequests.map((request: IRequest) => ({
+    joinRequestId: request.entityRequestId,
+    status: request.status,
+    requestedAt: request.createdAt,
+    user: {
+      userId: request.userId,
+      fullName: request.metadata.fullName,
+      email: request.metadata.email,
+      rollNumber: request.metadata.rollNumber,
+      avatar: null,
+      batch: request.metadata.batch,
+      role: request.metadata.role,
+    },
+  }));
 
   const handleInviteUpdate = () => {
     refetchInvites();
+    onMemberUpdate?.();
+  };
+
+  const handleRequestUpdate = () => {
+    refetchRequests();
     onMemberUpdate?.();
   };
 
@@ -54,7 +79,7 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
             <TabsTrigger value='members'>Members ({members.length})</TabsTrigger>
             <TabsTrigger value='invites'>Pending Invites ({pendingInvites.length})</TabsTrigger>
             {/* Pending Requests */}
-            {/* <TabsTrigger value='requests'>Pending Requests ({pendingRequests.length})</TabsTrigger> */}
+            <TabsTrigger value='requests'>Pending Requests ({pendingRequests.length})</TabsTrigger>
           </TabsList>
 
           <TabsContent value='members'>
@@ -66,7 +91,7 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
           </TabsContent>
 
           <TabsContent value='requests'>
-            {/* <PendingRequestsList requests={pendingRequests} onUpdate={handleRequestUpdate} entity={entity} /> */}
+            <PendingRequestsList requests={updatedPendingRequests} onUpdate={handleRequestUpdate} entity={entity} />
           </TabsContent>
         </Tabs>
       </CardContent>
