@@ -404,3 +404,26 @@ export const GET_ALL_ENTITIES = gql`
     }
   }
 `;
+
+export const GET_REQUEST_BY_ENTITY_ID = gql`
+  query GetRequestByEntityId($entityId: String!) {
+    getRequestByEntityId(entityId: $entityId) {
+      success
+      message
+      entityRequests {
+        entityRequestId
+        userId
+        entityId
+        status
+        createdAt
+        updatedAt
+        metadata {
+          fullName
+          email
+          rollNumber
+          batch
+        }
+      }
+    }
+  }
+`;

@@ -12,8 +12,6 @@ import {
 } from '../../lib/validations/auth';
 import { toast } from 'sonner';
 import { useAuth } from '../../hooks/useAuth';
-import { Select, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { SelectContent } from '@/components/ui/select';
 
 export default function SignupPage() {
   // const searchParams = useSearchParams();
@@ -28,7 +26,7 @@ export default function SignupPage() {
       firstName: '',
       lastName: '',
       username: '',
-      type: '',
+      type: 'student',
       email: '',
       password: '',
       confirmPassword: '',
@@ -130,7 +128,7 @@ export default function SignupPage() {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={studentForm.control}
               name='type'
               render={({ field }: { field: any }) => (
@@ -150,7 +148,7 @@ export default function SignupPage() {
                   </FormControl>
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={studentForm.control}

@@ -374,9 +374,18 @@ export const CREATE_ENTITY_REQUEST = gql`
   }
 `;
 
-export const ACCEPT_JOIN_REQUEST = gql`
-  mutation AcceptJoinRequest($requestId: ID!) {
-    acceptJoinRequest(requestId: $requestId) {
+export const ACCEPT_ENTITY_JOIN_REQUEST = gql`
+  mutation AcceptEntityJoinRequest($requestId: String!) {
+    acceptEntityJoinRequest(requestId: $requestId) {
+      success
+      message
+    }
+  }
+`;
+
+export const REJECT_ENTITY_JOIN_REQUEST = gql`
+  mutation RejectEntityJoinRequest($requestId: String!) {
+    rejectEntityJoinRequest(requestId: $requestId) {
       success
       message
     }
