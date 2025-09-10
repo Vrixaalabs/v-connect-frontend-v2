@@ -12,8 +12,6 @@ import {
 } from '../../lib/validations/auth';
 import { toast } from 'sonner';
 import { useAuth } from '../../hooks/useAuth';
-import { Select, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { SelectContent } from '@/components/ui/select';
 
 export default function SignupPage() {
   // const searchParams = useSearchParams();

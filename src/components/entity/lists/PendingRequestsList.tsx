@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import { GET_JOIN_REQUESTS } from "@/graphql/queries";
+import { useMutation } from "@apollo/client";
 import { ACCEPT_ENTITY_JOIN_REQUEST, REJECT_ENTITY_JOIN_REQUEST } from "@/graphql/mutations";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,7 +17,6 @@ import {
   CheckCircle2,
   XCircle,
   Mail,
-  Calendar,
   Building2,
   GraduationCap,
 } from "lucide-react";
@@ -49,8 +46,10 @@ interface PendingRequestsListProps {
 }
 
 export default function PendingRequestsList({ requests, onUpdate, entity }: PendingRequestsListProps) {
-  // const [requests, setRequests] = useState<JoinRequest[]>(mockRequests);
 
+  console.log('requests', requests);
+  console.log('entity', entity);
+  console.log('onUpdate', onUpdate);
 
   const [acceptRequest] = useMutation(ACCEPT_ENTITY_JOIN_REQUEST);
   const [rejectRequest] = useMutation(REJECT_ENTITY_JOIN_REQUEST);
