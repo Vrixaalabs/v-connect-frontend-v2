@@ -373,3 +373,12 @@ export const CREATE_ENTITY_REQUEST = gql`
     }
   }
 `;
+
+export const ACCEPT_JOIN_REQUEST = gql`
+  mutation AcceptJoinRequest($requestId: ID!) {
+    acceptJoinRequest(requestId: $requestId) {
+      success
+      message
+    }
+  }
+`;

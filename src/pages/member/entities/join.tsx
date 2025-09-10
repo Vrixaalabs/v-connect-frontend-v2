@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MemberLayout } from '@/components/layouts/MemberLayout';
 import { Button } from '@/components/ui/button';
@@ -98,16 +98,16 @@ const mockEntities = [
   },
 ];
 
-const entityTypes = [
-  { value: 'DEPARTMENT', label: 'Department' },
-  { value: 'COMMITTEE', label: 'Committee' },
-  { value: 'TEAM', label: 'Team' },
-  { value: 'OTHER', label: 'Other' },
-];
+// const entityTypes = [
+//   { value: 'DEPARTMENT', label: 'Department' },
+//   { value: 'COMMITTEE', label: 'Committee' },
+//   { value: 'TEAM', label: 'Team' },
+//   { value: 'OTHER', label: 'Other' },
+// ];
 
 export default function JoinEntityPage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedType, setSelectedType] = useState('');
+  const [selectedType, _] = useState('');
   const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
 
@@ -166,14 +166,14 @@ export default function JoinEntityPage() {
     return matchesSearch && matchesType;
   });
 
-  const formatTime = (date: Date) => {
-    return new Date(date).toLocaleString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      day: '2-digit',
-      month: 'short',
-    });
-  };
+//   const formatTime = (date: Date) => {
+//     return new Date(date).toLocaleString([], {
+//       hour: '2-digit',
+//       minute: '2-digit',
+//       day: '2-digit',
+//       month: 'short',
+//     });
+//   };
 
   return (
     <MemberLayout>

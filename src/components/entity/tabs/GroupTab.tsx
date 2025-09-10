@@ -23,9 +23,6 @@ import {
   Flag,
 } from "lucide-react";
 import type { Entity } from "@/types/entity";
-import { GET_ENTITY_CHAT } from "@/graphql/queries";
-import { useQuery, useMutation } from "@apollo/client";
-import { ADD_MESSAGE_TO_ENTITY_CHAT } from "@/graphql/mutations";
 
 // Mock data for group messages
 const mockMessages = [
@@ -82,27 +79,27 @@ export default function GroupTab({ entity }: GroupTabProps) {
   const [messages, setMessages] = useState(mockMessages);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { data, loading, error } = useQuery(GET_ENTITY_CHAT, {
-    variables: {
-      entityChatId: entity?.entityChatId,
-    },
-  });
+//   const { data } = useQuery(GET_ENTITY_CHAT, {
+//     variables: {
+//       entityChatId: entity?.entityChatId,
+//     },
+//   });
 
-  const fetchedMessages = data?.getEntityChat?.entityChat?.messages || [];
+//   const fetchedMessages = data?.getEntityChat?.entityChat?.messages || [];
 
-  const [addMessage, { loading: addMessageLoading, error: addMessageError }] = useMutation(ADD_MESSAGE_TO_ENTITY_CHAT);
+//   const [addMessage, { loading: addMessageLoading, error: addMessageError }] = useMutation(ADD_MESSAGE_TO_ENTITY_CHAT);
 
-  const handleAddMessage = () => {
-    if (!message.trim()) return;
-    addMessage({
-      variables: {
-        input: {
-          entityChatId: entity?.entityChatId,
-          message: message,
-        },
-      },
-    });
-  };
+//   const handleAddMessage = () => {
+//     if (!message.trim()) return;
+//     addMessage({
+//       variables: {
+//         input: {
+//           entityChatId: entity?.entityChatId,
+//           message: message,
+//         },
+//       },
+//     });
+//   };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

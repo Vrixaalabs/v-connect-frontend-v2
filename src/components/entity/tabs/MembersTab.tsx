@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InviteMemberDialog from '../dialogs/InviteMemberDialog';
 import MembersList from '../lists/MembersList';
 import InvitesList from '../lists/InvitesList';
-import type { IInviteByEntityIdResponse, IRequestByEntityIdResponse } from '@/graphql/types';
+import type { IInviteByEntityIdResponse } from '@/graphql/types';
 import type { IEntityMembersResponse } from '@/graphql/types';
 
 interface MembersTabProps {
@@ -27,11 +27,11 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
     },
   });
 
-  const { data: requestsData, refetch: refetchRequests } = useQuery<IRequestByEntityIdResponse>(GET_REQUEST_BY_ENTITY_ID, {
-    variables: {
-      entityId: entity.entityId,
-    },
-  });
+  // const { data: requestsData, refetch: refetchRequests } = useQuery<IRequestByEntityIdResponse>(GET_REQUEST_BY_ENTITY_ID, {
+  //   variables: {
+  //     entityId: entity.entityId,
+  //   },
+  // });
 
   const invites = invitesData?.getInviteByEntityId?.invites || [];
   const members = membersData?.getEntityMembers?.members || [];
@@ -54,7 +54,7 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
             <TabsTrigger value='members'>Members ({members.length})</TabsTrigger>
             <TabsTrigger value='invites'>Pending Invites ({pendingInvites.length})</TabsTrigger>
             {/* Pending Requests */}
-            <TabsTrigger value='requests'>Pending Requests ({pendingRequests.length})</TabsTrigger>
+            {/* <TabsTrigger value='requests'>Pending Requests ({pendingRequests.length})</TabsTrigger> */}
           </TabsList>
 
           <TabsContent value='members'>
@@ -66,7 +66,7 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
           </TabsContent>
 
           <TabsContent value='requests'>
-            <PendingRequestsList requests={pendingRequests} onUpdate={handleRequestUpdate} entity={entity} />
+            {/* <PendingRequestsList requests={pendingRequests} onUpdate={handleRequestUpdate} entity={entity} /> */}
           </TabsContent>
         </Tabs>
       </CardContent>

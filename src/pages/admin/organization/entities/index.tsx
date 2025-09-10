@@ -24,6 +24,7 @@ export default function EntityManagement() {
   const mockEntities: Entity[] = [
     {
       entityId: '1',
+      entityChatId: '1',
       name: 'Computer Science',
       type: 'DEPARTMENT',
       code: 'CSE',
@@ -34,6 +35,7 @@ export default function EntityManagement() {
     },
     {
       entityId: '2',
+      entityChatId: '2',
       name: 'School of Management',
       type: 'COMMITTEE',
       code: 'SOM',
