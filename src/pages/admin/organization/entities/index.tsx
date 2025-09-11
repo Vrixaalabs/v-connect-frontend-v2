@@ -37,7 +37,7 @@ export default function EntityManagement() {
       entityId: '2',
       entityChatId: '2',
       name: 'School of Management',
-      type: 'COMMITTEE',
+      type: 'OTHER',
       code: 'SOM',
       description: 'School of Management Studies',
       createdAt: new Date().toISOString(),

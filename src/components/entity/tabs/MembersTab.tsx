@@ -1,13 +1,13 @@
 import { useQuery } from '@apollo/client';
-import { GET_ENTITY_MEMBERS, GET_INVITE_BY_ENTITY_ID } from '@/graphql/queries';
+import { GET_ENTITY_USER_ROLES, GET_INVITE_BY_ENTITY_ID } from '@/graphql/queries';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { EntityMember, Entity } from '@/types/entity';
+import type { EntityUserRole, Entity } from '@/types/entity';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InviteMemberDialog from '../dialogs/InviteMemberDialog';
 import MembersList from '../lists/MembersList';
 import InvitesList from '../lists/InvitesList';
 import type { IInviteByEntityIdResponse, IRequest } from '@/graphql/types';
-import type { IEntityMembersResponse } from '@/graphql/types';
+import type { IEntityUserRolesResponse } from '@/graphql/types';
 import type { IRequestByEntityIdResponse } from '@/graphql/types';
 import { GET_REQUEST_BY_ENTITY_ID } from '@/graphql/queries';
 import PendingRequestsList from '../lists/PendingRequestsList';
@@ -19,7 +19,7 @@ interface MembersTabProps {
 }
 
 export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) {
-  const { data: membersData } = useQuery<IEntityMembersResponse>(GET_ENTITY_MEMBERS, {
+  const { data: membersData } = useQuery<IEntityUserRolesResponse>(GET_ENTITY_USER_ROLES, {
     variables: {
       entityId: entity.entityId,
     },
@@ -38,7 +38,7 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
   });
 
   const invites = invitesData?.getInviteByEntityId?.invites || [];
-  const members = membersData?.getEntityMembers?.members || [];
+  const members = membersData?.getEntityUserRoles?.users || [];
   const pendingInvites = invites.filter(invite => invite.status === 'pending');
   const pendingRequests = requestsData?.getRequestByEntityId?.entityRequests || [];
 
@@ -83,7 +83,7 @@ export default function MembersTab({ entity, onMemberUpdate }: MembersTabProps) 
           </TabsList>
 
           <TabsContent value='members'>
-            <MembersList members={members as EntityMember[]} />
+            <MembersList members={members as EntityUserRole[]} />
           </TabsContent>
 
           <TabsContent value='invites'>

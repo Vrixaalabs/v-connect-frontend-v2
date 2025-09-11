@@ -1,7 +1,7 @@
-export type EntityType = 'DEPARTMENT' | 'COMMITTEE' | 'TEAM' | 'OTHER';
+export type EntityType = 'INSTITUTE' | 'SCHOOL' | 'DEPARTMENT' | 'CLUB' | 'TEAM' | 'OTHER';
 export type EntityStatus = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED';
 
-export interface EntityMember {
+export interface EntityUserRole {
   user: {
     userId: string;
     firstName: string;
@@ -18,7 +18,7 @@ export interface EntityMember {
 }
 
 export interface EntityMetadata {
-  totalMembers: number;
+  totalUsers: number;
   totalPosts: number;
   totalEvents: number;
   lastActivityAt?: string;
@@ -32,8 +32,9 @@ export interface Entity {
   code: string;
   description?: string;
   parentEntityId?: string | null;
+  parentEntityName?: string | null;
   status: EntityStatus;
-  member?: EntityMember;
+  member?: EntityUserRole;
   metadata?: EntityMetadata;
   createdAt: string;
   updatedAt: string;

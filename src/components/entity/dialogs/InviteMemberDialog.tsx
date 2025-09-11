@@ -24,15 +24,25 @@ interface InviteMemberDialogProps {
 
 export default function InviteMemberDialog({ entityId, onSuccess }: InviteMemberDialogProps) {
   const [open, setOpen] = useState(false);
-  const [inviteMember, { loading }] = useMutation(INVITE_ENTITY_MEMBER);
   const toast = useToast();
+  
+  const [inviteMember, { loading }] = useMutation(INVITE_ENTITY_MEMBER, {
+    onCompleted: () => {
+      toast.showToast('Success', 'Invitation sent successfully');
+      setOpen(false);
+      onSuccess?.();
+    },
+    onError: () => {
+      toast.showToast('Error', 'Failed to send invitation');
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
     try {
-      const response = await inviteMember({
+      await inviteMember({
         variables: {
           input: {
             entityId,
@@ -40,17 +50,10 @@ export default function InviteMemberDialog({ entityId, onSuccess }: InviteMember
             rollNumber: formData.get('rollNumber'),
             batch: formData.get('batch'),
             role: formData.get('role'),
+            type: formData.get('type'),
           },
         },
       });
-
-      if (response.data?.inviteEntityMember?.success) {
-        toast.showToast('Success', 'Invitation sent successfully');
-        setOpen(false);
-        onSuccess?.();
-      } else {
-        throw new Error(response.data?.inviteEntityMember?.message || 'Failed to send invitation');
-      }
     } catch (error) {
       toast.error('Error', 'Failed to send invitation');
     }
@@ -99,6 +102,19 @@ export default function InviteMemberDialog({ entityId, onSuccess }: InviteMember
                 </SelectContent>
               </Select>
             </div>
+            <div className='space-y-2'>
+              <Label htmlFor='type'>Type</Label>
+              <Select name='type' required>
+                <SelectTrigger>
+                  <SelectValue placeholder='Select type' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='student'>Student</SelectItem>
+                  <SelectItem value='faculty'>Faculty</SelectItem>
+                  <SelectItem value='alumni'>Alumni</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <div className='space-y-2'>
             <Label htmlFor='role'>Role</Label>
@@ -107,9 +123,9 @@ export default function InviteMemberDialog({ entityId, onSuccess }: InviteMember
                 <SelectValue placeholder='Select role' />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='member'>Student</SelectItem>
-                <SelectItem value='admin'>Faculty</SelectItem>
-                <SelectItem value='moderator'>Alumni</SelectItem>
+                <SelectItem value='member'>Member</SelectItem>
+                <SelectItem value='admin'>Admin</SelectItem>
+                <SelectItem value='moderator'>Moderator</SelectItem>
               </SelectContent>
             </Select>
           </div>

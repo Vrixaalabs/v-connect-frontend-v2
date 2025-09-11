@@ -277,11 +277,11 @@ export const GET_ENTITY_BY_ENTITY_ID = gql`
         type
         code
         description
-        parentEntityId
         createdAt
         updatedAt
+        parentEntityName
         metadata {
-          totalMembers
+          totalUsers
           totalEvents
         }
       }
@@ -349,12 +349,12 @@ export const GET_INVITE_BY_ENTITY_ID = gql`
   }
 `;
 
-export const GET_ENTITY_MEMBERS = gql`
+export const GET_ENTITY_USER_ROLES = gql`
   query GetEntityMembers($entityId: String!) {
-    getEntityMembers(entityId: $entityId) {
+    getEntityUserRoles(entityId: $entityId) {
       success
       message
-      members {
+      users {
         user {
           userId
           firstName
