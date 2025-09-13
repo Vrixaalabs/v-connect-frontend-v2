@@ -154,7 +154,7 @@ export default function GroupTab({ entity }: GroupTabProps) {
             <div>
               <CardTitle>{entity?.name || 'Group Chat'}</CardTitle>
               <p className="text-sm text-muted-foreground">
-                {entity?.metadata?.totalMembers || 0} members
+                {entity?.metadata?.totalUsers || 0} users
               </p>
             </div>
           </div>

@@ -26,10 +26,10 @@ export default function DetailsTab({ entity }: { entity: Entity }) {
             </div>
           )}
 
-          {entity.parentEntityId && (
+          {entity.parentEntityName && (
             <div>
               <p className='text-sm font-medium'>Parent Entity</p>
-              <p className='text-sm text-gray-500 mt-1'>{entity.parentEntityId}</p>
+              <p className='text-sm text-gray-500 mt-1'>{entity.parentEntityName}</p>
             </div>
           )}
 
@@ -46,8 +46,8 @@ export default function DetailsTab({ entity }: { entity: Entity }) {
         </CardHeader>
         <CardContent className='space-y-4'>
           <div>
-            <p className='text-sm font-medium'>Total Members</p>
-            <p className='text-2xl font-bold mt-1'>{entity.metadata?.totalMembers || 0}</p>
+            <p className='text-sm font-medium'>Total Users</p>
+            <p className='text-2xl font-bold mt-1'>{entity.metadata?.totalUsers || 0}</p>
           </div>
 
           <div>

@@ -10,7 +10,7 @@ import type { CreateEntityInput, Entity, EntityType } from '@/types/entity';
 
 const entitySchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  type: z.enum(['DEPARTMENT', 'COMMITTEE', 'TEAM', 'OTHER'] as const),
+  type: z.enum(['INSTITUTE', 'SCHOOL', 'DEPARTMENT', 'CLUB', 'TEAM', 'OTHER'] as const),
   code: z.string().min(1, 'Code is required'),
   description: z.string().optional(),
   parentEntityId: z.string().optional().nullable(),
@@ -40,7 +40,7 @@ export default function EntityForm({
     },
   });
 
-  const entityTypes: EntityType[] = ['DEPARTMENT', 'COMMITTEE', 'TEAM', 'OTHER'];
+  const entityTypes: EntityType[] = ['INSTITUTE', 'SCHOOL', 'DEPARTMENT', 'CLUB', 'TEAM', 'OTHER'];
 
   return (
     <Form {...form}>

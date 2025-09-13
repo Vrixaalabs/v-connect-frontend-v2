@@ -1,4 +1,4 @@
-import type { EntityMember } from '@/types/entity';
+import type { EntityUserRole } from '@/types/entity';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { MoreVertical } from 'lucide-react';
 
 interface MembersListProps {
-  members: EntityMember[];
+  members: EntityUserRole[];
 }
 
 export default function MembersList({ members }: MembersListProps) {

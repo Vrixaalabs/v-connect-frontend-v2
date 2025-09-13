@@ -22,7 +22,7 @@ export interface IEntity {
   description: string;
   parentEntityId: string;
   metadata?: {
-    totalMembers: number;
+    totalUsers: number;
     totalEvents: number;
   };
   status: string;
@@ -131,7 +131,7 @@ export interface IInviteByEntityIdResponse {
   };
 }
 
-export interface IEntityMember {
+export interface IEntityUserRole {
   user: {
     userId: string;
     firstName: string;
@@ -147,11 +147,11 @@ export interface IEntityMember {
   status: string;
 }
 
-export interface IEntityMembersResponse {
-  getEntityMembers: {
+export interface IEntityUserRolesResponse {
+  getEntityUserRoles: {
     success: boolean;
     message: string;
-    members: IEntityMember[];
+    users: IEntityUserRole[];
   };
 }
 
