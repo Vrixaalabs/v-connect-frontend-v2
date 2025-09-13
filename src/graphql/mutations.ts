@@ -151,7 +151,6 @@ export const FOLLOW_ORGANIZATION = gql`
     }
   }
 `;
-
 export const UNFOLLOW_ORGANIZATION = gql`
   mutation UnfollowOrganization($organizationId: ID!) {
     unfollowOrganization(organizationId: $organizationId) {
@@ -386,6 +385,24 @@ export const ACCEPT_ENTITY_JOIN_REQUEST = gql`
 export const REJECT_ENTITY_JOIN_REQUEST = gql`
   mutation RejectEntityJoinRequest($requestId: String!) {
     rejectEntityJoinRequest(requestId: $requestId) {
+      success
+      message
+    }
+  }
+`;
+
+export const VERIFY_EMAIL = gql`
+  mutation VerifyEmail($token: String!) {
+    verifyEmail(token: $token) {
+      success
+      message
+    }
+  }
+`;
+
+export const RESEND_VERIFICATION_EMAIL = gql`
+  mutation ResendVerificationEmail($email: String!) {
+    resendVerificationEmail(email: $email) {
       success
       message
     }

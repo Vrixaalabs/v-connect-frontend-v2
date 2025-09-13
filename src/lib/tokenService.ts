@@ -15,6 +15,7 @@ export interface DecodedToken {
   instituteId?: string;
   iat: number;
   exp: number;
+  isVerified: boolean;
 }
 
 interface RefreshResponse {
@@ -42,6 +43,7 @@ class TokenService {
   setTokens(accessToken: string, refreshToken?: string): void {
     try {
       const decoded = this.decodeToken(accessToken);
+      console.log('decoded', decoded);
       const expiresAt = decoded.exp * 1000; // Convert to milliseconds
 
       const tokenData: TokenData = {
@@ -55,6 +57,7 @@ class TokenService {
 
       // Also store access token separately for easy access
       localStorage.setItem('access_token', accessToken);
+      localStorage.setItem('is_verified', decoded.isVerified.toString());
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to store tokens:', error);
@@ -213,6 +216,7 @@ class TokenService {
   clearTokens(): void {
     localStorage.removeItem('auth_tokens');
     localStorage.removeItem('access_token');
+    localStorage.removeItem('is_verified');
   }
 
   // Get user ID from token
