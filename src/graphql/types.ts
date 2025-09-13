@@ -178,3 +178,11 @@ export interface IRequestByEntityIdResponse {
     entityRequests: IRequest[];
   };
 }
+
+export interface ICheckEmailVerificationPayload {
+  checkEmailVerification: {
+    success: boolean;
+    message: string;
+    user: User | null;
+  };
+}

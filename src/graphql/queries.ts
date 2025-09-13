@@ -427,3 +427,12 @@ export const GET_REQUEST_BY_ENTITY_ID = gql`
     }
   }
 `;
+
+export const CHECK_EMAIL_VERIFICATION = gql`
+  query CheckEmailVerification($email: String!) {
+    checkEmailVerification(email: $email) {
+      success
+      message
+    }
+  }
+`;

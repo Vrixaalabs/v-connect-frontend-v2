@@ -3,6 +3,7 @@ import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from '../hooks/redux';
 import TokenService from '../lib/tokenService';
 import BranchService from '../lib/branchService';
+import { getRouteConfig } from '@/lib/routeConfig';
 
 // Initialize services once outside component
 const tokenService = TokenService.getInstance();
@@ -14,6 +15,7 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
   requireAuth?: boolean;
   requireBranch?: boolean;
+  requireVerifiedEmail?: boolean;
   allowedRoles?: UserRole[];
   redirectTo?: string;
 }
@@ -22,6 +24,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   requireAuth = true,
   requireBranch = false,
+  requireVerifiedEmail = false,
   allowedRoles = [],
   redirectTo = '/login',
 }) => {
@@ -31,9 +34,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const [authState, setAuthState] = useState<{
     isTokenValid: boolean | null;
     userRole: UserRole | null;
+    isVerified: boolean | null;
   }>({
     isTokenValid: null,
     userRole: null,
+    isVerified: null,
   });
 
   // Derive branch validity from props and params
@@ -49,21 +54,25 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     if (token) {
       try {
         const decoded = tokenService.decodeToken(token);
+        console.log('decoded', decoded);
         const valid = tokenService.isAuthenticated();
         setAuthState({
           isTokenValid: valid,
           userRole: decoded.role,
+          isVerified: decoded.isVerified,
         });
       } catch (error) {
         setAuthState({
           isTokenValid: false,
           userRole: null,
+          isVerified: null,
         });
       }
     } else {
       setAuthState({
         isTokenValid: false,
         userRole: null,
+        isVerified: null,
       });
     }
   }, []);
@@ -72,6 +81,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     setAuthState(prev => ({
       ...prev,
       isTokenValid: false,
+      userRole: null,
+      isVerified: null,
     }));
   }, []);
 
@@ -105,6 +116,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     }
   }, []);
 
+  // Get route config based on current path
+  const routeConfig = useMemo(() => getRouteConfig(location.pathname), [location.pathname]);
+
   // Memoize the rendered component
   const renderedComponent = useMemo(() => {
     if (isLoadingState) {
@@ -115,20 +129,42 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       );
     }
 
-    if (requireAuth) {
+    // Use route config values if available, otherwise fall back to props
+    const currentRequireAuth = routeConfig?.requireAuth ?? requireAuth;
+    const currentRequireVerifiedEmail = routeConfig?.requireVerifiedEmail ?? requireVerifiedEmail;
+    const currentAllowedRoles = routeConfig?.allowedRoles ?? allowedRoles;
+    const currentRedirectTo = routeConfig?.redirectTo ?? redirectTo;
+    const currentRequireBranch = routeConfig?.requireBranch ?? requireBranch;
+
+    if (currentRequireAuth) {
       if (authState.isTokenValid) {
-        if (allowedRoles.length > 0 && authState.userRole && !allowedRoles.includes(authState.userRole)) {
+        if (currentAllowedRoles?.length > 0 && authState.userRole && !currentAllowedRoles.includes(authState.userRole)) {
           return <Navigate to={getRoleBasedRedirect(authState.userRole)} state={{ from: location }} replace />;
         }
 
-        if (requireBranch && !isBranchValid) {
+        if (currentRequireBranch && !isBranchValid) {
           const storedBranchId = branchService.getCurrentBranchId();
           if (storedBranchId) {
             const newPath = location.pathname.replace(`/${slug}/`, `/${storedBranchId}/`);
             return <Navigate to={newPath} replace />;
           }
-          return <Navigate to={redirectTo} state={{ from: location }} replace />;
+          return <Navigate to={currentRedirectTo} state={{ from: location }} replace />;
         }
+
+        if (currentRequireVerifiedEmail && authState.isVerified !== true) {
+          return <Navigate to='/verify-email' state={{ from: location }} replace />;
+        }
+
+        // Special handling for verify-email page
+        if (location.pathname === '/verify-email' && authState.isVerified) {
+          const intendedDestination = sessionStorage.getItem('intendedDestination');
+          if (intendedDestination) {
+            sessionStorage.removeItem('intendedDestination');
+            return <Navigate to={intendedDestination} replace />;
+          }
+          return <Navigate to={getRoleBasedRedirect(authState.userRole)} replace />;
+        }
+
         return <>{children}</>;
       }
 
@@ -136,14 +172,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         if (location.pathname !== '/login' && location.pathname !== '/') {
           sessionStorage.setItem('intendedDestination', location.pathname);
         }
-        return <Navigate to={redirectTo} state={{ from: location }} replace />;
+        return <Navigate to={currentRedirectTo} state={{ from: location }} replace />;
       }
     }
 
     if (isAuthenticated && authState.isTokenValid) {
       if (authState.userRole === 'super_admin' && location.pathname === '/super-admin/login') {
         return <Navigate to='/super-admin/dashboard' replace />;
-      } else if (!requireAuth && location.pathname !== '/') {
+      } else if (!currentRequireAuth && location.pathname !== '/') {
         return <Navigate to='/' replace />;
       }
     }
@@ -154,6 +190,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     requireAuth,
     authState.isTokenValid,
     authState.userRole,
+    authState.isVerified,
     allowedRoles,
     requireBranch,
     isBranchValid,
@@ -163,6 +200,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     children,
     getRoleBasedRedirect,
     slug,
+    routeConfig,
+    requireVerifiedEmail,
   ]);
 
   return renderedComponent;
