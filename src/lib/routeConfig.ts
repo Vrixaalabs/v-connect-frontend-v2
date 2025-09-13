@@ -295,6 +295,7 @@ export const routeConfig: Record<string, RouteConfig> = {
     allowedRoles: ['member', 'admin'],
     redirectTo: '/login',
   },
+
   // Profile routes
   '/member/profile': {
     path: '/profile',
@@ -323,6 +324,12 @@ export const routeConfig: Record<string, RouteConfig> = {
   },
   '/member/settings/privacy': {
     path: '/settings/privacy',
+    requireAuth: true,
+    allowedRoles: ['member', 'admin'],
+    redirectTo: '/login',
+  },
+  '/member/feedback': {
+    path: '/feedback',
     requireAuth: true,
     allowedRoles: ['member', 'admin'],
     redirectTo: '/login',

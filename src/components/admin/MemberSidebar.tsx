@@ -54,6 +54,7 @@ const sidebarLinks: SidebarLink[] = [
       { icon: MapPin, label: 'Campus Updates', href: '/feed/campus' },
     ],
   },
+  { icon: MessageSquare, label: 'Feedback', href: '/member/feedback' },
   { icon: Users, label: 'Network', href: '/network' },
   {
     icon: Building2,
